@@ -476,3 +476,53 @@ body {
   height: 20px;
   object-fit: contain;
 }
+
+#page-design {
+  z-index: 20;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+#homepage_whiteflower_1 {
+  position: inherit;
+  z-index: calc(+3);
+  top: 9%;
+  left: -15%;
+}
+
+#homepage_bluething {
+  position: inherit;
+  z-index: calc(+1);
+  top: 46%;
+  left: -4%;
+}
+
+#homepage_heartbutton {
+  position: inherit;
+  z-index: calc(+2);
+  top: 48%;
+  left: -1%;
+}
+
+#homepage_greenbutton {
+  position: inherit;
+  z-index: calc(+1);
+  top: 95%;
+  left: -5%;
+}
+
+#homepage_greenthread {
+  position: inherit;
+  z-index: calc(+1);
+  top: 80%;
+  left: -3%;
+}
+
+#homepage_whiteflower_2 {
+  position: inherit;
+  z-index: calc(+1);
+  top: 65%;
+  right: -11%;
+}
