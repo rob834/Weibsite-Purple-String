@@ -125,24 +125,290 @@
     </section>
     <section id="content">
       <div
-        class="hero min-h-screen"
+        class="min-h-screen"
         style="
           background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);
         ">
         <div class="hero-overlay"></div>
         <div class="hero-content text-neutral-content text-center">
-          <div class="max-w-md">
-            <h1 class="mb-5 text-5xl font-bold">Hello there</h1>
-            <p class="mb-5">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
-            <button
-              onclick="window.location.href='product.html' "
-              class="btn btn-primary">
-              Get Started
-            </button>
+          <div class="join">
+            <div class="card join-item bg-base-200">Sort by</div>
+            <button class="btn join-item">Button</button>
+            <button class="btn join-item">Button</button>
+            <button class="btn join-item">Button</button>
+          </div>
+          <div class="join">
+            <div>
+              <div>
+                <input
+                  class="input join-item"
+                  placeholder="Search" />
+              </div>
+            </div>
+            <select class="select join-item">
+              <option
+                disabled
+                selected>
+                Filter
+              </option>
+              <option>All</option>
+              <option>Crochet</option>
+              <option>Print</option>
+              <option>Miscellanous</option>
+            </select>
+            <div class="indicator">
+              <span class="indicator-item badge badge-secondary">new</span>
+              <button class="btn join-item">Search</button>
+            </div>
+          </div>
+        </div>
+        <div class="p-10">
+          <h2 class="text-2xl font-bold mb-4">Our Products</h2>
+
+          <div
+            id="product-grid"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Example Product Card -->
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm">
+              <figure>
+                <img
+                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                  alt="Crochet Item" />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Crochet Bunny</h2>
+                <p>Handmade crochet plushie</p>
+                <div class="card-actions justify-end">
+                  <div class="badge badge-outline category">Crochet</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add more products here -->
           </div>
         </div>
       </div>
