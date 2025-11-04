@@ -6,8 +6,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
     <link
-      href="/src/style.css"
+      href="/src/shopQuery.css"
       rel="stylesheet" />
+
   </head>
   <body>
     <section id="header">
@@ -125,28 +126,74 @@
     </section>
     <section id="content">
       <div
-        class="hero min-h-screen"
-        style="
-          background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);
-        ">
-        <div class="hero-overlay"></div>
-        <div class="hero-content text-neutral-content text-center">
-          <div class="max-w-md">
-            <h1 class="mb-5 text-5xl font-bold">Hello there</h1>
-            <p class="mb-5">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
-            <button
-              onclick="window.location.href='product.html' "
-              class="btn btn-primary">
-              Get Started
-            </button>
+        class="min-h-screen">
+      <div id="site">
+          <header id="masthead">
+            <h1></h1>
+          </header>
+          <div id="content">
+            <h1>Your Shopping Cart</h1>
+            <form
+              id="shopping-cart"
+              action="cart.html"
+              method="post">
+              <table class="shopping-cart">
+                <thead>
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Qty</th>
+                    <th
+                      scope="col"
+                      colspan="2">
+                      Price
+                    </th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <p id="sub-total">
+                <strong>Sub Total</strong>: <span id="stotal"></span>
+              </p>
+              <ul id="shopping-cart-actions">
+                <li>
+                  <input
+                    type="submit"
+                    name="update"
+                    id="update-cart"
+                    class="btn"
+                    value="Update Cart" />
+                </li>
+                <li>
+                  <input
+                    type="submit"
+                    name="delete"
+                    id="empty-cart"
+                    class="btn"
+                    value="Empty Cart" />
+                </li>
+                <li>
+                  <a
+                    href="index.html"
+                    class="btn"
+                    >Continue Shopping</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="checkout.html"
+                    class="btn"
+                    >Go To Checkout</a
+                  >
+                </li>
+              </ul>
+            </form>
           </div>
         </div>
       </div>
-    </section>
+    </section></div>
+</div>
+                
+        
     <section>
       <footer
         class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
@@ -185,6 +232,7 @@
         </form>
       </footer>
     </section>
+          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="shopQuery.js"></script>
   </body>
 </html>
-
