@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <link
+      href="/src/shopQuery.css"
+      rel="stylesheet" />
+
+  </head>
+  <body>
+    <section id="header">
+      <div class="navbar bg-base-100 shadow-sm">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+            </div>
+            <ul
+              tabindex="-1"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+              <li>
+                <a onclick="window.location.href='homepage.html' ">Home</a>
+              </li>
+              <li>
+                <a onclick="window.location.href='product.html' ">Products</a>
+              </li>
+              <li>
+                <a onclick="window.location.href='contactus.html' "
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <input
+            type="text"
+            placeholder="Search"
+            class="input input-bordered w-24 md:w-auto" />
+        </div>
+        <div class="navbar-center">
+          <a class="btn btn-ghost text-xl">PurpleStringKrafts</a>
+        </div>
+        <div class="navbar-end">
+          <div class="dropdown dropdown-end">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-circle">
+              <div class="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span class="badge badge-sm indicator-item">8</span>
+              </div>
+            </div>
+            <div
+              tabindex="0"
+              class="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow">
+              <div class="card-body">
+                <span class="text-lg font-bold">8 Items</span>
+                <span class="text-info">Subtotal: $999</span>
+                <div class="card-actions">
+                  <button
+                    class="btn btn-primary btn-block"
+                    onclick="window.location.href='cart.html' ">
+                    View cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-end">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              </div>
+            </div>
+            <ul
+              tabindex="-1"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+              <li>
+                <a
+                  class="justify-between"
+                  onclick="window.location.href='profile.html' ">
+                  Profile
+                  <span class="badge">New</span>
+                </a>
+              </li>
+              <li>
+                <a onclick="window.location.href='index.html' ">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      #content {
+        margin: 50px
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+    </style>
+    <section id="content">
+            <h1>My Cart</h1>
+          </header>
+          <div id="content">
+          
+              <div class="flex w-full">
+
+                <!--column left side (cart)-->
+  <div class="productcartcontainer bg-base-300 rounded-box grid h-200 grow place-items-center w-120 shadow-xl">
+     <h2><strong>My Cart (-)</strong></h2>
+    <style>
+      .productcartcontainer {
+        padding: 20px;
+        background-color: #FFF8FD;
+      }
+
+      h2 {
+        font-size: 20px;
+        color: black;
+      }
+
+    </style>
+  
+    <!--product container-->
+<div class="cardContainerRight card bg-base-100 w-156 shadow-xl bg-white text-black card-side">
+  <figure>
+    <img
+      src="/public/images/prod in cartt.jpg"
+      alt="prod in cart"/>
+  </figure>
+  <style>
+    img {
+      height: 218px;
+    }
+  </style>
+  <div class="card-body h-54">
+    <h2 class="card-title">Flyers/brochure Trifold Printing Glossy</h2>
+    <p>Variations : back to back</p>
+    <h3><strong>₱21</strong></h3>
+    <input type="checkbox" checked="checked" class="checkbox" />
+    <style>
+    .checkbox {
+      background-color: #B87BA4;
+    }
+    </style>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary">Buy Now</button>
+      <style>
+        .btn-primary {
+          background-color: #B87BA4;
+          border-color: #B87BA4;
+        }
+
+        h3 {
+          font-size: 25px;
+          color: #B87BA4;
+        }
+      </style>
+      
+    </div>
+  </div>
+</div>
+
+<div class="card bg-base-100 w-156 shadow-sm bg-white text-black card-side shadow-xl">
+  <figure>
+    <img
+      src="/public/images/prod in cartt.jpg"
+      alt="prod in cart"/>
+  </figure>
+  <div class="card-body h-54">
+    <h2 class="card-title">Flyers/brochure Trifold Printing Glossy</h2>
+    <p>Variations : back to back</p>
+    <h3><strong>₱21</strong></h3>
+    <input type="checkbox" checked="checked" class="checkbox" />
+    <style>
+    .checkbox {
+      background-color: #B87BA4;
+    }
+    </style>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary">Buy Now</button>
+      <style>
+        .btn-primary {
+          background-color: #B87BA4;
+          border-color: #B87BA4;
+        }
+      </style>
+      
+    </div>
+  </div>
+</div>
+
+<div class="card bg-base-100 w-156 shadow-sm bg-white text-black card-side shadow-xl">
+  <figure>
+    <img
+      src="/public/images/prod in cartt.jpg"
+      alt="prod in cart"/>
+  </figure>
+  <div class="card-body h-54">
+    <h2 class="card-title">Flyers/brochure Trifold Printing Glossy</h2>
+    <p>Variations : back to back</p>
+    <h3><strong>₱21</strong></h3>
+    <input type="checkbox" checked="checked" class="checkbox" />
+    <style>
+    .checkbox {
+      background-color: #B87BA4;
+    }
+    </style>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary">Buy Now</button>
+      <style>
+        .btn-primary {
+          background-color: #B87BA4;
+          border-color: #B87BA4;
+        }
+      </style>
+      
+    </div>
+  </div>
+</div>
+
+
+  </div>
+
+  <div class="divider divider-horizontal divider-neutral"></div>
+
+  <!--column right (order info)-->
+  <div class="columnright bg-base-300 rounded-box grid h-200 grow place-items-center w-50 text-black">
+    <style>
+      .columnright {
+        padding: 35px
+      }
+
+      .columnright {
+        background-color: #FFF8FD;
+      }
+    </style>
+    <h2><strong>Your Order</strong></h2>
+    <div class="flex w-full flex-col">
+  <div class="divider divider-neutral"></div>
+
+  <div class="subtotal">
+    <p>Subtotal (1 item)</p>
+    <h2><strong>₱21</strong></h2>
+  </div>
+
+  <style>
+    .subtotal {
+      display: flex;
+      gap: 56%;
+    }
+  </style>
+  <div class="divider divider-neutral"></div>
+
+  <p>Payment Method</p>
+
+  <div class="bitch bg-white p-6">
+    <style>
+      .bitch {
+        background-color: #FFF8FD;
+      }
+
+      .btnPay {
+        margin: 5px
+      }
+      
+    </style>
+  <button class="btnPay btn btn-neutral btn-outline">Cash on Delivery</button>
+  <button class="btnPay btn btn-neutral btn-outline">Credit/Debit Card</button>
+  <button class="btnPay btn btn-neutral btn-outline">Google Pay</button>
+  <button class="btnPay btn btn-neutral btn-outline">E-Wallet</button>
+</div>
+
+  <div class="divider divider-neutral"></div>
+
+  <style>
+.MerchandiseSub {
+  display: flex;
+  gap: 240px;
+}
+
+.ShippingSub {
+  display: flex;
+  gap: 268px;
+}
+
+.TotalPay {
+  display: flex;
+  gap: 270px;
+}
+
+.makethisbiglol {
+  font-size: 20px;
+}
+</style>
+  <div class="MerchandiseSub">
+   <p>Merchandise Subtotal</p>
+   <p>₱21</p>
+  </div> <br>
+
+<div class="ShippingSub">
+   <p>Shipping Subtotal</p>
+   <p>₱21</p>
+  </div>
+  <br>
+
+  <div class="TotalPay">
+   <p>Total Payment</p>
+   <div class="makethisbiglol"><p><strong>₱121</strong></p></div>
+  </div><br><br>
+
+  <style>
+    .TaC {
+      display: flex;
+      gap: 10px;
+      font-size: 15px;
+      margin-left: 30px;
+    }
+  </style>
+
+  <div class="TaC">
+  <input type="checkbox" checked="checked" class="checkbox" />
+  <p>I have read and agree to the Terms and Conditions</p>
+  </div><br><br>
+
+  <button class="btn btn-primary btn-lg">
+    <a href="checkout.html">Proceed to checkout</a>
+  </button>
+
+</div>
+
+  </div>
+</div>
+            </form>
+          </div>
+          <button class="btn btn-ghost"><a href="product.html"><h1>←  Continue Shopping</h1></a></button>
+        </div>
+      </div>
+    </section></div>
+</div>
+                
+        
+    <section>
+      <footer
+        class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+        <nav>
+          <h6 class="footer-title">Services</h6>
+          <a class="link link-hover">Branding</a>
+          <a class="link link-hover">Design</a>
+          <a class="link link-hover">Marketing</a>
+          <a class="link link-hover">Advertisement</a>
+        </nav>
+        <nav>
+          <h6 class="footer-title">Company</h6>
+          <a class="link link-hover">About us</a>
+          <a class="link link-hover">Contact</a>
+          <a class="link link-hover">Jobs</a>
+          <a class="link link-hover">Press kit</a>
+        </nav>
+        <nav>
+          <h6 class="footer-title">Legal</h6>
+          <a class="link link-hover">Terms of use</a>
+          <a class="link link-hover">Privacy policy</a>
+          <a class="link link-hover">Cookie policy</a>
+        </nav>
+        <form>
+          <h6 class="footer-title">Newsletter</h6>
+          <fieldset class="w-80">
+            <label>Enter your email address</label>
+            <div class="join">
+              <input
+                type="text"
+                placeholder="username@site.com"
+                class="input input-bordered join-item" />
+              <button class="btn btn-primary join-item">Subscribe</button>
+            </div>
+          </fieldset>
+        </form>
+      </footer>
+    </section>
+          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="shopQuery.js"></script>
+  </body>
+</html>
