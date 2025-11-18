@@ -5,10 +5,10 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
+    <title>Homescreen</title>
     <link
       rel="stylesheet"
-      href="../css/profile.css" />
+      href="../css/homepage.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -50,7 +50,7 @@
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
+            href="../index.html"
             class="menubutton"
             >Home</a
           >
@@ -72,76 +72,102 @@
       </section>
 
       <section id="content">
-        <div class="profile-grid">
-          <div class="left-cards">
-            <div
-              class="profile-card"
-              id="card-1">
-
-              <div class="avatar-section">
-                 <div class="pfpf">
-                  <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="profile" class="avatar-img">
-                 </div>
-
-                 <button class="edit-btn"><a href="/purplestringwebsite/frontend/pages/accoutedit.html">✏️ Edit Profile</a></button>
+        <div id="notepad">
+          <img src="../public/images/vectors/notepad.png" />
+          <h1 id="notepadtext">Recent Designs</h1>
+          <div id="slides">
+            <div id="slideshow">
+              <div id="wrapper">
+                <img
+                  class="productslide"
+                  src="../public/images/carousel pic 1.png" />
+                <img
+                  class="productslide"
+                  src="../public/images/carousel pic 2.png" />
+                <img
+                  class="productslide"
+                  src="../public/images/carousel pic 3.png" />
+                <img
+                  class="productslide"
+                  src="../public/images/carousel pic 4.png" />
+                <img
+                  class="productslide"
+                  src="../public/images/carousel pic 5.png" />
               </div>
-
-             <div class="info-section">
-              <div class="row">
-                <div class="label">Name</div>
-                <div class="value name"><h1>John Doe</h1></div>
-              </div>
-
-              <div class="row">
-              <div class="label">Username</div>
-              <div class="value username"><strong>usagifan1012</strong></div>
-              </div>
-
-             
-             <div class="row bio">
-                <div class="label">Bio</div>
-                <div class="value">
-                  idoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa<br>
-                  idoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa<br>
-                  unaaidoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="label">Phone Number</div>
-                <div class="value">+97 024 028 8881</div>
-              </div>
-
-              <div class="row">
-                <div class="label">Address</div>
-                <div class="value">Blk 350 Lot 09 Cactus St. Pembo<br>Taguig, Metro Manila, 1218</div>
-              </div>
-         </div>
             </div>
           </div>
-
-          <div class="right-panel">
-            <div class="profile-card right-card">
-              <div class="account-menu">
-                <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/my account icon.png" alt="profile icon"></span>
-                  <a href="#" class="menu-link">My Account</a>
+        </div>
+        <div id="sideproducts">
+          <div id="StartOrderingHere">
+            <h1>Start Ordering...</h1>
+          </div>
+          <div id="productreccomendations">
+            <div id="productbuttons">
+              <div id="custom-crochet">
+                <div id="crochet-button">
+                  <a>
+                    <img src="../public/images/hover imgs/custom-crochet.png" />
+                  </a>
                 </div>
-                <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon.png" alt="purchases"></span>
-                  <a href="#" class="menu-link">Purchases</a>
+                <div id="extra-crochet">
+                  <img
+                    src="../public/images/hover imgs/custom-crochet-hover.png" />
                 </div>
-                <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notification icon.png" alt="notif"></span>
-                  <a href="#" class="menu-link">Notification</a>
+              </div>
+              <div id="custom-miscellaneous">
+                <div id="miscellaneous-button">
+                  <a>
+                    <img
+                      src="../public/images/hover imgs/custom-miscellaneous.png" />
+                  </a>
                 </div>
-                <div class="menu-item">
-                  <span class="menu-icon">🚪</span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.html" class="menu-link">Log Out</a>
+                <div id="extra-miscellaneous">
+                  <img
+                    src="../public/images/hover imgs/custom-miscellaneous-hover.png" />
+                </div>
+              </div>
+              <div id="custom-print">
+                <div id="print-button">
+                  <a>
+                    <img src="../public/images/hover imgs/custom-prints.png" />
+                  </a>
+                </div>
+                <div id="extra-print">
+                  <img
+                    src="../public/images/hover imgs/custom-prints-hover.png" />
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div id="viewallprod">
+          <div id="viewallprod-button">
+            <a>
+              <img
+                id="viewallprod-base"
+                src="../public/images/hover imgs/viewallprod.png"
+                alt="View All Products" />
+            </a>
+          </div>
+          <img
+            id="viewallprod-hover"
+            src="../public/images/hover imgs/viewallprod-hover.png"
+            alt="View All Products Hover" />
+        </div>
+
+        <div id="purplestring-description">
+          <h1>
+            Purple String Crochet is an online made to order shop dedicated in
+            crafting handmade crochet items for memorable occasions. 100%
+            handmade with TLC!
+          </h1>
+        </div>
+
+        <div id="otherwebsites">
+          <a><img src="../public/images/shopeeicon.png" /></a>
+          <a><img src="../public/images/fbicon.png" /></a>
+        </div>
       </section>
 
       <section>
@@ -154,7 +180,7 @@
         <div id="footer-content">
           <div id="footer-logo">
             <img
-              src="/purplestringwebsite/frontend/public/images/footer-logo.png"
+              src="../public/images/footer-logo.png"
               alt="Purple String Logo"
               width="100" />
           </div>
@@ -162,7 +188,7 @@
           <div id="footer-information">
             <div class="info-item">
               <img
-                src="/purplestringwebsite/frontend/public/images/mail icon.png"
+                src="../public/images/mail.png"
                 alt="Mail"
                 class="footer-icon" />
               <span>purplestring@gmail.com</span>
@@ -170,7 +196,7 @@
 
             <div class="info-item">
               <img
-                src="/purplestringwebsite/frontend/public/images/phonenum.png"
+                src="../public/images/phonenum.png"
                 alt="Phone"
                 class="footer-icon" />
               <span>+63 900 123 4567</span>
@@ -181,26 +207,43 @@
       <div id="page-design">
         <img
           id="homepage_whiteflower_1"
-          src="/purplestringwebsite/frontend/public/images/whiteflower.png" />
+          src="../public/images/whiteflower.png" />
         <img
           id="homepage_bluething"
-          src="/purplestringwebsite/frontend/public/images/bluething.png" />
+          src="../public/images/bluething.png" />
         <img
           id="homepage_heartbutton"
-          src="/purplestringwebsite/frontend/public/images/heartbutton.png" />
-          <div class="greenbutton">
+          src="../public/images/heartbutton.png" />
         <img
           id="homepage_greenbutton"
-          src="/purplestringwebsite/frontend/public/images/greenbutton.png" />
-          </div>
+          src="../public/images/greenbutton.png" />
         <img
           id="homepage_greenthread"
-          src="/purplestringwebsite/frontend/public/images/greenthread.png" />
+          src="../public/images/greenthread.png" />
         <img
           id="homepage_whiteflower_2"
-          src="/purplestringwebsite/frontend/public/images/whiteflower.png" />
+          src="../public/images/whiteflower.png" />
       </div>
     </div>
-    <script src="../js/profile.js"></script>
+    <div id="page-design">
+        <img
+          id="homepage_whiteflower_1"
+          src="../public/images/whiteflower.png" />
+        <img
+          id="homepage_bluething"
+          src="../public/images/bluething.png" />
+        <img
+          id="homepage_heartbutton"
+          src="../public/images/heartbutton.png" />
+        <img
+          id="homepage_greenbutton"
+          src="../public/images/greenbutton.png" />
+        <img
+          id="homepage_greenthread"
+          src="../public/images/greenthread.png" />
+        <img
+          id="homepage_whiteflower_2"
+          src="../public/images/whiteflower.png" />
+      </div>
   </body>
 </html>
