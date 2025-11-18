@@ -73,18 +73,18 @@
         <div class="product-card">
           <!-- Left: 5-image collage -->
           <div class="collage-left">
-            <img src="../../public/images/hover imgs/coillage.png" alt="Coillage main" />
-            <img src="../../public/images/hover imgs/coillage.png" alt="Coillage 2" />
-            <img src="../../public/images/hover imgs/coillage.png" alt="Coillage 3" />
-            <img src="../../public/images/hover imgs/coillage.png" alt="Coillage 4" />
-            <img src="../../public/images/hover imgs/coillage.png" alt="Coillage 5" />
+            <img src="../../public/images/product image.png" alt="Coillage main" />
+            <img src="../../public/images/product image.png" alt="Coillage 2" />
+            <img src="../../public/images/product image.png" alt="Coillage 3" />
+            <img src="../../public/images/product image.png" alt="Coillage 4" />
+            <img src="../../public/images/product image.png" alt="Coillage 5" />
           </div>
 
           <!-- Right: Product information -->
           <div class="product-info-right">
             <div class="product-header-row">
               <div>
-                <h2 class="product-title">Coillage</h2>
+                <h2 class="product-title">Flyers/brochure Trifold Printing Glossy</h2>
                 <div class="rating">
                   <span class="stars">★★★★★</span>
                   <span class="score">4.8</span>
@@ -93,8 +93,8 @@
               </div>
               <div style="text-align:right;">
                 <div class="prices">
-                  <div class="old-price">₱699.00</div>
-                  <div class="current-price">₱499.00</div>
+                  <div class="old-price">₱22</div>
+                  <div class="current-price">₱17</div>
                 </div>
               </div>
             </div>
@@ -105,7 +105,10 @@
               <button class="btn-share">Share</button>
             </div>
 
-            <p class="product-description">A lightweight coillage perfect for everyday wear — soft, breathable, and stylish. Made from a comfortable cotton blend with subtle texture and a relaxed fit. Ideal for casual days and layered looks.</p>
+            <p class="product-description">* 1side print
+* Back to back print
+* 120 gsm glossy
+* A4 size</p>
 
             <div class="sku-availability">
               <strong>SKU:</strong> CLG-001 &nbsp; • &nbsp; <strong>Availability:</strong> In stock
@@ -163,5 +166,17 @@
           src="../../public/images/whiteflower.png" />
       </div>
   <script src="../../js/product.js"></script>
+  <script>
+    // Redirect 'Buy Now' button to cart page
+    (function(){
+      var buyBtn = document.querySelector('.btn-buy-now');
+      if(buyBtn){
+        buyBtn.addEventListener('click', function(){
+          // relative path from this file to the cart page
+          window.location.href = '../cart.html';
+        });
+      }
+    })();
+  </script>
   </body>
 </html>
