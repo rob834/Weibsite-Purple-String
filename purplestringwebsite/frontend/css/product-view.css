@@ -1,0 +1,133 @@
+/* Styles for the product view card (collage + details) */
+.product-card{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+  margin:24px;
+  padding:18px;
+  border:1px solid #eee;
+  border-radius:10px;
+  background:#fff;
+}
+
+.collage-left{
+  flex:0 0 360px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:180px 90px 90px;
+  gap:8px;
+}
+
+.collage-left img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+.collage-left img:first-child{
+  grid-column:1 / -1;
+  border-radius:8px;
+}
+
+.product-info-right{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.rating{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:6px;
+  color:#f5a623;
+  font-size:0.95rem;
+}
+
+.prices .old-price{
+  color:#888;
+  text-decoration:line-through;
+  font-size:0.95rem;
+}
+
+.prices .current-price{
+  color:#5a2ea6;
+  font-size:1.25rem;
+  font-weight:800;
+}
+
+.actions{
+  display:flex;
+  gap:12px;
+}
+
+.btn-add-to-cart{
+  flex:1;
+  padding:10px 14px;
+  border-radius:8px;
+  border:1px solid #5a2ea6;
+  background:#fff;
+  color:#5a2ea6;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn-buy-now{
+  flex:1;
+  padding:10px 14px;
+  border-radius:8px;
+  border:none;
+  background:#5a2ea6;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.btn-share{
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  background:#fff;
+  color:#333;
+  cursor:pointer;
+}
+
+.product-description{
+  margin:0;
+  color:#444;
+  line-height:1.4;
+}
+
+.sku-availability{
+  margin-top:6px;
+  color:#666;
+  font-size:0.95rem;
+}
+
+.product-title{
+  margin:0;
+  font-size:1.6rem;
+  color:#222;
+}
+
+.product-header-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.rating .stars{ color:#f5a623; }
+.rating .score{ color:#555; font-weight:600; margin-left:6px; }
+.rating .sold{ color:#888; font-size:0.9rem; margin-left:8px; }
+
+.prices{ margin-bottom:8px; }
+
+/* Small responsive tweak */
+@media (max-width:800px){
+  .product-card{flex-direction:column;padding:12px}
+  .collage-left{flex:0 0 auto;grid-template-columns:1fr 1fr;grid-template-rows:150px 90px;}
+}
