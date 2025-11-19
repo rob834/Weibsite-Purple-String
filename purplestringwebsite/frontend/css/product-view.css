@@ -52,7 +52,10 @@
   gap: 12px;
 }
 
-.product-info-right{align-items:flex-start;text-align:left}
+.product-info-right {
+  align-items: flex-start;
+  text-align: left;
+}
 
 .rating {
   display: flex;
@@ -154,8 +157,12 @@
 }
 
 /* Ensure header row and actions are left-aligned */
-.product-header-row{align-items:flex-start}
-.actions{justify-content:flex-start}
+.product-header-row {
+  align-items: flex-start;
+}
+.actions {
+  justify-content: flex-start;
+}
 /* Small responsive tweak */
 @media (max-width: 800px) {
   .product-card {
