@@ -231,7 +231,7 @@ body {
 #homepage_greenthread {
   position: inherit;
   z-index: calc(+1);
-  top: 97%;
+  top: 87%;
   left: -3%;
 }
 
@@ -374,11 +374,6 @@ margin: 0 auto 25px auto;
 
 }
 
-a {
-    text-decoration: none;
-    color: black;
-}
-
 .order-menu .tab.active {
   background-color: #B87BA4;
   color: white;
@@ -467,6 +462,22 @@ input[type="file"]{
   gap: 18px;
   flex: 1;
   min-width: 0;
+  height: 360px;
+}
+
+.emptyContent {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 40px auto;    
+  width: 100%;
+}
+
+.emptyContent img {
+  display: block;
+  margin: 0 auto;
 }
 
 .right-panel {

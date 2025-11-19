@@ -231,7 +231,7 @@ body {
 #homepage_greenthread {
   position: inherit;
   z-index: calc(+1);
-  top: 97%;
+  top: 87%;
   left: -3%;
 }
 
@@ -372,11 +372,6 @@ margin: 0 auto 25px auto;
 .order-menu .tab:hover {
   opacity: 1;
 
-}
-
-a {
-    text-decoration: none;
-    color: black;
 }
 
 .order-menu .tab.active {
