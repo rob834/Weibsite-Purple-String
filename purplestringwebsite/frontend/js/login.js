@@ -42,8 +42,23 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Redirect after 1.5 seconds
       setTimeout(() => {
-        // Replace with actual redirect URL
-        window.location.href = './pages/homepage.html';
+        // NOTE: This is sample front-end role handling only.
+        // Replace with a server-authenticated role check in production.
+        const normalizedEmail = email.toLowerCase();
+        const normalizedPassword = password;
+
+        const isAdmin = normalizedEmail === 'admin@purple.com' && normalizedPassword === 'Admin123!';
+        const isStaff = normalizedEmail === 'staff@purple.com' && normalizedPassword === 'Staff123!';
+        const isClient = normalizedEmail === 'client@purple.com' && normalizedPassword === 'Client123!';
+
+        if (isAdmin || isStaff) {
+          window.location.href = './pages/admin-homepage.html';
+        } else if (isClient) {
+          window.location.href = './pages/homepage.html';
+        } else {
+          showMessage('Invalid credentials (use admin/staff/client sample accounts)', 'error');
+          return;
+        }
       }, 1500);
     }, 1500);
   });
