@@ -434,6 +434,17 @@
           id="homepage_whiteflower_2"
           src="../public/images/whiteflower.png" />
       </div>
-  <script src="../js/product.js"></script>
+  <script>
+    // Make all buttons with class `cart-btn` navigate to the product view
+    (function(){
+      var buttons = document.querySelectorAll('.cart-btn');
+      buttons.forEach(function(b){
+        b.addEventListener('click', function(){
+          // relative path from this file (`pages/products.html`) to the view page
+          window.location.href = 'view/product.html';
+        });
+      });
+    })();
+  </script>
   </body>
 </html>

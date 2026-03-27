@@ -19,7 +19,7 @@ body {
 }
 
 #PurpleBox {
-  position: inherit;
+  position: absolute;
   width: 100%;
   height: 15px;
   background-color: #d68ce5;
@@ -128,14 +128,14 @@ body {
 #content {
   position: relative;
   margin-top: 280px;
-  margin-left: 10%;
+  margin-left: 25%;
 }
 
 html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 ;
 }
 
 #page-container {
@@ -143,6 +143,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
 }
 
 #content {
@@ -244,15 +245,15 @@ body {
 
 /* Contact Form Card Styles */
 .form-card {
-  background-color: #ffffff;
-  border: 3px solid #c071d0;
+  background-color: #fcf5ff;
+  border: 3px solid #fcf5ff;
   border-radius: 20px;
-  padding: 40px;
-  max-width: 600px;
+  padding: 30px;
+  max-width: 500px;
   margin: 30px auto;
-  box-shadow: 0 4px 15px rgba(192, 113, 208, 0.15);
   position: relative;
   z-index: 10;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.400);
 }
 
 .form-card h2 {
@@ -267,6 +268,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+
 }
 
 .form-group label {
@@ -279,11 +281,12 @@ body {
 .form-group input,
 .form-group textarea {
   padding: 12px 15px;
-  border: 2px solid #d68ce5;
-  border-radius: 10px;
+  border: 2px solid #d5bfda;
+  border-radius: 25px;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   color: #333;
+  background-color: #d5bfda;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -300,12 +303,14 @@ body {
 }
 
 .submit-btn {
-  width: 100%;
+  margin-top: 15px;
+  margin-left: 130px;
+  width: 50%;
   padding: 14px;
   background-color: #c071d0;
   color: white;
   border: 2px solid #c071d0;
-  border-radius: 50px;
+  border-radius: 15px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -321,4 +326,42 @@ body {
 
 .submit-btn:active {
   transform: translateY(0);
+}
+
+#contact-header {
+  position: absolute;
+  top: 320px;
+  left: 150px;
+  margin: 0;
+  padding: 0;
+  font-size: 
+  height: 100px;
+  z-index: 100;
+}
+
+#contact-header h1 {
+  margin: 0;
+  font-size: 65px;
+  color: #8a226f;
+}
+#contact-subheader {
+  position: absolute;
+  top: 600px;
+  left: 150px;
+  margin: 0;
+  padding: 0;
+  font-size: 24px; /* increase from 70px (which was likely a typo) */
+  height: 50px;
+  z-index: 100;
+}
+#contact-subheader .footer-icon {
+  width: 40px; /* increase from default */
+  height: 40px;
+  object-fit: contain;
+  margin-right: 12px;
+}
+
+#contact-subheader .info-item h3 {
+  margin: 0;
+  font-size: 18px;
 }
