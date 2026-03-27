@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purple String - Products</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: #fff;
+color: #333;
+}
+
+.app-container {
+display: flex;
+min-height: 100vh;
+}
+
+
+.sidebar {
+width: 180px;
+background-color: #9a5081;
+display: flex;
+flex-direction: column;
+padding-top: 20px;
+}
+
+.logo {
+padding: 0 15px 25px;
+text-align: center;
+}
+
+.logo img {
+width: 120px;
+height: auto;
+}
+
+.nav-menu {
+display: flex;
+flex-direction: column;
+}
+
+.nav-item {
+display: flex;
+align-items: center;
+padding: 14px 20px;
+color: #fff;
+text-decoration: none;
+font-size: 14px;
+transition: background-color 0.2s;
+gap: 12px;
+}
+
+.nav-item:hover {
+background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.active {
+background-color: #8b4a70;
+}
+
+.nav-item i {
+width: 20px;
+height: 20px;
+}
+
+
+.main-content {
+flex: 1;
+display: flex;
+flex-direction: column;
+}
+
+.header {
+display: flex;
+justify-content: flex-end;
+padding: 15px 30px;
+background-color: #fff;
+}
+
+.user-profile {
+display: flex;
+align-items: center;
+gap: 8px;
+color: #6750a4;
+font-size: 14px;
+}
+
+.user-profile i {
+width: 28px;
+height: 28px;
+color: #a85a8a;
+}
+
+.content-wrapper {
+padding: 20px 30px;
+flex: 1;
+}
+
+.content-box {
+border: 2px solid #4db8e8;
+border-radius: 4px;
+padding: 25px 30px;
+background-color: #fff;
+}
+
+
+.products-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 25px;
+padding-bottom: 15px;
+border-bottom: 4px solid #d68ce5;
+}
+
+.header-left {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.header-left h1 {
+font-size: 22px;
+font-weight: 500;
+color: #333;
+}
+
+.btn-add {
+background-color: #c071d0;
+color: #fff;
+border: none;
+padding: 8px 18px;
+border-radius: 20px;
+font-size: 14px;
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+cursor: pointer;
+transition: background-color 0.2s;
+}
+
+.btn-add:hover {
+background-color: #b895b8;
+}
+
+.search-box {
+display: flex;
+align-items: center;
+gap: 10px;
+background-color: #ece6f0;
+padding: 8px 15px;
+border-radius: 20px;
+min-width: 250px;
+}
+
+.search-box i {
+width: 16px;
+height: 16px;
+color: #888;
+}
+
+.search-box input {
+border: none;
+background: transparent;
+outline: none;
+font-size: 13px;
+color: #666;
+flex: 1;
+}
+
+.search-box input::placeholder {
+color: #999;
+}
+
+.product-list {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.product-card {
+display: flex;
+align-items: center;
+gap: 20px;
+padding: 20px;
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.product-image {
+width: 120px;
+height: 90px;
+border-radius: 6px;
+overflow: hidden;
+flex-shrink: 0;
+}
+
+.product-image img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.product-info {
+flex: 1;
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.product-info h3 {
+font-size: 17px;
+font-weight: 600;
+color: #333;
+line-height: 1.3;
+}
+
+.product-stats {
+display: flex;
+gap: 25px;
+}
+
+.stat {
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.stat i {
+width: 18px;
+height: 18px;
+}
+
+.star-icon {
+color: #f5a623;
+fill: #f5a623;
+}
+
+.tag-icon {
+color: #c85a5a;
+}
+
+.stat-value {
+font-size: 13px;
+font-weight: 500;
+color: #000000;
+}
+
+.stat-label {
+font-size: 12px;
+color: #000000;
+}
+
+.btn-edit {
+background-color: #b87ba4;
+color: #fff;
+border: none;
+padding: 6px 14px;
+border-radius: 10px;
+font-size: 12px;
+cursor: pointer;
+width: fit-content;
+transition: background-color 0.2s;
+}
+
+.btn-edit:hover {
+background-color: #b895b8;
+}
+
+.product-price {
+font-size: 20px;
+font-weight: 600;
+color: #a85a8a;
+white-space: nowrap;
+}
+</style>
+</head>
+
+<body>
+<div class="app-container">
+
+<aside class="sidebar">
+<div class="logo">
+<img src="Logo.png">
+</div>
+<nav class="nav-menu">
+<a href="#" class="nav-item">
+<i data-lucide="layout-dashboard"></i>
+<span>Dashboard</span>
+</a>
+<a href="#" class="nav-item active">
+<i data-lucide="package"></i>
+<span>Products</span>
+</a>
+<a href="#" class="nav-item">
+<i data-lucide="users-round"></i>
+<span>Customers</span>
+</a>
+<a href="#" class="nav-item">
+<i data-lucide="message-circle-more"></i>
+<span>Chat</span>
+</a>
+<a href="#" class="nav-item">
+<i data-lucide="bell"></i>
+<span>Notification</span>
+</a>
+</nav>
+</aside>
+
+<main class="main-content">
+
+<header class="header">
+<div class="user-profile">
+<i data-lucide="user-circle"></i>
+<span>Sellername</span>
+</div>
+</header>
+
+<div class="content-wrapper">
+<div class="content-box">
+
+<div class="products-header">
+<div class="header-left">
+<h1>Products</h1>
+<button class="btn-add">+Add a new product</button>
+</div>
+<div class="search-box">
+<i data-lucide="menu"></i>
+<input type="text" placeholder="Search for products">
+<i data-lucide="search"></i>
+</div>
+</div>
+
+
+<div class="product-list">
+
+<div class="product-card">
+<div class="product-image">
+<img src="product details main pic.png">
+</div>
+<div class="product-info">
+<h3>Flyers/brochure Trifold Printing Glossy</h3>
+<div class="product-stats">
+<div class="stat">
+<i data-lucide="star" class="star-icon"></i>
+<span class="stat-value">4.6</span>
+<span class="stat-label">Ratings</span>
+</div>
+<div class="stat">
+<i data-lucide="tag" class="tag-icon"></i>
+<span class="stat-value">905</span>
+<span class="stat-label">Sold</span>
+</div>
+</div>
+<button class="btn-edit">Edit this Product</button>
+</div>
+<div class="product-price">
+<span>₱17 - P22</span>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-image">
+<img src="product details main pic.png">
+</div>
+<div class="product-info">
+<h3>Flyers/brochure Trifold Printing Glossy</h3>
+<div class="product-stats">
+<div class="stat">
+<i data-lucide="star" class="star-icon"></i>
+<span class="stat-value">4.6</span>
+<span class="stat-label">Ratings</span>
+</div>
+<div class="stat">
+<i data-lucide="tag" class="tag-icon"></i>
+<span class="stat-value">905</span>
+<span class="stat-label">Sold</span>
+</div>
+</div>
+<button class="btn-edit">Edit this Product</button>
+</div>
+<div class="product-price">
+<span>₱17 - P22</span>
+</div>
+</div>
+
+<div class="product-card">
+<div class="product-image">
+<img src="product details main pic.png">
+</div>
+<div class="product-info">
+<h3>Flyers/brochure Trifold Printing Glossy</h3>
+<div class="product-stats">
+<div class="stat">
+<i data-lucide="star" class="star-icon"></i>
+<span class="stat-value">4.6</span>
+<span class="stat-label">Ratings</span>
+</div>
+<div class="stat">
+<i data-lucide="tag" class="tag-icon"></i>
+<span class="stat-value">905</span>
+<span class="stat-label">Sold</span>
+</div>
+</div>
+<button class="btn-edit">Edit this Product</button>
+</div>
+<div class="product-price">
+<span>₱17 - P22</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+lucide.createIcons();
+</script>
+</body>
+</html>
