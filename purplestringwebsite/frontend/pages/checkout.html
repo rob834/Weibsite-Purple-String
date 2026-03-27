@@ -50,7 +50,7 @@
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
+            href="../index.html"
             class="menubutton"
             >Home</a
           >
@@ -156,15 +156,21 @@
                 <h3>Tracking History</h3>
                 <div class="tracking-item">
                   <span class="track-time">11:30 AM</span>
-                  <span class="track-status">Order confirmed and processing started</span>
+                  <span class="track-status"
+                    >Order confirmed and processing started</span
+                  >
                 </div>
                 <div class="tracking-item">
                   <span class="track-time">2:15 PM</span>
-                  <span class="track-status">Payment verified successfully</span>
+                  <span class="track-status"
+                    >Payment verified successfully</span
+                  >
                 </div>
                 <div class="tracking-item">
                   <span class="track-time">3:45 PM</span>
-                  <span class="track-status">Items being packed for shipment</span>
+                  <span class="track-status"
+                    >Items being packed for shipment</span
+                  >
                 </div>
               </div>
             </div>
@@ -175,31 +181,39 @@
             <h2>Continue Shopping</h2>
             <div class="products-grid">
               <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers" />
+                <img
+                  src="../public/images/product image.png"
+                  alt="Flyers" />
                 <h3>Flyers/Brochure</h3>
                 <p class="product-price">₱250.00</p>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <button class="add-to-cart-btn">View more</button>
               </div>
 
               <div class="product-card">
-                <img src="../public/images/categories 2.png" alt="Keychain" />
+                <img
+                  src="../public/images/categories 2.png"
+                  alt="Keychain" />
                 <h3>Custom Keychain</h3>
                 <p class="product-price">₱150.00</p>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <button class="add-to-cart-btn">View more</button>
               </div>
 
               <div class="product-card">
-                <img src="../public/images/categories 3.png" alt="Shirt" />
+                <img
+                  src="../public/images/categories 3.png"
+                  alt="Shirt" />
                 <h3>Custom Shirt</h3>
                 <p class="product-price">₱350.00</p>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <button class="add-to-cart-btn">View more</button>
               </div>
 
               <div class="product-card">
-                <img src="../public/images/product image.png" alt="Crochet" />
+                <img
+                  src="../public/images/product image.png"
+                  alt="Crochet" />
                 <h3>Crochet Item</h3>
                 <p class="product-price">₱200.00</p>
-                <button class="add-to-cart-btn">Add to Cart</button>
+                <button class="add-to-cart-btn">View more</button>
               </div>
             </div>
           </div>
@@ -210,7 +224,7 @@
         <div id="footer-content">
           <div id="footer-logo">
             <img
-              src="./public/images/footer-logo.png"
+              src="../public/images/footer-logo.png"
               alt="Purple String Logo"
               width="100" />
           </div>
@@ -218,7 +232,7 @@
           <div id="footer-information">
             <div class="info-item">
               <img
-                src="./public/images/mail.png"
+                src="../public/images/mail.png"
                 alt="Mail"
                 class="footer-icon" />
               <span>purplestring@gmail.com</span>
@@ -226,7 +240,7 @@
 
             <div class="info-item">
               <img
-                src="./public/images/phonenum.png"
+                src="../public/images/phonenum.png"
                 alt="Phone"
                 class="footer-icon" />
               <span>+63 900 123 4567</span>
@@ -234,26 +248,39 @@
           </div>
         </div>
       </footer>
+
       <div id="page-design">
         <img
           id="homepage_whiteflower_1"
-          src="./public/images/whiteflower.png" />
+          src="../public/images/whiteflower.png" />
         <img
           id="homepage_bluething"
-          src="./public/images/bluething.png" />
+          src="../public/images/bluething.png" />
         <img
           id="homepage_heartbutton"
-          src="./public/images/heartbutton.png" />
+          src="../public/images/heartbutton.png" />
         <img
           id="homepage_greenbutton"
-          src="./public/images/greenbutton.png" />
+          src="../public/images/greenbutton.png" />
         <img
           id="homepage_greenthread"
-          src="./public/images/greenthread.png" />
+          src="../public/images/greenthread.png" />
         <img
           id="homepage_whiteflower_2"
-          src="./public/images/whiteflower.png" />
+          src="../public/images/whiteflower.png" />
       </div>
+      <script>
+        // Redirect all 'View more' buttons to the products listing
+        (function () {
+          var buttons = document.querySelectorAll('.add-to-cart-btn');
+          buttons.forEach(function (b) {
+            b.addEventListener('click', function () {
+              // products.html is in the same folder as checkout.html
+              window.location.href = 'products.html';
+            });
+          });
+        })();
+      </script>
     </div>
   </body>
 </html>
