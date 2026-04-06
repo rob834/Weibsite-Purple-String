@@ -38,12 +38,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="cart.html"
+            <a href="../pages/cart.html"
               ><img src="../public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="profile.html"
+            <a href="../pages/profile.html"
               ><img src="../public/images/profile icon.png"
             /></a>
           </div>
@@ -51,7 +51,7 @@
 
         <div id="menubar">
           <a
-            href="../index.html"
+            href="../pages/homepage.html"
             class="menubutton"
             >Home</a
           >
@@ -414,7 +414,6 @@
           </div>
         </div>
       </footer>
-      
       <div id="page-design">
         <img
           id="homepage_whiteflower_1"
@@ -435,5 +434,17 @@
           id="homepage_whiteflower_2"
           src="../public/images/whiteflower.png" />
       </div>
+  <script>
+    // Make all buttons with class `cart-btn` navigate to the product view
+    (function(){
+      var buttons = document.querySelectorAll('.cart-btn');
+      buttons.forEach(function(b){
+        b.addEventListener('click', function(){
+          // relative path from this file (`pages/products.html`) to the view page
+          window.location.href = 'view/product.html';
+        });
+      });
+    })();
+  </script>
   </body>
 </html>

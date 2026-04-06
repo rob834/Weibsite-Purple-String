@@ -282,25 +282,20 @@ body {
   display: block;
 }
 
-.edit-btn {
+input[type="file"]{
+    display: none;
+}
+
+.uploadbtn {
   background-color: #B87BA4;
   border: none;
   padding: 0.45rem 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 0.9rem;
   color: #ffffff;
   cursor: pointer;
   display: inline-block;
   margin-top: 0.5rem;
-}
-
-a .editbtn {
-  color: white;
-  text-decoration: none;
-}
-
-.editbtn :visited {
-  color: white
 }
 
 .profile-grid {
@@ -396,7 +391,7 @@ a .editbtn {
   background: #FFF8FD;
   border: none;
   border-radius: 14px;
-  padding: 2rem 3rem;
+  padding-top: 40px;
   box-shadow: 1px 8px 50px rgb(164, 164, 164);
 }
 
@@ -410,3 +405,45 @@ a .editbtn {
     width: 100%;
   }
 }
+
+.form-group label {
+  color: #8a226f;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 15px 70px;
+  border: none;
+  border-radius: 10px;
+  background-color: #FFD4F1;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #c071d0;
+  box-shadow: 0 0 8px rgba(192, 113, 208, 0.3);
+}
+
+#displayname {
+  padding-bottom: 25px;
+  padding-top: 25px;
+  padding-left: 5px;
+  font-size: 20px;
+  text-align: center;
+}
+
+#bio {
+    height: 120px;
+}
+
