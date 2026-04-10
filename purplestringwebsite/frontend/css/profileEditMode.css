@@ -19,7 +19,7 @@ body {
 }
 
 #PurpleBox {
-  position: absolute;
+  position: inherit;
   width: 100%;
   height: 15px;
   background-color: #d68ce5;
@@ -128,14 +128,14 @@ body {
 #content {
   position: relative;
   margin-top: 280px;
-  margin-left: 25%;
+  margin-left: 10%;
 }
 
 html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0 ;
+  padding: 0;
 }
 
 #page-container {
@@ -143,7 +143,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
 }
 
 #content {
@@ -205,34 +204,34 @@ body {
   position: inherit;
   z-index: calc(+3);
   top: 9%;
-  left: -15%;
+  left: -13%;
 }
 
 #homepage_bluething {
   position: inherit;
-  z-index: calc(+1);
-  top: 46%;
-  left: -4%;
+  z-index: calc(+4);
+  top: 50%;
+  left: -5%;
 }
 
 #homepage_heartbutton {
   position: inherit;
   z-index: calc(+2);
-  top: 48%;
+  top: 51%;
   left: -1%;
 }
 
 #homepage_greenbutton {
   position: inherit;
   z-index: calc(+1);
-  top: 95%;
-  left: -5%;
+  top: 64%;
+  left: -25px;
 }
 
 #homepage_greenthread {
   position: inherit;
   z-index: calc(+1);
-  top: 80%;
+  top: 97%;
   left: -3%;
 }
 
@@ -240,35 +239,171 @@ body {
   position: inherit;
   z-index: calc(+1);
   top: 65%;
-  right: -11%;
+  right: -12%;
 }
 
-/* Contact Form Card Styles */
-.form-card {
-  background-color: #fcf5ff;
-  border: 3px solid #fcf5ff;
-  border-radius: 20px;
-  padding: 30px;
-  max-width: 500px;
-  margin: 30px auto;
-  position: relative;
-  z-index: 10;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.400);
+/* Profile page */
+#content {
+  padding: 40px 10%;
 }
 
-.form-card h2 {
+.profile-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: #fff6fa;
+  border-radius: 15px;
+  padding: 2rem 3rem;
+  box-shadow: 2px 2px 60px black;
+}
+
+/* LEFT SIDE: AVATAR */
+.avatar-section {
   text-align: center;
-  color: #8a226f;
-  font-size: 28px;
-  margin-bottom: 30px;
-  font-weight: 600;
-}
-
-.form-group {
+  margin-right: 2.5rem;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 0.75rem;
+}
 
+.pfpf {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid #e8c2e4;
+  object-fit: cover;
+  margin-bottom: 0;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+}
+
+input[type="file"]{
+    display: none;
+}
+
+.uploadbtn {
+  background-color: #B87BA4;
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.profile-grid {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.info-section {
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.label {
+  width: 130px;
+  color: #4a3f50;
+  font-size: 0.9rem;
+  line-height: 50px;
+}
+
+.value {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #2e2e2e;
+  line-height: 1.4;
+}
+
+.left-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  min-width: 0;
+}
+
+.right-panel {
+  flex: 0 0 300px;
+  align-items: center;
+}
+
+.profile-card h3 {
+  margin-top: 0;
+}
+
+.account-menu {
+   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 1.3rem;
+  color: #c071d0;
+}
+
+.menu-link {
+  text-decoration: none;
+  color: #8a3d75;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.menu-link:hover {
+  color: #c071d0;
+}
+
+.profile-card {
+  background: #FFF8FD;
+  border: none;
+  border-radius: 14px;
+  padding-top: 40px;
+  box-shadow: 1px 8px 50px rgb(164, 164, 164);
+}
+
+@media (max-width: 900px) {
+  .profile-grid {
+    flex-direction: column;
+  }
+
+  .right-panel {
+    order: -1;
+    width: 100%;
+  }
 }
 
 .form-group label {
@@ -280,14 +415,17 @@ body {
 
 .form-group input,
 .form-group textarea {
-  padding: 12px 15px;
-  border: 2px solid #d5bfda;
-  border-radius: 25px;
+  padding: 15px 70px;
+  border: none;
+  border-radius: 10px;
+  background-color: #FFD4F1;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   color: #333;
-  background-color: #d5bfda;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
 }
 
 .form-group input:focus,
@@ -297,71 +435,15 @@ body {
   box-shadow: 0 0 8px rgba(192, 113, 208, 0.3);
 }
 
-.form-group textarea {
-  resize: vertical;
-  font-family: 'Inter', sans-serif;
+#displayname {
+  padding-bottom: 25px;
+  padding-top: 25px;
+  padding-left: 5px;
+  font-size: 20px;
+  text-align: center;
 }
 
-.submit-btn {
-  margin-top: 15px;
-  margin-left: 130px;
-  width: 50%;
-  padding: 14px;
-  background-color: #c071d0;
-  color: white;
-  border: 2px solid #c071d0;
-  border-radius: 15px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-family: 'Inter', sans-serif;
+#bio {
+    height: 120px;
 }
 
-.submit-btn:hover {
-  background-color: #d68ce5;
-  border-color: #d68ce5;
-  transform: translateY(-2px);
-}
-
-.submit-btn:active {
-  transform: translateY(0);
-}
-
-#contact-header {
-  position: absolute;
-  top: 320px;
-  left: 150px;
-  margin: 0;
-  padding: 0;
-  font-size: 
-  height: 100px;
-  z-index: 100;
-}
-
-#contact-header h1 {
-  margin: 0;
-  font-size: 65px;
-  color: #8a226f;
-}
-#contact-subheader {
-  position: absolute;
-  top: 600px;
-  left: 150px;
-  margin: 0;
-  padding: 0;
-  font-size: 24px; /* increase from 70px (which was likely a typo) */
-  height: 50px;
-  z-index: 100;
-}
-#contact-subheader .footer-icon {
-  width: 40px; /* increase from default */
-  height: 40px;
-  object-fit: contain;
-  margin-right: 12px;
-}
-
-#contact-subheader .info-item h3 {
-  margin: 0;
-  font-size: 18px;
-}
