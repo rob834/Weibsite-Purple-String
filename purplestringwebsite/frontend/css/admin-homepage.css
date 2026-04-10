@@ -227,6 +227,15 @@ hr {
   margin-bottom: 5px; /* reduce space (or set to 0 if you want tighter) */
 }
 
+.viewNotifsButton {
+  margin-left: 600px;
+}
+
+.viewNotifsButton a{
+  text-decoration: none;
+  color: black;
+}
+
 .to-do-list {
     background: white;
     border: 2px solid #D68CE5;
