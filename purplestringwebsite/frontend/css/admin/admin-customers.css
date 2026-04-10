@@ -54,3 +54,78 @@ body {
     border-radius: 50%;
     margin-right: 10px;
 }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcfcfc;
+    padding: 40px;
+    color: #333;
+}
+
+.table-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header Styling */
+.table-header {
+    display: flex;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-bottom: 2px solid #d8b4fe; /* Purple underline */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Row Styling */
+.order-row {
+    display: flex;
+    align-items: center;
+    background-color: #fffafb; /* Slight pinkish tint */
+    margin-bottom: 12px;
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    text-align: center;
+}
+
+/* Column Widths */
+.col-icon { width: 5%; }
+.col-customer { width: 40%; display: flex; align-items: center; justify-content: flex-start; font-weight: 600; }
+.col-status { width: 25%; }
+.col-total { width: 15%; font-weight: 600; }
+.col-date { width: 15%; font-weight: 600; }
+
+/* Components */
+.user-avatar {
+    background-color: #6366f1;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.delete-btn {
+    color: #a855f7;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* Status Badges */
+.badge {
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.paid-yellow { background-color: #fef08a; color: #854d0e; }
+.paid-green { background-color: #86efac; color: #166534; }
+.completed { background-color: #4ade80; color: #064e3b; }
+.delivering { background-color: #fdba74; color: #9a3412; }
+.cancelled { background-color: #f87171; color: #ffffff; }
