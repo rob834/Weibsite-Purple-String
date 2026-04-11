@@ -79,6 +79,11 @@ button {
   font-family: "Josefin Sans", sans-serif;
 }
 
+#add-product-btn a {
+  color: inherit;
+  text-decoration: none;
+}
+
 #add-product-btn:hover {
   background-color: #9a5081;
 }
