@@ -8,13 +8,11 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Products</title>
+    <title>Admin Notifications</title>
     <link rel="stylesheet" href="/purplestringwebsite/frontend/css/admin/admin-notification.css">
 </head>
 <body>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-  </style>
+ 
     <div id="admin-sidebar">
         <img src="../../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
@@ -33,43 +31,95 @@
      
 
         <div class="content">
-        <h2>Notifications (3)</h2>
-        
+
+    <div class="notif-header">
+       <div><h1>Notifications (3)</h1></div>
+        <div><input type="text" id="search-bar" placeholder="Search for products"></div>
+     </div>
         <hr>
 
         <div class="notif1">
-            
-        <label class="container">
-        <input type="checkbox" checked="checked">
-         <span class="checkmark"></span>
-        </label>
-
-        <div class="notif1-content">
-
-        <div>
-        <h2>New Order</h2>
+            <label class="container">
+                <input type="checkbox" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            <div class="notif1-content">
+                <div class="notif1-header">
+                    <h2 class="notif1-title">New Order</h2>
+                    <div class="notif1-meta">
+                        <img src="/purplestringwebsite/frontend/public/images/delete message icon.png" alt="delete icon" class="delete-icon">
+                        <div class="notif-meta-datetime">
+                            <p class="notif-date">Mar. 15, 2023</p>
+                            <p class="notif-time">10:30 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="notif-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt eum asperiores ab, quia non perferendis praesentium iusto, reprehenderit animi culpa esse saepe dolores ipsa. Recusandae, doloremque. Aut doloremque doloribus vero.</p>
+            </div>
         </div>
 
-        <div>
-        <img src="/purplestringwebsite/frontend/public/images/delete message icon.png" alt="delete icon" class="delete-icon">
+        <div class="notif1">
+            <label class="container">
+                <input type="checkbox" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            <div class="notif1-content">
+                <div class="notif1-header">
+                    <h2 class="notif1-title">Package Sent</h2>
+                    <div class="notif1-meta">
+                        <img src="/purplestringwebsite/frontend/public/images/delete message icon.png" alt="delete icon" class="delete-icon">
+                        <div class="notif-meta-datetime">
+                            <p class="notif-date">Mar. 1, 2025</p>
+                            <p class="notif-time">6:09 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="notif-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt eum asperiores ab, quia non perferendis praesentium iusto, reprehenderit animi culpa esse saepe dolores ipsa. Recusandae, doloremque. Aut doloremque doloribus vero.</p>
+            </div>
         </div>
+
+        <div class="notif1">
+            <label class="container">
+                <input type="checkbox" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            <div class="notif1-content">
+                <div class="notif1-header">
+                    <h2 class="notif1-title">Order Complete</h2>
+                    <div class="notif1-meta">
+                        <img src="/purplestringwebsite/frontend/public/images/delete message icon.png" alt="delete icon" class="delete-icon">
+                        <div class="notif-meta-datetime">
+                            <p class="notif-date">Mar. 27, 2025</p>
+                            <p class="notif-time">9:09 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="notif-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt eum asperiores ab, quia non perferendis praesentium iusto, reprehenderit animi culpa esse saepe dolores ipsa. Recusandae, doloremque. Aut doloremque doloribus vero.</p>
+            </div>
+        </div>
+
+        <div class="notif1">
+            <label class="container">
+                <input type="checkbox" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            <div class="notif1-content">
+                <div class="notif1-header">
+                    <h2 class="notif1-title">New Chat Messages</h2>
+                    <div class="notif1-meta">
+                        <img src="/purplestringwebsite/frontend/public/images/delete message icon.png" alt="delete icon" class="delete-icon">
+                        <div class="notif-meta-datetime">
+                            <p class="notif-date">Mar. 4, 2025</p>
+                            <p class="notif-time">6:07 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="notif-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt eum asperiores ab, quia non perferendis praesentium iusto, reprehenderit animi culpa esse saepe dolores ipsa. Recusandae, doloremque. Aut doloremque doloribus vero.</p>
+            </div>
+        </div>
+
+        <button id="delete-all">Delete Selected</button>
+        <button id="mark-all-as-read">Mark All as Read</button>
         
-        <div>
-        <p>Mar. 15, 2023</p>
-        </div>
-        
-
-        <div>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt eum asperiores ab, quia non perferendis praesentium iusto, reprehenderit animi culpa esse saepe dolores ipsa. Recusandae, doloremque. Aut doloremque doloribus vero.</p>
-        </div>
-
-       
-
-
-      
-            
-        </div>
-
-    </div>
 </body>
 </html>
