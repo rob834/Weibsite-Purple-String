@@ -7,52 +7,52 @@ body {
   overflow-y: scroll;
 }
 #admin-sidebar a#toggled {
-    background-color: #FFFFFF;
-    color: #9A5081;
+  background-color: #ffffff;
+  color: #9a5081;
 }
 #admin-sidebar a#toggled:hover {
-    color: #9A5081;
+  color: #9a5081;
 }
 #admin-sidebar {
-    width: 200px;
-    background-color: #9A5081;
-    color: white;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
+  width: 200px;
+  background-color: #9a5081;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
 }
 #admin-sidebar a {
-    color: white;
-    padding: 15px;
-    text-decoration: none;
-    display: block;
+  color: white;
+  padding: 15px;
+  text-decoration: none;
+  display: block;
 }
 #admin-sidebar a:hover {
-    background-color: #FFFFFF;
-    color: #9A5081;
+  background-color: #ffffff;
+  color: #9a5081;
 }
 #admin-content {
-    margin-left: 200px;
-    padding: 20px;
+  margin-left: 200px;
+  padding: 20px;
 }
 .icon {
-    margin-right: 10px;
-    margin-bottom: 5px;
-    vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  vertical-align: middle;
 }
 #upper-right-accountname {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
 }
 .account-icon {
-    border-radius: 50%;
-    margin-right: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 * {
   margin: 0;
@@ -70,38 +70,37 @@ body {
 }
 
 .chat-app {
-    display: flex;
-    width: 900px;
-    height: 600px;
-    font-family: Josefin-Sans;
-      background: #FFF8FD;
+  display: flex;
+  width: 900px;
+  height: 600px;
+  font-family: Josefin-Sans;
+  background: #fff8fd;
   border-radius: 12px;
-  border: 2px solid #9A5081;
+  border: 2px solid #9a5081;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
-    width: 30%;
-    background: #FBEFF7;
-    color: #000000;
-    padding: 20px;
-    font-family: josefin-sans;
+  width: 40%;
+  background: #fbeff7;
+  color: #000000;
+  padding: 20px;
+  font-family: josefin-sans;
 }
 
 .sidebar h2 {
   margin-bottom: 20px;
   text-align: center;
   font: Josefin Sans;
-  border-color: 1px solid #9A5081;
-  border-bottom: 2px solid #9A5081;
+  border-color: 1px solid #9a5081;
+  border-bottom: 2px solid #9a5081;
   padding: 7px;
   cursor: pointer;
-  white-space: nowrap;       /* prevents text breaking into multiple lines */
-  overflow: hidden;          /* hides overflow text */
-  text-overflow: ellipsis;   /* adds "..." if text is too long */
+  white-space: nowrap; /* prevents text breaking into multiple lines */
+  overflow: hidden; /* hides overflow text */
+  text-overflow: ellipsis; /* adds "..." if text is too long */
 }
-
 
 .chat-list {
   list-style: none;
@@ -110,9 +109,14 @@ body {
 .chat-list li {
   padding: 10px;
   margin-bottom: 8px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chat-list li img {
@@ -120,22 +124,42 @@ body {
   height: 32px;
   border-radius: 50%;
   margin-right: 10px;
-  margin-bottom: -12px;
+  flex-shrink: 0;
+}
+
+#selected-chat {
+  background: rgba(154, 80, 129, 0.15) !important;
+  font-weight: bold;
+  border-left: 4px solid #9a5081;
+  padding-left: 6px;
+  position: relative;
+}
+
+#selected-chat::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #9a5081;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
 /* Conversation Window */
 .conversation {
-  width: 70%;
+  width: 60%;
   display: flex;
   flex-direction: column;
-  border-left: #9A5081 solid 2px;
+  border-left: #9a5081 solid 2px;
   border-radius: 10px;
 }
 
 .chat-header {
-  background: #FFF8FD;
+  background: #fff8fd;
   padding: 15px;
-  border-bottom: 1px solid #D68CE5 ;
+  border-bottom: 1px solid #d68ce5;
   border-radius: 10px;
 }
 
@@ -154,7 +178,7 @@ body {
 }
 
 .message {
-  background: #F5F5f7;
+  background: #f5f5f7;
   padding: 12px 16px;
   border-radius: 12px;
   max-width: 60%;
