@@ -38,11 +38,80 @@ body {
     margin-left: 200px;
     padding: 20px;
 }
+
 .icon {
     margin-right: 10px;
     margin-bottom: 5px;
     vertical-align: middle;
 }
+
+#upper-left-searchbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  width: 300px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+}
+
+#upper-left-searchbar:hover {
+  background-color: #e8e8e8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+#upper-left-searchbar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  margin: 0;
+  padding: 0 8px;
+  font-size: 14px;
+  color: #333;
+  font-family: inherit;
+}
+
+#upper-left-searchbar input::placeholder {
+  color: #999;
+}
+
+#upper-left-searchbar input:focus {
+  color: #333;
+}
+
+#upper-left-searchbar button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+#upper-left-searchbar button:hover {
+  transform: scale(1.1);
+}
+
+#upper-left-searchbar button img {
+  width: 30px;
+  height: 30px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+#upper-left-searchbar button:hover img {
+  opacity: 1;
+}
+
+
+
 #upper-right-accountname {
     position: absolute;
     top: 20px;
@@ -98,7 +167,6 @@ body {
 
 /* Components */
 .user-avatar {
-    background-color: #6366f1;
     color: white;
     width: 30px;
     height: 30px;
@@ -107,6 +175,18 @@ body {
     align-items: center;
     justify-content: center;
     margin-right: 15px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.delete-btn img {
+    width: 20px;
+    height: 20px;
 }
 
 .delete-btn {
