@@ -118,7 +118,7 @@ span {
 #add-product-card textarea:focus {
   outline: none;
   border-color: #9a5081;
-  box-shadow: 0 0 0 3px rgba(154, 80, 129, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 0, 170, 0.1);
 }
 
 #add-product-card button {
@@ -294,12 +294,12 @@ span {
 }
 
 #confirm-delete-btn {
-  background-color: #d32f2f;
+  background-color: #925c5c;
   color: white;
 }
 
 #confirm-delete-btn:hover {
-  background-color: #b71c1c;
+  background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
 }
 
@@ -336,3 +336,10 @@ span {
   background-color: #7a4066;
   box-shadow: 0 4px 12px rgba(154, 80, 129, 0.3);
 }
+#product-price, #product-category, #product-description, #product-name {
+  background-color: #fafafa;
+}
+small {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
