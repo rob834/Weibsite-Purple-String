@@ -8,7 +8,7 @@
     <title>Admin Products</title>
     <link
       rel="stylesheet"
-      href="../../css/admin/admin-products-edit.css" />
+      href="../../css/admin/admin-products-add.css" />
   </head>
   <body>
     <link
@@ -63,21 +63,40 @@
           class="account-icon" />
         <span>Seller Name</span>
       </div>
-      <div id="edit-product-card">
+      <div id="add-product-card">
         <div class="left-section">
-          <div class="gallery">
-            <div class="main-photo">
-              <img
-                src="../../public/images/products/product1.jpg"
-                alt="Main Product Photo" />
-            </div>
-            <div class="4photos-slider">
-              <!-- Placeholder for 4 additional photos -->
-            </div>
+          <h2>Add New Product</h2>
+
+          <div class="dropbox-container">
+            <label for="image-upload">Upload Images</label>
+            <input
+              type="file"
+              id="image-upload"
+              name="image-upload"
+              accept="image/*"
+              multiple
+              class="dropbox" />
           </div>
-          <div class="change-photo-btn">
-            <button type="button">Change Photos</button>
+
+          <div class="dropbox-container">
+            <label for="video-upload">Upload Video</label>
+            <input
+              type="file"
+              id="video-upload"
+              name="video-upload"
+              accept="video/*"
+              class="dropbox" />
           </div>
+
+          <button
+            type="button"
+            id="delete-product-btn">
+            Delete Product
+          </button>
+          <button type="submit">
+            <a href="admin-products.html">Save Changes</a>
+          </button>
+          
         </div>
         <form id="edit-product-form">
           <label for="product-name">Product Name:</label>
@@ -105,24 +124,17 @@ Example product description goes here.</textarea
             value="19.99"
             step="0.01"
             required />
+          <label for="product-category">Category:</label>
+          <input
+            type="text"
+            id="product-category"
+            name="product-category"
+            value="Example Category"
+            required />
 
-          <button
-            type="button"
-            id="delete-product-btn">
-            Delete Product
-          </button>
-          <button type="submit"><a href="admin-products.html">Save Changes</a></button>
         </form>
       </div>
       <div class="popout-card">
-        <div class="change-media-card">
-          <h2>Change Product Photos</h2>
-          <input
-            type="file"
-            id="photo-upload"
-            name="photo-upload"
-            accept="image/*"
-            multiple />
           <button
             type="button"
             id="save-photos-btn">
