@@ -87,17 +87,7 @@
             name="product-name"
             value="Example Product Name"
             required />
-
-          <label for="product-description">Description:</label>
-          <textarea
-            id="product-description"
-            name="product-description"
-            rows="4"
-            required>
-Example product description goes here.</textarea
-          >
-
-          <label for="product-price">Price:</label>
+        <label for="product-price">Price:</label>
           <input
             type="number"
             id="product-price"
@@ -105,7 +95,14 @@ Example product description goes here.</textarea
             value="19.99"
             step="0.01"
             required />
-
+          <label for="product-description">Description:</label>
+          <textarea
+            id="product-description"
+            name="product-description"
+            rows="6"
+            cols="70"
+            required>
+Example product description goes here.</textarea>
           <button
             type="button"
             id="delete-product-btn">
