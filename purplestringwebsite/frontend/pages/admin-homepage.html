@@ -69,11 +69,11 @@
         <h2>Sales Analytic</h2>
         <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
         <script>
-const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-const yValues = [55, 49, 44, 24, 15];
-const barColors = ["red", "green","blue","orange","brown"];
+           const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+            const yValues = [55, 49, 44, 24, 15];
+            const barColors = ["red", "green","blue","orange","brown"];
 
-const ctx = document.getElementById('myChart');
+            const ctx = document.getElementById('myChart');
 
 new Chart(ctx, {
   type: "bar",
@@ -88,7 +88,7 @@ new Chart(ctx, {
     plugins: {
       legend: {display: false},
       title: {
-        display: true,
+        display: false,
         text: "World Wine Production 2018",
         font: {size: 16}
       }
@@ -100,11 +100,14 @@ new Chart(ctx, {
     </div>
 
        <div class="notifications-preview">
-
+<div class="viewNotifsButton">
+    <a href="/purplestringwebsite/frontend/pages/admin/admin-notification.html">
     <div class="view-notifs-button">
         <img src="/purplestringwebsite/frontend/public/images/view notifications icon admin.png" alt="">
         <p>view notifications</p>
     </div>
+    </a>
+</div>
 
     <ul>
         <li><p>Product out for shipment</p></li>
