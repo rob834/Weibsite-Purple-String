@@ -8,10 +8,10 @@
     <title>Purple String - Login</title>
     <link
       rel="stylesheet"
-      href="./css/homepage.css" />
+      href="../css/homepage.css" />
     <link
       rel="stylesheet"
-      href="./css/login.css" />
+      href="../css/login.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -68,7 +68,7 @@
             </button>
 
             <div id="signup-link">
-              Don't have an account? <a href="./pages/signup.php">Create one here</a>
+              Already have an account? <a href="login.php">Sign in here</a>
             </div>
           </div>
 
