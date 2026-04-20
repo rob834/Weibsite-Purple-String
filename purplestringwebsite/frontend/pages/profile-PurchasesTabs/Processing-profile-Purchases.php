@@ -37,7 +37,7 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.html"
+            <a href="../pages/cart.php"
              ><img src="/purplestringwebsite/frontend/public/images/shopping cart.png"
             /></a>
           </div>
@@ -50,17 +50,17 @@
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
+            href="../pages/homepage.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../pages/contacts.html"
+            href="../pages/contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -80,12 +80,12 @@
 <!--menu-->
 
                 <div class="order-menu">
-                <a href="/purplestringwebsite/frontend/pages/profilePurchases.html"><button class="tab">All</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Processing-profile-Purchases.html"><button class="tab active">Processing</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Shipping-profile-Purchases.html"><button class="tab">Shipping</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/ToReceive-profile-Purchases.html"><button class="tab">To Receive</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Completed-profile-Purchases.html"><button class="tab">Completed</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Returned-profile-purchases.html"><button class="tab">Returned</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profilePurchases.php"><button class="tab">All</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Processing-profile-Purchases.php"><button class="tab active">Processing</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Shipping-profile-Purchases.php"><button class="tab">Shipping</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/ToReceive-profile-Purchases.php"><button class="tab">To Receive</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Completed-profile-Purchases.php"><button class="tab">Completed</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Returned-profile-purchases.php"><button class="tab">Returned</button></a>
                 </div>
 
 
@@ -112,11 +112,11 @@
               <div class="account-menu">
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/myaccount updated.png" alt="profile icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profile.html" class="menu-link"><p>My Account</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profile.php" class="menu-link"><p>My Account</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon updated.png" alt="purchases"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.html" class="menu-link"><p>Purchases</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notif icon updated.png" alt="notif"></span>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.html" class="menu-link"><p>Log Out</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/signup.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>
