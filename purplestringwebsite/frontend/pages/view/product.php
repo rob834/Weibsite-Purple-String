@@ -36,12 +36,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../cart.html"
+            <a href="../cart.php"
               ><img src="../../public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="../profile.html"
+            <a href="../profile.php"
               ><img src="../../public/images/profile icon.png"
             /></a>
           </div>
@@ -49,17 +49,17 @@
 
         <div id="menubar">
           <a
-            href="../homepage.html"
+            href="../homepage.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../products.html"
+            href="../products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../contacts.html"
+            href="../contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -168,7 +168,7 @@
       if(buyBtn){
         buyBtn.addEventListener('click', function(){
           // relative path from this file to the cart page
-          window.location.href = '../cart.html';
+          window.location.href = '../cart.php';
         });
       }
     })();

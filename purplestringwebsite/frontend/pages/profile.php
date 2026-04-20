@@ -37,12 +37,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.html"
+            <a href="../pages/cart.php"
               ><img src="../public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.html"
+            <a href="../pages/profile.php"
               ><img src="../public/images/profile icon.png"
             /></a>
           </div>
@@ -50,17 +50,17 @@
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
+            href="../pages/homepage.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../pages/contacts.html"
+            href="../pages/contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -83,7 +83,7 @@
                   <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="profile" class="avatar-img">
                  </div>
                  <div class="editbtn">
-                 <button class="edit-btn"><a href="/purplestringwebsite/frontend/pages/profileEditMode.html"><img src="/purplestringwebsite/frontend/public/images/edit profile icon.png" alt="edit">Edit Profile</a></button>
+                 <button class="edit-btn"><a href="/purplestringwebsite/frontend/pages/profileEditMode.php"><img src="/purplestringwebsite/frontend/public/images/edit profile icon.png" alt="edit">Edit Profile</a></button>
                   </div>
                 </div>
 
@@ -126,11 +126,11 @@
               <div class="account-menu">
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/myaccount updated.png" alt="profile icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profile.html" class="menu-link"><p>My Account</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profile.php" class="menu-link"><p>My Account</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon updated.png" alt="purchases"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.html" class="menu-link"><p>Purchases</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notif icon updated.png" alt="notif"></span>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.html" class="menu-link"><p>Log Out</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/signup.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>

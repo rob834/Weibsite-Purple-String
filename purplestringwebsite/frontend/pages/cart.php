@@ -37,12 +37,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="cart.html"
+            <a href="cart.php"
               ><img src="../public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="profile.html"
+            <a href="profile.php"
               ><img src="../public/images/profile icon.png"
             /></a>
           </div>
@@ -50,17 +50,17 @@
 
         <div id="menubar">
           <a
-            href="../index.html"
+            href="../index.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../pages/contacts.html"
+            href="../pages/contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -136,7 +136,7 @@
                 <span class="amount total-amount">₱644.00</span>
               </div>
             </div>
-            <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+            <a href="checkout.php" class="checkout-btn">Proceed to Checkout</a>
           </div>
         </div>
       </section>

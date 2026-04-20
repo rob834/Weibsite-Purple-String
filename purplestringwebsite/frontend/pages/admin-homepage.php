@@ -18,11 +18,11 @@
     <div id="admin-sidebar">
         <img src="../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
-            <a id="toggled" href="admin-homepage.html"><img src="../public/images/admin/dashboard icon-toggled.png" class="icon"><b>Dashboard</b></a>
-            <a href="admin/admin-products.html"><img src="../public/images/admin/products icon.png" class="icon">Products</a>
-            <a href="admin/admin-customers.html"><img src="../public/images/admin/customers icon.png" class="icon">Customers</a>
-            <a href="admin/admin-chat.html"><img src="../public/images/admin/chats icon.png" class="icon">Chat</a>
-            <a href="admin/admin-notification.html"><img src="../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
+            <a id="toggled" href="admin-homepage.php"><img src="../public/images/admin/dashboard icon-toggled.png" class="icon"><b>Dashboard</b></a>
+            <a href="admin/admin-products.php"><img src="../public/images/admin/products icon.png" class="icon">Products</a>
+            <a href="admin/admin-customers.php"><img src="../public/images/admin/customers icon.png" class="icon">Customers</a>
+            <a href="admin/admin-chat.php"><img src="../public/images/admin/chats icon.png" class="icon">Chat</a>
+            <a href="admin/admin-notification.php"><img src="../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
     <div id="admin-content">
@@ -101,7 +101,7 @@ new Chart(ctx, {
 
        <div class="notifications-preview">
 <div class="viewNotifsButton">
-    <a href="/purplestringwebsite/frontend/pages/admin/admin-notification.html">
+    <a href="/purplestringwebsite/frontend/pages/admin/admin-notification.php">
     <div class="view-notifs-button">
         <img src="/purplestringwebsite/frontend/public/images/view notifications icon admin.png" alt="">
         <p>view notifications</p>

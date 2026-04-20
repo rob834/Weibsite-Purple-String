@@ -14,11 +14,11 @@
     <div id="admin-sidebar">
         <img src="../../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
-            <a href="../admin-homepage.html"><img src="../../public/images/admin/dashboard icon.png" class="icon">Dashboard</a>
-            <a id="toggled" href="admin-products.html"><img src="../../public/images/admin/products icon-toggled.png" class="icon">Products</a>
-            <a href="admin-customers.html"><img src="../../public/images/admin/customers icon.png" class="icon">Customers</a>
-            <a href="admin-chat.html"><img src="../../public/images/admin/chats icon.png" class="icon">Chat</a>
-            <a href="admin-notification.html"><img src="../../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
+            <a href="../admin-homepage.php"><img src="../../public/images/admin/dashboard icon.png" class="icon">Dashboard</a>
+            <a id="toggled" href="admin-products.php"><img src="../../public/images/admin/products icon-toggled.png" class="icon">Products</a>
+            <a href="admin-customers.php"><img src="../../public/images/admin/customers icon.png" class="icon">Customers</a>
+            <a href="admin-chat.php"><img src="../../public/images/admin/chats icon.png" class="icon">Chat</a>
+            <a href="admin-notification.php"><img src="../../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
     <div id="admin-content">
@@ -34,7 +34,7 @@
                     <h1 id="title">Products</h1>
                 </div>
                 <div id="upper-right-header">
-                    <button id="add-product-btn"><a href="admin-products-add.html">+Add a new product</a></button>
+                    <button id="add-product-btn"><a href="admin-products-add.php">+Add a new product</a></button>
                     <input type="text" id="search-bar" placeholder="Search for products">
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <div class="card-left">
                         <img src="../../public/images/admin/product.png" alt="Product Image" class="product-image">
                         <div class="product-actions">
-                            <button class="edit-btn"><a href="admin-products-edit.html">Edit this product</a></button>
+                            <button class="edit-btn"><a href="admin-products-edit.php">Edit this product</a></button>
                         </div>
                     </div>
                     <div class="card-middle">
@@ -64,7 +64,7 @@
                     <div class="card-left">
                         <img src="../../public/images/admin/product.png" alt="Product Image" class="product-image">
                         <div class="product-actions">
-                            <button class="edit-btn"><a href="admin-products-edit.html">Edit this product</a></button>
+                            <button class="edit-btn"><a href="admin-products-edit.php">Edit this product</a></button>
                         </div>
                     </div>
                     <div class="card-middle">
@@ -84,7 +84,7 @@
                     <div class="card-left">
                         <img src="../../public/images/admin/product.png" alt="Product Image" class="product-image">
                         <div class="product-actions">
-                            <button class="edit-btn"><a href="admin-products-edit.html">Edit this product</a></button>
+                            <button class="edit-btn"><a href="admin-products-edit.php">Edit this product</a></button>
                         </div>
                     </div>
                     <div class="card-middle">
