@@ -138,7 +138,21 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.php" class="menu-link"><p>Log Out</p></a>
+                  <a href="#" class="menu-link"><p>Log Out</p></a>
+                  <?php
+
+                    session_start();
+
+                    if(isset($_SESSION['user_id']))
+                      {
+	                      unset($_SESSION['user_id']);
+
+                      }
+
+                    header("Location: login.php");
+                    die;
+
+                  ?>
                 </div>
               </div>
             </div>
