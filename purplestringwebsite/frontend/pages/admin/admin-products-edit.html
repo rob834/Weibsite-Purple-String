@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Admin Products</title>
+    <link
+      rel="stylesheet"
+      href="../../css/admin/admin-products-edit.css" />
+  </head>
+  <body>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,500;1,500&display=swap"
+      rel="stylesheet" />
+
+    <div id="admin-sidebar">
+      <img
+        src="../../public/images/admin/companylogo.png"
+        alt="Company Logo"
+        class="logo" />
+      <p>
+        <a href="../admin-homepage.html"
+          ><img
+            src="../../public/images/admin/dashboard icon.png"
+            class="icon" />Dashboard</a
+        >
+        <a href="admin-products.html"
+          ><img
+            src="../../public/images/admin/products icon.png"
+            class="icon" />Products</a
+        >
+        <a href="admin-customers.html"
+          ><img
+            src="../../public/images/admin/customers icon.png"
+            class="icon" />Customers</a
+        >
+        <a href="admin-chat.html"
+          ><img
+            src="../../public/images/admin/chats icon.png"
+            class="icon" />Chat</a
+        >
+        <a href="admin-notification.html"
+          ><img
+            src="../../public/images/admin/Notification bell icon.png"
+            class="icon" />Notifications</a
+        >
+      </p>
+    </div>
+    <div id="admin-content">
+      <div id="upper-right-accountname">
+        <img
+          src="../../public/images/admin/account_profile.png"
+          alt="Account Icon"
+          class="account-icon" />
+        <span>Seller Name</span>
+      </div>
+      <div id="edit-product-card">
+        <div class="left-section">
+          <div class="gallery">
+            <div class="main-photo">
+              <img
+                src="../../public/images/products/product1.jpg"
+                alt="Main Product Photo" />
+            </div>
+            <div class="4photos-slider">
+              <!-- Placeholder for 4 additional photos -->
+            </div>
+          </div>
+          <div class="change-photo-btn">
+            <button type="button">Change Photos</button>
+          </div>
+        </div>
+        <form id="edit-product-form">
+          <label for="product-name">Product Name:</label>
+          <input
+            type="text"
+            id="product-name"
+            name="product-name"
+            value="Example Product Name"
+            required />
+        <label for="product-price">Price:</label>
+          <input
+            type="number"
+            id="product-price"
+            name="product-price"
+            value="19.99"
+            step="0.01"
+            required />
+          <label for="product-description">Description:</label>
+          <textarea
+            id="product-description"
+            name="product-description"
+            rows="6"
+            cols="70"
+            required>
+Example product description goes here.</textarea>
+          <button
+            type="button"
+            id="delete-product-btn">
+            Delete Product
+          </button>
+          <button type="submit"><a href="admin-products.html">Save Changes</a></button>
+        </form>
+      </div>
+      <div class="popout-card">
+        <div class="change-media-card">
+          <h2>Change Product Photos</h2>
+          <input
+            type="file"
+            id="photo-upload"
+            name="photo-upload"
+            accept="image/*"
+            multiple />
+          <button
+            type="button"
+            id="save-photos-btn">
+            Save Photos
+          </button>
+        </div>
+      </div>
+      <div class="popout-card">
+        <div class="delete-confirmation-card">
+          <h2>Confirm Deletion</h2>
+          <p>Are you sure you want to delete this product?</p>
+          <button
+            type="button"
+            id="confirm-delete-btn">
+            Yes, Delete
+          </button>
+          <button
+            type="button"
+            id="cancel-delete-btn">
+            Cancel
+          </button>
+        </div>
+      </div>
+<!-- test -->
+    </div>
+    <script src="../../js/admin/admin-products-edit.js"></script>
+  </body>
+</html>
