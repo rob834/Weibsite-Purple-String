@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+include("backend/connection.php");
+include("backend/functions.php");
+
+$user_data = check_login($con);
+
+// If user is not logged in, redirect to login page
+if (!$user_data) {
+    header("Location: frontend/pages/login.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
