@@ -50,7 +50,7 @@
 
         <div id="menubar">
           <a
-            href="../../index.php"
+            href="/Weibsite-Purple-String/index.php"
             class="menubutton"
             >Home</a
           >
@@ -138,7 +138,7 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.php" class="menu-link"><p>Log Out</p></a>
+                  <a href="/Weibsite-Purple-String/logout.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>

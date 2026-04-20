@@ -50,7 +50,7 @@
 
         <div id="menubar">
           <a
-            href="../../index.php"
+            href="/Weibsite-Purple-String/index.php"
             class="menubutton"
             >Home</a
           >
@@ -138,21 +138,7 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="#" class="menu-link"><p>Log Out</p></a>
-                  <?php
-
-                    session_start();
-
-                    if(isset($_SESSION['user_id']))
-                      {
-	                      unset($_SESSION['user_id']);
-
-                      }
-
-                    header("Location: login.php");
-                    die;
-
-                  ?>
+                  <a href="/Weibsite-Purple-String/logout.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>

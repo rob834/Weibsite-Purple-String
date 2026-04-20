@@ -50,7 +50,7 @@
 
         <div id="menubar">
           <a
-            href="../../index.php"
+            href="/Weibsite-Purple-String/index.php"
             class="menubutton"
             >Home</a
           >
