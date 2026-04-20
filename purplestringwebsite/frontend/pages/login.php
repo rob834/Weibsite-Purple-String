@@ -26,14 +26,14 @@
               <p>Sign in to your Purple String account</p>
             </div>
             
-            <form id="login-form">
+            <form method="POST" action="index.php" id="login-form">
               <div class="form-group">
-                <label for="email">Email Address</label>
+                <label for="user_name">Username</label>
                 <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="you@example.com"
+                  type="text" 
+                  id="user_name" 
+                  name="user_name" 
+                  placeholder="Enter your username"
                   required />
               </div>
 
@@ -55,7 +55,7 @@
                 <a href="#" class="forgot-password">Forgot Password?</a>
               </div>
 
-              <button type="submit" class="login-btn">Sign In</button>
+              <button type="submit" value="Login" class="login-btn">Log In</button>
             </form>
 
             <div class="divider">OR</div>
@@ -68,7 +68,7 @@
             </button>
 
             <div id="signup-link">
-              Don't have an account? <a href="./pages/signup.html">Create one here</a>
+              Don't have an account? <a href="./pages/signup.php">Create one here</a>
             </div>
           </div>
 
@@ -81,6 +81,6 @@
       </div>
     </div>
 
-    <script src="./js/login.js"></script>
+    <!-- <script src="./js/login.js"></!--> -->
   </body>
 </html>
