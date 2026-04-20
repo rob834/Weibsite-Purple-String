@@ -26,7 +26,7 @@
               <p>Sign in to your Purple String account</p>
             </div>
             
-            <form method="POST" action="index.php" id="login-form">
+            <form method="POST" action="../../index.php" id="login-form">
               <div class="form-group">
                 <label for="user_name">Username</label>
                 <input 
