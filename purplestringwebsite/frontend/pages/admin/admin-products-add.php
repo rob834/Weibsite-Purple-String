@@ -27,19 +27,19 @@
         alt="Company Logo"
         class="logo"/>
       <p>
-        <a href="../admin-homepage.html">
+        <a href="../admin-homepage.php">
           <img src="../../public/images/admin/dashboard icon.png"
             class="icon"/>Dashboard</a>
-        <a href="admin-products.html">
+        <a href="admin-products.php">
           <img src="../../public/images/admin/products icon.png"
             class="icon" />Products</a>
-        <a href="admin-customers.html">
+        <a href="admin-customers.php">
           <img src="../../public/images/admin/customers icon.png"
             class="icon" />Customers</a>
-        <a href="admin-chat.html">
+        <a href="admin-chat.php">
           <img src="../../public/images/admin/chats icon.png"
             class="icon" />Chat</a>
-        <a href="admin-notification.html">
+        <a href="admin-notification.php">
           <img src="../../public/images/admin/Notification bell icon.png"
             class="icon" />Notifications</a>
       </p>
@@ -85,7 +85,7 @@
             Delete Product
           </button>
           <button type="submit">
-            <a href="admin-products.html">Save Changes</a>
+            <a href="admin-products.php">Save Changes</a>
           </button>
           
         </div>

@@ -8,7 +8,7 @@
     <title>Profile</title>
     <link
       rel="stylesheet"
-      href="/purplestringwebsite/frontend/css/profilePurchases.css" />
+      href="../css/profile.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -37,12 +37,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.html"
+            <a href="../pages/cart.php"
               ><img src="../public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.html"
+            <a href="../pages/profile.php"
               ><img src="../public/images/profile icon.png"
             /></a>
           </div>
@@ -50,17 +50,17 @@
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
+            href="../../index.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../pages/contacts.html"
+            href="../pages/contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -70,67 +70,67 @@
           <img src="../public/images/vectors/frills.png" />
         </div>
       </section>
-<!--content-->
+
       <section id="content">
         <div class="profile-grid">
           <div class="left-cards">
             <div
               class="profile-card"
               id="card-1">
-<!--menu-->
 
-                <div class="order-menu">
-                <button class="tab active">All</button>
-                <a href="profile-PurchasesTabs/Processing-profile-Purchases.html"><button class="tab">Processing</button></a>
-                <a href="profile-PurchasesTabs/Shipping-profile-Purchases.html"><button class="tab">Shipping</button></a>
-                <a href="profile-PurchasesTabs/ToReceive-profile-Purchases.html"><button class="tab">To Receive</button></a>
-                <a href="profile-PurchasesTabs/Completed-profile-Purchases.html"><button class="tab">Completed</button></a>
-                <a href="profile-PurchasesTabs/Returned-profile-purchases.html"><button class="tab">Returned</button></a>
+              <div class="avatar-section">
+                 <div class="pfpf">
+                  <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="profile" class="avatar-img">
+                 </div>
+                 <div class="editbtn">
+                 <button class="edit-btn"><a href="/purplestringwebsite/frontend/pages/profileEditMode.php"><img src="/purplestringwebsite/frontend/public/images/edit profile icon.png" alt="edit">Edit Profile</a></button>
+                  </div>
                 </div>
 
-                <div class="order-section-title">Processing</div>
+             <div class="info-section">
+              <div class="row">
+                <div class="label">Name</div>
+                <div class="value name"><h1>John Doe</h1></div>
+              </div>
 
-                <div class="order-item">
-                <img src="../public/images/product image.png" class="order-img" />
+              <div class="row">
+              <div class="label">Username</div>
+              <div class="value username"><strong>usagifan1012</strong></div>
+              </div>
 
-                <div class="order-details">
-                    <div class="order-title">Flyers/brochure Trifold Printing Glossy</div>
-                    <div class="order-var">Variations : back to back</div>
-                    <div class="order-qty">x1</div>
+             
+             <div class="row bio">
+                <div class="label">Bio</div>
+                <div class="value">
+                  idoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa<br>
+                  idoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa<br>
+                  unaaidoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa
                 </div>
+              </div>
 
-                <div class="order-price">₱21</div>
-                </div>
+              <div class="row">
+                <div class="label">Phone Number</div>
+                <div class="value">+97 024 028 8881</div>
+              </div>
 
-                <hr class="divider" />
-
-                <div class="order-section-title">Shipping</div>
-
-                <div class="order-item2">
-                <img src="../public/images/product image.png" class="order-img" />
-
-                <div class="order-details">
-                    <div class="order-title">Flyers/brochure Trifold Printing Glossy</div>
-                    <div class="order-var">Variations : back to back</div>
-                    <div class="order-qty">x4</div>
-                </div>
-
-                <div class="order-price">₱84</div>
-                </div>
-
+              <div class="row">
+                <div class="label">Address</div>
+                <div class="value">Blk 350 Lot 09 Cactus St. Pembo<br>Taguig, Metro Manila, 1218</div>
+              </div>
+         </div>
             </div>
           </div>
 
-           <div class="right-panel">
+          <div class="right-panel">
             <div class="profile-card right-card">
               <div class="account-menu">
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/myaccount updated.png" alt="profile icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profile.html" class="menu-link"><p>My Account</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profile.php" class="menu-link"><p>My Account</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon updated.png" alt="purchases"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.html" class="menu-link"><p>Purchases</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notif icon updated.png" alt="notif"></span>
@@ -138,7 +138,21 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.html" class="menu-link"><p>Log Out</p></a>
+                  <a href="#" class="menu-link"><p>Log Out</p></a>
+                  <?php
+
+                    session_start();
+
+                    if(isset($_SESSION['user_id']))
+                      {
+	                      unset($_SESSION['user_id']);
+
+                      }
+
+                    header("Location: login.php");
+                    die;
+
+                  ?>
                 </div>
               </div>
             </div>
@@ -189,10 +203,11 @@
         <img
           id="homepage_heartbutton"
           src="/purplestringwebsite/frontend/public/images/heartbutton.png" />
+         
         <img
           id="homepage_greenbutton"
-          src="/purplestringwebsite/frontend/public/images/greenbutton.png"/>
-          
+          src="/purplestringwebsite/frontend/public/images/greenbutton.png" />
+     
         <img
           id="homepage_greenthread"
           src="/purplestringwebsite/frontend/public/images/greenthread.png" />
