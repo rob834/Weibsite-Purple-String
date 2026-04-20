@@ -50,7 +50,7 @@
 
         <div id="menubar">
           <a
-            href="../index.php"
+            href="../../index.php"
             class="menubutton"
             >Home</a
           >
