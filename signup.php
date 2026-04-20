@@ -1,8 +1,8 @@
 <?php 
 session_start();
 
-	include("../../backend/connection.php");
-	include("../../backend/functions.php");
+	include("purplestringwebsite/backend/connection.php");
+	include("purplestringwebsite/backend/functions.php");
 
 
 	if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST")
@@ -20,7 +20,7 @@ session_start();
 
 			mysqli_query($con, $query);
 
-			header("Location: login.php");
+			header("Location: /Weibsite-Purple-String/login.php");
 			die;
 		}else
 		{
@@ -39,10 +39,10 @@ session_start();
     <title>Purple String - Login</title>
     <link
       rel="stylesheet"
-      href="../css/homepage.css" />
+      href="purplestringwebsite/frontend/css/homepage.css" />
     <link
       rel="stylesheet"
-      href="../css/login.css" />
+      href="purplestringwebsite/frontend/css/login.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -57,7 +57,7 @@ session_start();
               <p>Sign in to your Purple String account</p>
             </div>
             
-            <form method="POST" action="../../index.php" id="login-form">
+            <form method="POST" action="" id="login-form">
               <div class="form-group">
                 <label for="user_name">Username</label>
                 <input 
@@ -99,7 +99,7 @@ session_start();
             </button>
 
             <div id="signup-link">
-              Already have an account? <a href="login.php">Sign in here</a>
+              Already have an account? <a href="/Weibsite-Purple-String/login.php">Sign in here</a>
             </div>
           </div>
 
