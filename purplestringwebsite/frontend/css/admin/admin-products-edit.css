@@ -245,7 +245,9 @@ span {
 }
 
 #confirm-delete-btn:hover {
-  background-color: #b71c1c;
+  background-color:
+  /* Try Color */
+  #dc5f5f;
   box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
 }
 
@@ -273,7 +275,9 @@ span {
 }
 
 #save-photos-btn {
-  background-color: #9a5081;
+  background-color: 
+  /* Try Color */
+  #c071d0;
   color: white;
   width: 100%;
 }

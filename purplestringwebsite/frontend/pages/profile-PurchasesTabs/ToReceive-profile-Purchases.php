@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+        header("Location: /Weibsite-Purple-String/login.php");
+    exit();
+}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +16,7 @@
     <title>Profile</title>
     <link
       rel="stylesheet"
-      href="/purplestringwebsite/frontend/css/profile-PurchasesTabs/Returned-profile-purchases.css" />
+      href="/purplestringwebsite/frontend/css/profile-PurchasesTabs/ToReceive-profile-Purchases.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -37,12 +45,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.html"
+            <a href="../pages/cart.php"
               ><img src="/purplestringwebsite/frontend/public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.html"
+            <a href="../pages/profile.php"
               ><img src="/purplestringwebsite/frontend/public/images/profile icon.png"
             /></a>
           </div>
@@ -50,17 +58,17 @@
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
+            href="../pages/homepage.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../pages/contacts.html"
+            href="../pages/contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -80,17 +88,17 @@
 <!--menu-->
 
                 <div class="order-menu">
-                <a href="/purplestringwebsite/frontend/pages/profilePurchases.html"><button class="tab">All</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Processing-profile-Purchases.html"><button class="tab">Processing</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Shipping-profile-Purchases.html"><button class="tab">Shipping</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/ToReceive-profile-Purchases.html"><button class="tab">To Receive</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Completed-profile-Purchases.html"><button class="tab">Completed</button></a>
-                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Returned-profile-purchases.html"><button class="tab active">Returned</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profilePurchases.php"><button class="tab">All</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Processing-profile-Purchases.php"><button class="tab">Processing</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Shipping-profile-Purchases.php"><button class="tab">Shipping</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/ToReceive-profile-Purchases.php"><button class="tab active">To Receive</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Completed-profile-Purchases.php"><button class="tab">Completed</button></a>
+                <a href="/purplestringwebsite/frontend/pages/profile-PurchasesTabs/Returned-profile-purchases.php"><button class="tab">Returned</button></a>
                 </div>
 
                 <div class="emptyContent">
                 <img src="/purplestringwebsite/frontend/public/images/No orders received yet.png" alt="no orders received">
-                <p>No Orders Returned Yet</p>
+                <p>No Orders Received Yet</p>
                 </div>
 
 
@@ -102,11 +110,11 @@
               <div class="account-menu">
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/myaccount updated.png" alt="profile icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profile.html" class="menu-link"><p>My Account</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profile.php" class="menu-link"><p>My Account</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon updated.png" alt="purchases"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.html" class="menu-link"><p>Purchases</p></a>
+                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notif icon updated.png" alt="notif"></span>
@@ -114,7 +122,7 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/index.html" class="menu-link"><p>Log Out</p></a>
+                  <a href="/Weibsite-Purple-String/logout.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>
