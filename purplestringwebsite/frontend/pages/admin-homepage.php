@@ -1,10 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         header("Location: /Weibsite-Purple-String/login.php");
     exit();
 }
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +37,9 @@ if (!isset($_SESSION['user_id'])) {
         </p>
     </div>
     <div id="admin-content">
+        <div id="upper-left-logout">
+            <a href="/Weibsite-Purple-String/logout.php" class="logout-btn">Logout</a>
+        </div>
         <div id="upper-right-accountname">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
             <span>Seller Name</span>

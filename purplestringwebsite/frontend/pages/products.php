@@ -3,8 +3,11 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
         header("Location: /Weibsite-Purple-String/login.php");
-    exit();
-}
+        exit();
+    }
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,317 +83,103 @@ if (!isset($_SESSION['user_id'])) {
         </div>
       </section>
       <section id="content">
-        <section class="product-controls">
-            <div class="sort-options">
-                <span>Sort by:</span>
-                <button class="sort-btn active">Popular</button>
-                <span class="divider">|</span>
-                <button class="sort-btn">Latest</button>
-                <span class="divider">|</span>
-                <button class="sort-btn">Price <span class="price-arrow">⇅</span></button>
+      <?php
+      include_once __DIR__ . '/../../backend/connection.php';
+
+      // Read filters from query params
+      $selected_category = isset($_GET['category']) && is_numeric($_GET['category']) ? intval($_GET['category']) : null;
+      $sort = $_GET['sort'] ?? 'popular'; // popular, latest, price_asc, price_desc
+
+      // Fetch categories for the filter dropdown
+      $categories = [];
+      $cres = mysqli_query($con, "SELECT category_id, name FROM categories ORDER BY name ASC");
+      if ($cres) {
+        while ($crow = mysqli_fetch_assoc($cres)) {
+          $categories[] = $crow;
+        }
+      }
+
+      // Build products query
+      $orderBy = 'p.product_id DESC';
+      if ($sort === 'latest') $orderBy = 'p.created_at DESC';
+      if ($sort === 'price_asc') $orderBy = 'p.price ASC';
+      if ($sort === 'price_desc') $orderBy = 'p.price DESC';
+
+      $where = '';
+      if ($selected_category) {
+        $where = 'WHERE p.category_id = ' . intval($selected_category);
+      }
+
+      $sql = "SELECT p.*, c.name AS category_name, pi.file_name AS image_file
+          FROM products p
+          LEFT JOIN categories c ON p.category_id = c.category_id
+          LEFT JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
+          $where
+          ORDER BY $orderBy";
+
+      $products = [];
+      $pres = mysqli_query($con, $sql);
+      if ($pres) {
+        while ($prow = mysqli_fetch_assoc($pres)) {
+          $products[] = $prow;
+        }
+      }
+      ?>
+
+      <section class="product-controls">
+        <form method="GET" class="filters-form">
+          <div class="sort-options">
+            <label for="sort">Sort by:</label>
+            <select id="sort" name="sort" onchange="this.form.submit()">
+              <option value="popular" <?php if($sort==='popular') echo 'selected'; ?>>Popular</option>
+              <option value="latest" <?php if($sort==='latest') echo 'selected'; ?>>Latest</option>
+              <option value="price_asc" <?php if($sort==='price_asc') echo 'selected'; ?>>Price: Low → High</option>
+              <option value="price_desc" <?php if($sort==='price_desc') echo 'selected'; ?>>Price: High → Low</option>
+            </select>
+          </div>
+
+          <div class="category-search">
+            <label for="category">Category:</label>
+            <select id="category" name="category" onchange="this.form.submit()">
+              <option value="">All</option>
+              <?php foreach ($categories as $cat): ?>
+                <option value="<?= $cat['category_id'] ?>" <?php if($selected_category===$cat['category_id']) echo 'selected'; ?>><?= htmlspecialchars($cat['name']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </form>
+      </section>
+
+      <!-- Product Grid Starts Here -->
+      <section class="product-grid">
+        <?php if (empty($products)): ?>
+          <p>No products found.</p>
+        <?php endif; ?>
+
+        <?php foreach ($products as $p): 
+          $img = $p['image_file'] ? '../public/images/products/' . $p['image_file'] : '../public/images/product image.png';
+        ?>
+        <div class="product-card">
+          <img src="<?= $img ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="product-img">
+
+          <div class="product-info">
+            <p class="product-name"><?= htmlspecialchars($p['name']) ?></p>
+            <div class="rating">
+              <span class="star">⭐</span>
+              <span class="rating-value">4.6</span>
             </div>
-
-            <div class="category-search">
-                <h3>Search by:<br><span>Categories</span></h3>
-                    <div class="categories">
-                        <div class="category"><img src="../public/images/product details main pic.png" alt="Flyers"></div>
-                        <div class="category"><img src="../public/images/categories 2.png" alt="Keychains"></div>
-                        <div class="category"><img src="../public/images/categories 3.png" alt="Shirts"></div>
-                    </div>
-            </div>
-        </section>
-
-<!-- Product Grid Starts Here -->
-        <section class="product-grid">
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-            <div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div><div class="product-card">
-                <img src="../public/images/product image.png" alt="Flyers/Brochure" class="product-img">
-
-                <div class="product-info">
-                <p class="product-name">Flyers/brochure<br>Trifold Printing Glossy</p>
-                    <div class="rating">
-                        <span class="star">⭐</span>
-                        <span class="rating-value">4.6</span>
-                    </div>
-                <p class="price">₱17 - ₱22</p>
-                <button class="cart-btn">
-        🛒
-                </button>
-                </div>
-            </div>
-  <!-- Copy the product-card div for more products -->
-        </section>
+            <p class="price">₱<?= number_format($p['price'], 2) ?></p>
+            <p class="category-label"><?= htmlspecialchars($p['category_name'] ?? 'Uncategorized') ?></p>
+            <form method="POST" action="../../backend/add_to_cart.php">
+              <input type="hidden" name="product_id" value="<?= $p['product_id'] ?>" />
+              <input type="hidden" name="quantity" value="1" />
+              <input type="hidden" name="redirect" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" />
+              <button type="submit" class="cart-btn">🛒</button>
+            </form>
+          </div>
+        </div>
+        <?php endforeach; ?>
+      </section>
 
       </section>
 
