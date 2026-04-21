@@ -7,119 +7,139 @@ body {
   overflow-y: scroll;
 }
 #admin-sidebar a#toggled {
-    background-color: #FFFFFF;
-    color: #9A5081;
+  background-color: #ffffff;
+  color: #9a5081;
 }
 #admin-sidebar a#toggled:hover {
-    color: #9A5081;
+  color: #9a5081;
 }
 #admin-sidebar {
-    width: 200px;
-    background-color: #9A5081;
-    color: white;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
+  width: 200px;
+  background-color: #9a5081;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
 }
 #admin-sidebar a {
-    color: white;
-    padding: 15px;
-    text-decoration: none;
-    display: block;
+  color: white;
+  padding: 15px;
+  text-decoration: none;
+  display: block;
 }
 #admin-sidebar a:hover {
-    background-color: #FFFFFF;
-    color: #9A5081;
+  background-color: #ffffff;
+  color: #9a5081;
 }
 #admin-content {
-    margin-left: 200px;
-    padding: 20px;
+  margin-left: 200px;
+  padding: 20px;
 }
 .icon {
-    margin-right: 10px;
-    margin-bottom: 5px;
-    vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  vertical-align: middle;
 }
 #upper-right-accountname {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+#upper-left-logout {
+  position: absolute;
+  top: 20px;
+  left: 220px;
+}
+
+.logout-btn {
+  background-color: #9a5081;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #7a3d65;
 }
 
 h2 {
-    font-family: "Josefin Sans", sans-serif;
-    font-weight: 100;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 100;
 }
 
 p {
-    font-family: "Josefin Sans", sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .account-icon {
-    border-radius: 50%;
-    margin-right: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .total-sales {
-    box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.208);
-    width: 350px;
-    border-radius: 20px;
-    margin-left: 20px;
-    margin-top: 50px;
-    padding-left: 20px;
-    color: #ffffff;
-background-color: #D68CE5;
+  box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.208);
+  width: 350px;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: 50px;
+  padding-left: 20px;
+  color: #ffffff;
+  background-color: #d68ce5;
   display: grid;
   grid-template-columns: 200px 100px; /* Creates two equal-width columns */
 }
 
 .total-sales img {
-    width: 50px;
-    height: 50px;
-    margin-top: 20px;
+  width: 50px;
+  height: 50px;
+  margin-top: 20px;
 }
 
 .subtext {
-    text-align: right;
-    font-size: 13px;
-    color: #ffffff;
+  text-align: right;
+  font-size: 13px;
+  color: #ffffff;
 }
 
 .total-orders {
-   box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.208);
-    width: 350px;
-    border-radius: 20px;
-    margin-left: 20px;
-    margin-top: 50px;
-    padding-left: 20px;
-    color: #000000;
-background-color: #ffffff;
+  box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.208);
+  width: 350px;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: 50px;
+  padding-left: 20px;
+  color: #000000;
+  background-color: #ffffff;
   display: grid;
-  border: #D68CE5 solid 2px;
+  border: #d68ce5 solid 2px;
   grid-template-columns: 200px 100px;
 }
 
 .total-orders img {
-    margin-left: 90px;
-    width: 30px;
-    height: 30px;
-    margin-top: 20px;
+  margin-left: 90px;
+  width: 30px;
+  height: 30px;
+  margin-top: 20px;
 }
 
 .conversion-rate {
-   box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.208);
-    width: 350px;
-    border-radius: 20px;
-    margin-left: 20px;
-    margin-top: 50px;
-    padding-left: 20px;
-     display: grid;
-  border: #D68CE5 solid 2px;
+  box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.208);
+  width: 350px;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: 50px;
+  padding-left: 20px;
+  display: grid;
+  border: #d68ce5 solid 2px;
   grid-template-columns: 200px 100px;
 }
 
@@ -131,7 +151,7 @@ background-color: #ffffff;
 
 .graph {
   background: white;
-  border: 2px solid #D68CE5;
+  border: 2px solid #d68ce5;
   border-radius: 20px;
   padding-left: 20px;
   padding-bottom: 20px;
@@ -155,12 +175,10 @@ background-color: #ffffff;
   gap: 20px;
 }
 
-
-
 .recent-orders {
   flex: 1;
   background: white;
-  border: 2px solid #D68CE5;
+  border: 2px solid #d68ce5;
   border-radius: 20px;
   padding-left: 20px;
   padding-right: 20px;
@@ -170,16 +188,16 @@ background-color: #ffffff;
 }
 
 hr {
-  border-top: 2px solid #D68CE5; 
+  border-top: 2px solid #d68ce5;
 }
 
- .notifications-preview {
+.notifications-preview {
   display: flex;
   flex-direction: column; /* stack items vertically */
   border-radius: 20px;
   padding: 20px;
   background: white;
-  border: 2px solid #D68CE5;
+  border: 2px solid #d68ce5;
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
   margin: 20px;
 }
@@ -192,13 +210,13 @@ hr {
 }
 
 .notifications-preview li::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 6px; /* aligns vertically with text */
   width: 10px;
   height: 10px;
-  background-color: #D68CE5;
+  background-color: #d68ce5;
   border-radius: 50%;
 }
 
@@ -207,7 +225,6 @@ hr {
   padding-left: 0;
   margin: 0;
 }
-
 
 .view-notifs-button img {
   width: 18px;
@@ -231,28 +248,26 @@ hr {
   margin-left: 600px;
 }
 
-.viewNotifsButton a{
+.viewNotifsButton a {
   text-decoration: none;
   color: black;
 }
 
 .to-do-list {
-    background: white;
-    border: 2px solid #D68CE5;
-    border-radius: 20px;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+  background: white;
+  border: 2px solid #d68ce5;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .todolistcontainer {
-    margin-left: 100px;
-    display: flex;
-    gap: 200px;
-   text-align: center;
+  margin-left: 100px;
+  display: flex;
+  gap: 200px;
+  text-align: center;
 }
-
-

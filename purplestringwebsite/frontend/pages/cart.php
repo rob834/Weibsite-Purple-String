@@ -6,6 +6,9 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -85,41 +88,65 @@ if (!isset($_SESSION['user_id'])) {
           <div class="cart-card">
             <h2>My Cart</h2>
             <div class="cart-items">
-              <!-- Sample Product Item -->
-              <div class="cart-item">
-                <img src="../public/images/product image.png" alt="Product" class="item-image" />
-                <div class="item-details">
-                  <h3>Flyers/Brochure</h3>
-                  <p class="price">₱250.00</p>
-                </div>
-                <div class="item-quantity">
-                  <button class="qty-btn">-</button>
-                  <input type="number" value="1" min="1" />
-                  <button class="qty-btn">+</button>
-                </div>
-                <div class="item-total">
-                  <p>₱250.00</p>
-                </div>
-                <button class="remove-btn">Remove</button>
-              </div>
+              <?php
+              include_once __DIR__ . '/../../backend/connection.php';
 
-              <!-- Add more items as needed -->
-              <div class="cart-item">
-                <img src="../public/images/product image.png" alt="Product" class="item-image" />
-                <div class="item-details">
-                  <h3>Custom Keychain</h3>
-                  <p class="price">₱150.00</p>
-                </div>
-                <div class="item-quantity">
-                  <button class="qty-btn">-</button>
-                  <input type="number" value="2" min="1" />
-                  <button class="qty-btn">+</button>
-                </div>
-                <div class="item-total">
-                  <p>₱300.00</p>
-                </div>
-                <button class="remove-btn">Remove</button>
-              </div>
+              $cart = $_SESSION['cart'] ?? [];
+              $subtotal = 0.0;
+
+              if (empty($cart)) {
+                  echo '<p>Your cart is empty.</p>';
+              } else {
+                  // Fetch product data for items in cart
+                  $ids = array_keys($cart);
+                  $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                  $types = str_repeat('i', count($ids));
+                  $stmt = mysqli_prepare($con, "SELECT product_id, name, price FROM products WHERE product_id IN ($placeholders)");
+                  mysqli_stmt_bind_param($stmt, $types, ...$ids);
+                  mysqli_stmt_execute($stmt);
+                  $res = mysqli_stmt_get_result($stmt);
+                  $products_map = [];
+                  while ($row = mysqli_fetch_assoc($res)) {
+                      $products_map[$row['product_id']] = $row;
+                  }
+                  mysqli_stmt_close($stmt);
+
+                  foreach ($cart as $pid => $qty) {
+                      if (!isset($products_map[$pid])) continue;
+                      $prod = $products_map[$pid];
+                      $line_total = floatval($prod['price']) * intval($qty);
+                      $subtotal += $line_total;
+                      $img = '../public/images/products/';
+                      // attempt to find primary image
+                      $imgres = mysqli_query($con, "SELECT file_name FROM product_images WHERE product_id = " . intval($pid) . " AND is_primary = 1 LIMIT 1");
+                      $imgfile = ($imgres && mysqli_num_rows($imgres)) ? mysqli_fetch_assoc($imgres)['file_name'] : 'product image.png';
+                      $imgsrc = $img . $imgfile;
+                      ?>
+                      <div class="cart-item">
+                        <img src="<?= $imgsrc ?>" alt="<?= htmlspecialchars($prod['name']) ?>" class="item-image" />
+                        <div class="item-details">
+                          <h3><?= htmlspecialchars($prod['name']) ?></h3>
+                          <p class="price">₱<?= number_format($prod['price'], 2) ?></p>
+                        </div>
+                        <div class="item-quantity">
+                          <form method="POST" action="../../backend/update_cart.php">
+                            <input type="hidden" name="product_id" value="<?= $pid ?>" />
+                            <input type="number" name="quantity" value="<?= intval($qty) ?>" min="0" />
+                            <button type="submit">Update</button>
+                          </form>
+                        </div>
+                        <div class="item-total">
+                          <p>₱<?= number_format($line_total, 2) ?></p>
+                        </div>
+                        <form method="POST" action="../../backend/remove_from_cart.php">
+                          <input type="hidden" name="product_id" value="<?= $pid ?>" />
+                          <button class="remove-btn" type="submit">Remove</button>
+                        </form>
+                      </div>
+                      <?php
+                  }
+              }
+              ?>
             </div>
           </div>
 
@@ -129,19 +156,21 @@ if (!isset($_SESSION['user_id'])) {
             <div class="order-details">
               <div class="order-row">
                 <span>Subtotal:</span>
-                <span class="amount">₱550.00</span>
+                <span class="amount">₱<?= number_format($subtotal, 2) ?></span>
               </div>
               <div class="order-row">
                 <span>Shipping:</span>
-                <span class="amount">₱50.00</span>
+                <?php $shipping = ($subtotal > 0) ? 50.00 : 0.00; ?>
+                <span class="amount">₱<?= number_format($shipping, 2) ?></span>
               </div>
               <div class="order-row">
                 <span>Tax:</span>
-                <span class="amount">₱44.00</span>
+                <?php $tax = $subtotal * 0.08; ?>
+                <span class="amount">₱<?= number_format($tax, 2) ?></span>
               </div>
               <div class="order-row total">
                 <span>Total:</span>
-                <span class="amount total-amount">₱644.00</span>
+                <span class="amount total-amount">₱<?= number_format($subtotal + $shipping + $tax, 2) ?></span>
               </div>
             </div>
             <a href="checkout.php" class="checkout-btn">Proceed to Checkout</a>
