@@ -30,8 +30,14 @@ session_start();
 					{
 
 						$_SESSION['user_id'] = $user_data['user_id'];
-						header("Location: /Weibsite-Purple-String/index.php");
+            $_SESSION['role'] = $user['role']; 
+
+            if ($user['role'] === 'admin') {
+              header("Location: /Weibsite-Purple-String/admin-homepage.php");
+            } else {
+            header("Location: /Weibsite-Purple-String/index.php");
 						die;
+            }
 					}
 				}
 			}
