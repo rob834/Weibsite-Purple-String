@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+        header("Location: /Weibsite-Purple-String/login.php");
+    exit();
+}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -37,12 +45,12 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="cart.html"
+            <a href="cart.php"
               ><img src="../public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="profile.html"
+            <a href="profile.php"
               ><img src="../public/images/profile icon.png"
             /></a>
           </div>
@@ -50,17 +58,17 @@
 
         <div id="menubar">
           <a
-            href="../index.html"
+            href="/Weibsite-Purple-String/index.php"
             class="menubutton"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           >
           <a
-            href="../pages/contacts.html"
+            href="../pages/contacts.php"
             class="menubutton"
             >Contacts</a
           >
@@ -275,8 +283,8 @@
           var buttons = document.querySelectorAll('.add-to-cart-btn');
           buttons.forEach(function (b) {
             b.addEventListener('click', function () {
-              // products.html is in the same folder as checkout.html
-              window.location.href = 'products.html';
+              // products.php is in the same folder as checkout.php
+              window.location.href = 'products.php';
             });
           });
         })();
