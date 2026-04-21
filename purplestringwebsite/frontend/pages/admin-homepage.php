@@ -37,6 +37,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         </p>
     </div>
     <div id="admin-content">
+        <div id="upper-left-logout">
+            <a href="/Weibsite-Purple-String/logout.php" class="logout-btn">Logout</a>
+        </div>
         <div id="upper-right-accountname">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
             <span>Seller Name</span>
