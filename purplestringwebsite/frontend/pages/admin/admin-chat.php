@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        header("Location: /Weibsite-Purple-String/login.php");
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +24,11 @@
     <div id="admin-sidebar">
         <img src="../../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
-            <a href="../admin-homepage.html"><img src="../../public/images/admin/dashboard icon.png" class="icon">Dashboard</a>
-            <a href="admin-products.html"><img src="../../public/images/admin/products icon.png" class="icon">Products</a>
-            <a href="admin-customers.html"><img src="../../public/images/admin/customers icon.png" class="icon">Customers</a>
-            <a id="toggled" href="admin-chat.html"><img src="../../public/images/admin/chats icon-toggled.png" class="icon">Chat</a>
-            <a href="admin-notification.html"><img src="../../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
+            <a href="../admin-homepage.php"><img src="../../public/images/admin/dashboard icon.png" class="icon">Dashboard</a>
+            <a href="admin-products.php"><img src="../../public/images/admin/products icon.png" class="icon">Products</a>
+            <a href="admin-customers.php"><img src="../../public/images/admin/customers icon.png" class="icon">Customers</a>
+            <a id="toggled" href="admin-chat.php"><img src="../../public/images/admin/chats icon-toggled.png" class="icon">Chat</a>
+            <a href="admin-notification.php"><img src="../../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
     <div id="admin-content">
@@ -31,7 +41,7 @@
     <aside class="sidebar">
         <h2>Messages</h2>
         <ul class="chat-list">
-        <li><img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="avatar-small"><b>Ryan Gossling Santos</b></li>
+        <li id="selected-chat" ><img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="avatar-small" >Ryan Gossling Santos</li>
         <li><img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="avatar-small">Ryan Gossling Santos</li>
         <li><img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="avatar-small">Ryan Gossling Santos</li>
         <li><img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="avatar-small">Ryan Gossling Santos</li>
