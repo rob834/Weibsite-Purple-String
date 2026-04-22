@@ -1,3 +1,56 @@
+<?php 
+
+session_start();
+
+	include("purplestringwebsite/backend/connection.php");
+	include("purplestringwebsite/backend/functions.php");
+
+
+	if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST")
+	{
+		//something was posted
+		$user_name = $_POST['user_name'];
+		$password = $_POST['password'];
+
+		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
+		{
+
+			//read from database
+			$query = "select * from users where user_name = '$user_name' limit 1";
+			$result = mysqli_query($con, $query);
+
+			if($result)
+			{
+				if($result && mysqli_num_rows($result) > 0)
+				{
+
+					$user_data = mysqli_fetch_assoc($result);
+					
+					if($user_data['password'] === $password)
+					{
+
+						$_SESSION['user_id'] = $user_data['user_id'];
+            $_SESSION['role'] = $user_data['role']; 
+
+            if ($user_data['role'] === 'admin') {
+              header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
+            } else {
+            header("Location: index.php");
+						die;
+            }
+					}
+				}
+			}
+			
+			echo "wrong username or password!";
+		}else
+		{
+			echo "wrong username or password!";
+		}
+	}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,10 +61,10 @@
     <title>Purple String - Login</title>
     <link
       rel="stylesheet"
-      href="./css/homepage.css" />
+      href="purplestringwebsite/frontend/css/homepage.css" />
     <link
       rel="stylesheet"
-      href="./css/login.css" />
+      href="purplestringwebsite/frontend/css/login.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -26,14 +79,14 @@
               <p>Sign in to your Purple String account</p>
             </div>
             
-            <form id="login-form">
+            <form method="POST" action="" id="login-form">
               <div class="form-group">
-                <label for="email">Email Address</label>
+                <label for="user_name">Username</label>
                 <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="you@example.com"
+                  type="text" 
+                  id="user_name" 
+                  name="user_name" 
+                  placeholder="Enter your username"
                   required />
               </div>
 
@@ -55,7 +108,7 @@
                 <a href="#" class="forgot-password">Forgot Password?</a>
               </div>
 
-              <button type="submit" class="login-btn">Sign In</button>
+              <button type="submit" value="Login" class="login-btn">Log In</button>
             </form>
 
             <div class="divider">OR</div>
@@ -68,7 +121,7 @@
             </button>
 
             <div id="signup-link">
-              Don't have an account? <a href="./pages/signup.html">Create one here</a>
+              Don't have an account? <a href="/Weibsite-Purple-String/signup.php">Create one here</a>
             </div>
           </div>
 
@@ -81,6 +134,6 @@
       </div>
     </div>
 
-    <script src="./js/login.js"></script>
+    <!-- <script src="./js/login.js"></!--> -->
   </body>
 </html>

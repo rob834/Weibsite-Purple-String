@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        header("Location: /Weibsite-Purple-String/login.php");
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,14 +29,17 @@
     <div id="admin-sidebar">
         <img src="../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
-            <a id="toggled" href="admin-homepage.html"><img src="../public/images/admin/dashboard icon-toggled.png" class="icon"><b>Dashboard</b></a>
-            <a href="admin/admin-products.html"><img src="../public/images/admin/products icon.png" class="icon">Products</a>
-            <a href="admin/admin-customers.html"><img src="../public/images/admin/customers icon.png" class="icon">Customers</a>
-            <a href="admin/admin-chat.html"><img src="../public/images/admin/chats icon.png" class="icon">Chat</a>
-            <a href="admin/admin-notification.html"><img src="../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
+            <a id="toggled" href="admin-homepage.php"><img src="../public/images/admin/dashboard icon-toggled.png" class="icon"><b>Dashboard</b></a>
+            <a href="admin/admin-products.php"><img src="../public/images/admin/products icon.png" class="icon">Products</a>
+            <a href="admin/admin-customers.php"><img src="../public/images/admin/customers icon.png" class="icon">Customers</a>
+            <a href="admin/admin-chat.php"><img src="../public/images/admin/chats icon.png" class="icon">Chat</a>
+            <a href="admin/admin-notification.php"><img src="../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
     <div id="admin-content">
+        <div id="upper-left-logout">
+            <a href="/Weibsite-Purple-String/logout.php" class="logout-btn">Logout</a>
+        </div>
         <div id="upper-right-accountname">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
             <span>Seller Name</span>
@@ -69,11 +83,11 @@
         <h2>Sales Analytic</h2>
         <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
         <script>
-const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-const yValues = [55, 49, 44, 24, 15];
-const barColors = ["red", "green","blue","orange","brown"];
+           const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+            const yValues = [55, 49, 44, 24, 15];
+            const barColors = ["red", "green","blue","orange","brown"];
 
-const ctx = document.getElementById('myChart');
+            const ctx = document.getElementById('myChart');
 
 new Chart(ctx, {
   type: "bar",
@@ -88,7 +102,7 @@ new Chart(ctx, {
     plugins: {
       legend: {display: false},
       title: {
-        display: true,
+        display: false,
         text: "World Wine Production 2018",
         font: {size: 16}
       }
@@ -100,11 +114,14 @@ new Chart(ctx, {
     </div>
 
        <div class="notifications-preview">
-
+<div class="viewNotifsButton">
+    <a href="/purplestringwebsite/frontend/pages/admin/admin-notification.php">
     <div class="view-notifs-button">
         <img src="/purplestringwebsite/frontend/public/images/view notifications icon admin.png" alt="">
         <p>view notifications</p>
     </div>
+    </a>
+</div>
 
     <ul>
         <li><p>Product out for shipment</p></li>
