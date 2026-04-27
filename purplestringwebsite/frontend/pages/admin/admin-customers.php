@@ -50,61 +50,77 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <div class="col-date">Date</div>
     </div>
 
-    <div class="order-row">
-        <div class="col-icon"><span class="delete-btn"><img src="../../public/images/admin/delete-btn.png" alt="Delete Icon"></span></div>
+    <?php
+    // load clients from backend JSON (clients pushed by checkout flow)
+    include_once __DIR__ . '/../../../backend/admin_clients_storage.php';
+    $clients = read_clients();
+    if (empty($clients)) {
+        echo '<div class="order-row"><div class="col-customer">No clients found</div></div>';
+    }
+    foreach ($clients as $client) {
+        $id = htmlspecialchars($client['id']);
+        $name = htmlspecialchars($client['name'] ?? 'Unknown');
+        $total = htmlspecialchars($client['total'] ?? '₱0');
+        $date = htmlspecialchars($client['date'] ?? '');
+        $status = htmlspecialchars($client['status'] ?? 'Pending');
+        $avatar = htmlspecialchars($client['avatar'] ?? '../../public/images/admin/account_profile.png');
+    ?>
+    <div class="order-row" data-client-id="<?= $id ?>">
+        <div class="col-icon"><button class="delete-btn" data-client-id="<?= $id ?>"><img src="../../public/images/admin/delete-btn.png" alt="Delete Icon"></button></div>
         <div class="col-customer">
-            <div class="user-avatar"><img src="../../public/images/admin/account_profile.png" alt="User Avatar"></div>
-            Ryan Gossling Santos
+            <div class="user-avatar"><img src="<?= $avatar ?>" alt="User Avatar"></div>
+            <?= $name ?>
         </div>
-        <div class="col-status"><span class="badge paid-yellow">Paid</span></div>
-        <div class="col-total">₱1,000.00</div>
-        <div class="col-date">Mar 18</div>
-    </div>
-
-    <div class="order-row">
-        <div class="col-icon"><span class="delete-btn"><img src="../../public/images/admin/delete-btn.png" alt="Delete Icon"></span></div>
-        <div class="col-customer">
-            <div class="user-avatar"><img src="../../public/images/admin/account_profile.png" alt="User Avatar"></div>
-            Ryan Gossling Santos
+        <div class="col-status">
+            <select class="status-select" data-client-id="<?= $id ?>">
+                <?php
+                $options = ['Pending','Processing','Shipping','Completed','Returned','Cancelled'];
+                foreach ($options as $opt) {
+                    $sel = $opt === $status ? 'selected' : '';
+                    echo "<option value=\"$opt\" $sel>$opt</option>";
+                }
+                ?>
+            </select>
         </div>
-        <div class="col-status"><span class="badge completed">Completed</span></div>
-        <div class="col-total">₱1,000.00</div>
-        <div class="col-date">Mar 18</div>
+        <div class="col-total"><?= $total ?></div>
+        <div class="col-date"><?= $date ?></div>
     </div>
-
-    <div class="order-row">
-        <div class="col-icon"><span class="delete-btn"><img src="../../public/images/admin/delete-btn.png" alt="Delete Icon"></span></div>
-        <div class="col-customer">
-            <div class="user-avatar"><img src="../../public/images/admin/account_profile.png" alt="User Avatar"></div>
-            Ryan Gossling Santos
-        </div>
-        <div class="col-status"><span class="badge delivering">Delivering</span></div>
-        <div class="col-total">₱1,000.00</div>
-        <div class="col-date">Mar 18</div>
-    </div>
-
-    <div class="order-row">
-        <div class="col-icon"><span class="delete-btn"><img src="../../public/images/admin/delete-btn.png" alt="Delete Icon"></span></div>
-        <div class="col-customer">
-            <div class="user-avatar"><img src="../../public/images/admin/account_profile.png" alt="User Avatar"></div>
-            Ryan Gossling Santos
-        </div>
-        <div class="col-status"><span class="badge cancelled">Cancelled Order</span></div>
-        <div class="col-total">₱1,000.00</div>
-        <div class="col-date">Mar 18</div>
-    </div>
-
-    <div class="order-row">
-        <div class="col-icon"><span class="delete-btn"><img src="../../public/images/admin/delete-btn.png" alt="Delete Icon"></span></div>
-        <div class="col-customer">
-            <div class="user-avatar"><img src="../../public/images/admin/account_profile.png" alt="User Avatar"></div>
-            Ryan Gossling Santos
-        </div>
-        <div class="col-status"><span class="badge paid-green">Paid</span></div>
-        <div class="col-total">₱1,000.00</div>
-        <div class="col-date">Mar 18</div>
-    </div>
+    <?php } ?>
 </div>
     </div>
+    <script>
+    (function(){
+        function postForm(url, data){
+            return fetch(url, { method: 'POST', body: data, credentials: 'same-origin' }).then(r=>r.json());
+        }
+
+        document.querySelectorAll('.status-select').forEach(function(sel){
+            sel.addEventListener('change', function(){
+                var clientId = this.dataset.clientId;
+                var fd = new FormData(); fd.append('client_id', clientId); fd.append('status', this.value);
+                postForm('../../../backend/admin_update_client.php', fd).then(function(resp){
+                    if (!resp.ok && resp.error) alert('Update failed: '+resp.error);
+                }).catch(function(){ alert('Update failed'); });
+            });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(function(btn){
+            btn.addEventListener('click', function(e){
+                var id = this.dataset.clientId || this.getAttribute('data-client-id');
+                if (!id) return;
+                if (!confirm('Delete this client from the list?')) return;
+                var fd = new FormData(); fd.append('client_id', id);
+                postForm('../../../backend/admin_delete_client.php', fd).then(function(resp){
+                    if (resp.ok) {
+                        var row = document.querySelector('.order-row[data-client-id="'+id+'"]');
+                        if (row) row.remove();
+                    } else {
+                        alert('Delete failed');
+                    }
+                }).catch(function(){ alert('Delete failed'); });
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
