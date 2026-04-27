@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-        header("Location: /Weibsite-Purple-String/login.php");
+        header("Location: ../../../login.php");
     exit();
 }
 
@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </div>
     <div id="admin-content">
         <div id="upper-left-logout">
-            <a href="/Weibsite-Purple-String/logout.php" class="logout-btn">Logout</a>
+            <a href="../../../logout.php" class="logout-btn">Logout</a>
         </div>
         <div id="upper-right-accountname">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
@@ -64,7 +64,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <h2>3,800</h2>
     </div>
 
-    <img class="order-icon" src="/purplestringwebsite/frontend/public/images/products icon in admin.png" alt="products icon">
+    <img class="order-icon" src="../public/images/products icon in admin.png" alt="products icon">
 </div>
 
     <div class="conversion-rate">
@@ -114,10 +114,10 @@ new Chart(ctx, {
     </div>
 
        <div class="notifications-preview">
-<div class="viewNotifsButton">
-    <a href="/purplestringwebsite/frontend/pages/admin/admin-notification.php">
+    <div class="viewNotifsButton">
+    <a href="admin/admin-notification.php">
     <div class="view-notifs-button">
-        <img src="/purplestringwebsite/frontend/public/images/view notifications icon admin.png" alt="">
+        <img src="../public/images/view notifications icon admin.png" alt="">
         <p>view notifications</p>
     </div>
     </a>
