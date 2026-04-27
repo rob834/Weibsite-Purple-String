@@ -60,10 +60,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
                     ORDER BY p.product_id DESC";
 
                 $products = [];
-                $res = mysqli_query($con, $sql);
-                if ($res) {
-                    while ($row = mysqli_fetch_assoc($res)) {
-                        $products[] = $row;
+
+                $con = get_db_connection();
+                if (!$con) {
+                    echo '<p>Database unavailable. Please try again later.</p>';
+                } else {
+                    try {
+                        $res = mysqli_query($con, $sql);
+                    } catch (mysqli_sql_exception $e) {
+                        error_log('DB query error on admin-products: ' . $e->getMessage());
+                        $res = false;
+                    }
+
+                    if ($res) {
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            $products[] = $row;
+                        }
                     }
                 }
 
