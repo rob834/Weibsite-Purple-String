@@ -33,6 +33,26 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,500;1,500&display=swap"
       rel="stylesheet" />
 
+  <?php
+  include_once __DIR__ . '/../../../backend/connection.php';
+  if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  }
+
+  $product = null;
+  $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+  if ($product_id > 0) {
+    $pstmt = mysqli_prepare($con, "SELECT p.*, c.name AS category_name, pi.file_name AS image_file FROM products p LEFT JOIN categories c ON p.category_id = c.category_id LEFT JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1 WHERE p.product_id = ? LIMIT 1");
+    mysqli_stmt_bind_param($pstmt, 'i', $product_id);
+    mysqli_stmt_execute($pstmt);
+    $res = mysqli_stmt_get_result($pstmt);
+    if ($res) {
+      $product = mysqli_fetch_assoc($res);
+    }
+    mysqli_stmt_close($pstmt);
+  }
+  ?>
+
     <div id="admin-sidebar">
       <img
         src="../../public/images/admin/companylogo.png"
@@ -90,36 +110,38 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <button type="button">Change Photos</button>
           </div>
         </div>
-        <form id="edit-product-form">
+        <form id="edit-product-form" method="POST" action="../../../backend/update_product.php" enctype="multipart/form-data">
+          <input type="hidden" name="product_id" value="<?= $product_id ?>" />
+          <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
           <label for="product-name">Product Name:</label>
           <input
             type="text"
             id="product-name"
-            name="product-name"
-            value="Example Product Name"
+            name="name"
+            value="<?= htmlspecialchars($product['name'] ?? '') ?>"
             required />
         <label for="product-price">Price:</label>
           <input
             type="number"
             id="product-price"
-            name="product-price"
-            value="19.99"
+            name="price"
+            value="<?= isset($product['price']) ? number_format($product['price'], 2, '.', '') : '' ?>"
             step="0.01"
             required />
           <label for="product-description">Description:</label>
           <textarea
             id="product-description"
-            name="product-description"
+            name="description"
             rows="6"
             cols="70"
-            required>
-Example product description goes here.</textarea>
-          <button
-            type="button"
-            id="delete-product-btn">
-            Delete Product
-          </button>
-          <button type="submit"><a href="admin-products.php">Save Changes</a></button>
+            required><?= htmlspecialchars($product['description'] ?? '') ?></textarea>
+          <label for="product-stock">Stock:</label>
+          <input type="number" id="product-stock" name="stock" value="<?= intval($product['stock'] ?? 0) ?>" />
+          <label for="product-category">Category (name):</label>
+          <input type="text" id="product-category" name="category" value="<?= htmlspecialchars($product['category_name'] ?? '') ?>" />
+          <label for="product-images">Change Photos:</label>
+          <input type="file" id="product-images" name="images[]" accept="image/*" multiple />
+          <button type="submit">Save Changes</button>
         </form>
       </div>
       <div class="popout-card">
