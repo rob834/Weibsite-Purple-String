@@ -4,7 +4,7 @@ session_start();
 include_once __DIR__ . "/connection.php";
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: /Weibsite-Purple-String/login.php");
+    header("Location: ../../login.php");
     exit();
 }
 

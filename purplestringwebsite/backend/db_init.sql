@@ -31,3 +31,17 @@ CREATE TABLE IF NOT EXISTS product_images (
   INDEX(product_id),
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- Ratings for products: one row per user per product (users can update their rating)
+CREATE TABLE IF NOT EXISTS product_ratings (
+  rating_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  user_id INT DEFAULT NULL,
+  rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX(product_id),
+  INDEX(user_id),
+  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+) ENGINE=InnoDB;
