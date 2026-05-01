@@ -96,153 +96,175 @@ if (!isset($_SESSION['user_id'])) {
       </section>
 
       <section id="content">
-        <!-- Logistics Section -->
         <div class="logistics-section">
           <h1>Logistics</h1>
 
-          <!-- Invoice Receipt Card -->
-          <div class="invoice-card">
-            <!-- Left Side: Invoice Details -->
-            <div class="invoice-left">
-              <div class="invoice-header">
-                <h2>Invoice Receipt</h2>
-                <p class="email-note">Receipt sent to your email</p>
-              </div>
+            <?php
+              include_once __DIR__ . '/../../backend/connection.php';
 
-              <div class="customer-info">
-                <div class="info-group">
-                  <label>Customer Name</label>
-                  <p>Maria Santos</p>
-                </div>
-                <div class="info-group">
-                  <label>Contact Number</label>
-                  <p>+63 900 123 4567</p>
-                </div>
-                <div class="info-group">
-                  <label>Delivery Address</label>
-                  <p>123 Flower Street, Manila, Philippines 1000</p>
-                </div>
-              </div>
-            </div>
+                $order      = null;
+                $order_items = [];
 
-            <!-- Separator Line -->
-            <div class="invoice-separator"></div>
+              if (isset($_SESSION['last_order_id'])) {
+                $oid = intval($_SESSION['last_order_id']);
 
-            <!-- Right Side: Order Processing Status -->
-            <div class="invoice-right">
-              <div class="order-status-header">
-                <h2>Your Order is Processed</h2>
-              </div>
+                 // JOIN on users.user_id (bigint) — use your actual column names
+                 $ostmt = mysqli_prepare($con,
+            "SELECT o.*,
+                    u.user_name, u.display_name, u.phone, u.address, u.avatar
+             FROM orders o
+             JOIN users u ON u.user_id = o.user_id
+             WHERE o.order_id = ?
+             LIMIT 1"
+        );
+        mysqli_stmt_bind_param($ostmt, 'i', $oid);
+        mysqli_stmt_execute($ostmt);
+        $ores  = mysqli_stmt_get_result($ostmt);
+        $order = mysqli_fetch_assoc($ores);
+        mysqli_stmt_close($ostmt);
 
-              <div class="order-timeline">
-                <div class="timeline-item completed">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="timeline-title">Order Confirmed</p>
-                    <p class="timeline-date">November 11, 2025</p>
-                  </div>
-                </div>
+        // Fetch items
+        $istmt = mysqli_prepare($con,
+            "SELECT oi.*, p.name
+             FROM order_items oi
+             JOIN products p ON p.product_id = oi.product_id
+             WHERE oi.order_id = ?"
+        );
+        mysqli_stmt_bind_param($istmt, 'i', $oid);
+        mysqli_stmt_execute($istmt);
+        $ires = mysqli_stmt_get_result($istmt);
+        while ($irow = mysqli_fetch_assoc($ires)) {
+            $order_items[] = $irow;
+        }
+        mysqli_stmt_close($istmt);
+    }
 
-                <div class="timeline-item completed">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="timeline-title">Payment Verified</p>
-                    <p class="timeline-date">November 11, 2025</p>
-                  </div>
-                </div>
+    // display_name takes priority over user_name
+    $display = $order
+        ? (($order['display_name'] ?? '') ?: $order['user_name'])
+        : '';
+    ?>
 
-                <div class="timeline-item active">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="timeline-title">Being Packaged</p>
-                    <p class="timeline-date">In Progress</p>
-                  </div>
-                </div>
+    <?php if (!$order): ?>
+      <p style="padding:2rem;">No recent order found. <a href="products.php">Continue shopping</a>.</p>
+    <?php else: ?>
 
-                <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="timeline-title">Out for Delivery</p>
-                    <p class="timeline-date">Pending</p>
-                  </div>
-                </div>
+    <div class="invoice-card">
 
-                <div class="timeline-item">
-                  <div class="timeline-dot"></div>
-                  <div class="timeline-content">
-                    <p class="timeline-title">Delivered</p>
-                    <p class="timeline-date">Pending</p>
-                  </div>
-                </div>
-              </div>
+      <!-- LEFT: Invoice details -->
+      <div class="invoice-left">
+        <div class="invoice-header">
+          <h2>Invoice Receipt</h2>
+          <p class="email-note">Order #<?= $order['order_id'] ?> — <?= date('F j, Y', strtotime($order['created_at'])) ?></p>
+        </div>
 
-              <div class="tracking-history">
-                <h3>Tracking History</h3>
-                <div class="tracking-item">
-                  <span class="track-time">11:30 AM</span>
-                  <span class="track-status"
-                    >Order confirmed and processing started</span
-                  >
-                </div>
-                <div class="tracking-item">
-                  <span class="track-time">2:15 PM</span>
-                  <span class="track-status"
-                    >Payment verified successfully</span
-                  >
-                </div>
-                <div class="tracking-item">
-                  <span class="track-time">3:45 PM</span>
-                  <span class="track-status"
-                    >Items being packed for shipment</span
-                  >
-                </div>
-              </div>
-            </div>
+        <div class="customer-info">
+          <div class="info-group">
+            <label>Customer Name</label>
+            <p><?= htmlspecialchars($display) ?></p>
           </div>
-
-          <!-- Continue Shopping Section -->
-          <div class="continue-shopping">
-            <h2>Continue Shopping</h2>
-            <div class="products-grid">
-              <div class="product-card">
-                <img
-                  src="../public/images/product image.png"
-                  alt="Flyers" />
-                <h3>Flyers/Brochure</h3>
-                <p class="product-price">₱250.00</p>
-                <button class="add-to-cart-btn">View more</button>
-              </div>
-
-              <div class="product-card">
-                <img
-                  src="../public/images/categories 2.png"
-                  alt="Keychain" />
-                <h3>Custom Keychain</h3>
-                <p class="product-price">₱150.00</p>
-                <button class="add-to-cart-btn">View more</button>
-              </div>
-
-              <div class="product-card">
-                <img
-                  src="../public/images/categories 3.png"
-                  alt="Shirt" />
-                <h3>Custom Shirt</h3>
-                <p class="product-price">₱350.00</p>
-                <button class="add-to-cart-btn">View more</button>
-              </div>
-
-              <div class="product-card">
-                <img
-                  src="../public/images/product image.png"
-                  alt="Crochet" />
-                <h3>Crochet Item</h3>
-                <p class="product-price">₱200.00</p>
-                <button class="add-to-cart-btn">View more</button>
-              </div>
-            </div>
+          <div class="info-group">
+            <label>Contact Number</label>
+            <p><?= htmlspecialchars($order['phone'] ?? 'Not provided') ?></p>
+          </div>
+          <div class="info-group">
+            <label>Delivery Address</label>
+            <p><?= htmlspecialchars($order['address'] ?? 'Not provided') ?></p>
+          </div>
+          <div class="info-group">
+            <label>Items Ordered</label>
+            <ul style="margin:0;padding-left:1rem;">
+              <?php foreach ($order_items as $item): ?>
+                <li>
+                  <?= htmlspecialchars($item['name']) ?>
+                  &times; <?= intval($item['quantity']) ?>
+                  — ₱<?= number_format($item['unit_price'] * $item['quantity'], 2) ?>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+          <div class="info-group">
+            <label>Order Total</label>
+            <p><strong>₱<?= number_format($order['total'], 2) ?></strong></p>
           </div>
         </div>
-      </section>
+      </div>
+
+      <div class="invoice-separator"></div>
+
+      <!-- RIGHT: Status timeline -->
+      <div class="invoice-right">
+        <div class="order-status-header">
+          <h2>Your Order is Processed</h2>
+        </div>
+
+        <?php
+        $statuses  = ['pending', 'paid', 'delivering', 'completed'];
+        $cur_index = array_search($order['status'], $statuses);
+        if ($cur_index === false) $cur_index = 0;
+        $labels = [
+            'Order Confirmed',
+            'Payment Verified',
+            'Out for Delivery',
+            'Delivered',
+        ];
+        ?>
+
+        <div class="order-timeline">
+          <?php foreach ($labels as $i => $label): ?>
+            <?php
+              $cls = '';
+              if ($i < $cur_index)      $cls = 'completed';
+              elseif ($i === $cur_index) $cls = 'active';
+            ?>
+            <div class="timeline-item <?= $cls ?>">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <p class="timeline-title"><?= $label ?></p>
+                <p class="timeline-date">
+                  <?= $i <= $cur_index
+                      ? date('F j, Y', strtotime($order['created_at']))
+                      : 'Pending' ?>
+                </p>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+
+        <div class="tracking-history">
+          <h3>Order Summary</h3>
+          <div class="tracking-item">
+            <span class="track-time">Subtotal</span>
+            <span class="track-status">₱<?= number_format($order['subtotal'], 2) ?></span>
+          </div>
+          <div class="tracking-item">
+            <span class="track-time">Shipping</span>
+            <span class="track-status">₱<?= number_format($order['shipping'], 2) ?></span>
+          </div>
+          <div class="tracking-item">
+            <span class="track-time">Tax (8%)</span>
+            <span class="track-status">₱<?= number_format($order['tax'], 2) ?></span>
+          </div>
+          <div class="tracking-item" style="font-weight:bold;">
+            <span class="track-time">Total</span>
+            <span class="track-status">₱<?= number_format($order['total'], 2) ?></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <?php endif; ?>
+
+    <!-- Continue Shopping — keep your existing product cards here -->
+    <div class="continue-shopping">
+      <h2>Continue Shopping</h2>
+      <div class="products-grid">
+        <!-- your existing product cards unchanged -->
+      </div>
+    </div>
+
+  </div>
+</section>
 
       <footer id="footer">
         <div id="footer-content">
