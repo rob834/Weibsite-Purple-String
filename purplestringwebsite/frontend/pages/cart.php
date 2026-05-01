@@ -186,7 +186,11 @@ if (!isset($_SESSION['user_id'])) {
                 <span class="amount total-amount">₱<?= number_format($subtotal + $shipping + $tax, 2) ?></span>
               </div>
             </div>
-            <a href="checkout.php" class="checkout-btn">Proceed to Checkout</a>
+            <form method="POST" action="../../backend/place_order.php">
+              <button type="submit" class="checkout-btn" <?= empty($cart) ? 'disabled' : '' ?>>
+                Proceed to Checkout
+              </button>
+            </form>
           </div>
         </div>
       </section>
