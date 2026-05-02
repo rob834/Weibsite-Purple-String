@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+  header("Location: ../../../../login.php");
+    exit();
+}
+
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -52,105 +63,58 @@
           class="account-icon" />
         <span>Seller Name</span>
       </div>
+
       <div id="add-product-card">
-        <div class="left-section">
-          <h2>Add New Product</h2>
+        <form id="add-product-form" method="POST" action="../../../backend/add_product.php" enctype="multipart/form-data">
+          <div class="left-section">
+            <h2>Add New Product</h2>
 
-          <div class="dropbox-container">
-            <label for="image-upload">Upload Images</label>
-            <input
-              type="file"
-              id="image-upload"
-              name="image-upload"
-              accept="image/*"
-              multiple
-              class="dropbox"/>
+            <div class="dropbox-container">
+              <label for="images">Upload Images</label>
+              <input
+                type="file"
+                id="images"
+                name="images[]"
+                accept="image/*"
+                multiple
+                class="dropbox"/>
+            </div>
+            <small>Add up to 7 images (JPG, PNG)</small>
+
+            <div class="dropbox-container">
+              <label for="video">Upload Video (optional)</label>
+              <input
+                type="file"
+                id="video"
+                name="video"
+                accept="video/mp4"
+                class="dropbox"/>
+            </div>
+            <small>Max size: 30MB | Format: mp4</small>
+
+            <button type="submit" class="save-btn">Save Product</button>
+            <a href="admin-products.php" class="cancel-link">Cancel</a>
           </div>
-          <small>Add up to (0/7) images (JPG, PNG)</small>
 
-          <div class="dropbox-container">
-            <label for="video-upload">Upload Video</label>
-            <input
-              type="file"
-              id="video-upload"
-              name="video-upload"
-              accept="video/*"
-              class="dropbox"/>
+          <div class="right-section">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="6" required></textarea>
+
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required />
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" value="0" />
+
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" />
           </div>
-          <small>Max size: 30MB | Duration: 10s–60s | Format: mp4</small>
-
-          <button
-            type="button"
-            id="delete-product-btn">
-            Delete Product
-          </button>
-          <button type="submit">
-            <a href="admin-products.php">Save Changes</a>
-          </button>
-          
-        </div>
-        <form id="edit-product-form">
-          <label for="product-name">Product Name:</label>
-          <input
-            type="text"
-            id="product-name"
-            name="product-name"
-            value="Example Product Name"
-            required/>
-
-          <label for="product-description"> Description: </label>
-          <textarea
-            id="product-description"
-            name="product-description"
-            rows="4"
-            cols="70"
-            required>
-            Example product description goes here.</textarea>
-
-          <label for="product-price"> Price: </label>
-          <input
-            type="number"
-            id="product-price"
-            name="product-price"
-            value="19.99"
-            step="0.01"
-            required/>
-          
-          <label for="product-category">Category:</label>
-          <input
-            type="text"
-            id="product-category"
-            name="product-category"
-            value="Example Category"
-            required/>
-        </div>
-          </form>
-        </div>
-        <div class="popout-card">
-          <button
-            type="button"
-            id="save-photos-btn">
-            Save Photos
-          </button>
-        </div>
-        </div>
-        <div class="popout-card">
-        <div class="delete-confirmation-card">
-          <h2>Confirm Deletion</h2>
-          <p>Are you sure you want to delete this product?</p>
-          <button
-            type="button"
-            id="confirm-delete-btn">
-            Yes, Delete
-          </button>
-          <button
-            type="button"
-            id="cancel-delete-btn">
-            Cancel
-          </button>
-        </div>
-        </div>
-        </div>
+        </form>
+      </div>
+    </div>
     <script src="../../js/admin/admin-products-edit.js"></script>
   </body>
 </html>
