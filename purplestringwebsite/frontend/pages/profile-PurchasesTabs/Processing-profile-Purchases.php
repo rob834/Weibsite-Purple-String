@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+        header("Location: /Weibsite-Purple-String/login.php");
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,16 +46,29 @@
           </div>
         </div>
 
+        <?php
+          if (!isset($con)) { include_once __DIR__ . '/../../../backend/connection.php'; $con = function_exists('get_db_connection') ? get_db_connection() : null; }
+          $avatar_src = '../../public/images/profile icon.png';
+          if (isset($_SESSION['user_id']) && $con) {
+            $uid = $_SESSION['user_id'];
+            $uqr = mysqli_prepare($con, "SELECT avatar FROM users WHERE user_id = ? LIMIT 1");
+            mysqli_stmt_bind_param($uqr, 's', $uid);
+            mysqli_stmt_execute($uqr);
+            $ures = mysqli_stmt_get_result($uqr);
+            if ($ures && ($urow = mysqli_fetch_assoc($ures))) {
+              if (!empty($urow['avatar']) && file_exists(__DIR__ . '/../../public/images/avatars/' . $urow['avatar'])) {
+                $avatar_src = '../../public/images/avatars/' . $urow['avatar'];
+              }
+            }
+            mysqli_stmt_close($uqr);
+          }
+        ?>
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.php"
-             ><img src="/purplestringwebsite/frontend/public/images/shopping cart.png"
-            /></a>
+            <a href="../pages/cart.php"><img src="../../public/images/shopping cart.png" /></a>
           </div>
           <div id="account-circle">
-            <a href="/purplestringwebsite/frontend/public/images/profile icon.png"
-            ><img src="/purplestringwebsite/frontend/public/images/profile icon.png"
-            /></a>
+            <a href="../pages/profile.php"><img src="<?= $avatar_src ?>" alt="profile" /></a>
           </div>
         </div>
 
@@ -124,7 +148,7 @@
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.php" class="menu-link"><p>Log Out</p></a>
+                  <a href="../../../logout.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>

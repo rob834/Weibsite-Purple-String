@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../../login.php");
+  exit();
+}
+
+include_once __DIR__ . '/../../backend/connection.php';
+$con = get_db_connection();
+$user = null;
+if ($con && isset($_SESSION['user_id'])) {
+  $uid = intval($_SESSION['user_id']);
+  $p = mysqli_prepare($con, "SELECT user_id, user_name, display_name, bio, phone, address, avatar FROM users WHERE user_id = ? LIMIT 1");
+  mysqli_stmt_bind_param($p, 's', $uid);
+  mysqli_stmt_execute($p);
+  $res = mysqli_stmt_get_result($p);
+  if ($res && mysqli_num_rows($res)>0) $user = mysqli_fetch_assoc($res);
+  mysqli_stmt_close($p);
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,9 +30,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link
-      rel="stylesheet"
-      href="/purplestringwebsite/frontend/css/profileEditMode.css" />
+    <link rel="stylesheet" href="../css/profileEditMode.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -37,20 +59,25 @@
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.php"
-              ><img src="../public/images/shopping cart.png"
-            /></a>
+            <a href="../pages/cart.php"><img src="../public/images/shopping cart.png" /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.php"
-              ><img src="../public/images/profile icon.png"
-            /></a>
+            <?php
+              $avatar_src = '../public/images/profile icon.png';
+              if (!empty($user['avatar'])) {
+                $path = __DIR__ . '/../public/images/avatars/' . $user['avatar'];
+                if (file_exists($path)) {
+                  $avatar_src = '../public/images/avatars/' . $user['avatar'];
+                }
+              }
+            ?>
+            <a href="../pages/profile.php"><img src="<?= $avatar_src ?>" alt="profile" /></a>
           </div>
         </div>
 
         <div id="menubar">
           <a
-            href="../../index.php"
+            href="/Weibsite-Purple-String/index.php"
             class="menubutton"
             >Home</a
           >
@@ -80,66 +107,67 @@
 
               <div class="avatar-section">
                  <div class="pfpf">
-                  <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="profile" class="avatar-img">
+                 <?php
+                   $avatar_src = '../public/images/profile icon.png';
+                   if (!empty($user['avatar'])) {
+                     $path = __DIR__ . '/../public/images/avatars/' . $user['avatar'];
+                     if (file_exists($path)) {
+                       $avatar_src = '../public/images/avatars/' . $user['avatar'];
+                     }
+                   }
+                 ?>
+                  <img src="<?= $avatar_src ?>" alt="profile" class="avatar-img">
                  </div>
-                 <input type="file" id="UploadBtn">
-                 <div class="uploadbtn">
-                 <label for="UploadBtn">Set Profile Picture</label>
-                 </div>
+                 <form method="POST" action="../../backend/update_profile.php" enctype="multipart/form-data">
+                   <input type="file" id="UploadBtn" name="avatar">
+                   <div class="uploadbtn">
+                     <label for="UploadBtn">Set Profile Picture</label>
+                   </div>
+               </div>
               </div>
 
              <div class="info-section">
               <div class="row">
                 <div class="label">Name</div>
-                <form>
-              <div class="form-group">
-                <label for="displayname"></label>
-                <input type="text" id="displayname" name="displayname" placeholder="Enter your name" required />
-              </div>
-              </form>
+                <div class="form-group">
+                  <input type="text" id="displayname" name="display_name" placeholder="Enter your name" value="<?= htmlspecialchars($user['display_name'] ?? '') ?>" />
+                </div>
               </div>
 
               <div class="row">
               <div class="label">Username</div>
-               <form>
               <div class="form-group">
-                <label for="username"></label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required />
+                <input type="text" id="username" name="username" placeholder="Enter your username" value="<?= htmlspecialchars($user['user_name'] ?? '') ?>" required />
               </div>
-              </form>
               </div>
 
              
              <div class="row bio">
                 <div class="label">Bio</div>
-                 <form>
               <div class="form-group">
-                <label for="bio"></label>
-                <input type="text" id="bio" name="bio" placeholder="Something about you" required />
+                <textarea id="bio" name="bio" placeholder="Something about you"><?= htmlspecialchars($user['bio'] ?? '') ?></textarea>
               </div>
-              </form>
               </div>
 
               <div class="row">
                 <div class="label">Phone Number</div>
-
-                <form>
               <div class="form-group">
-                <label for="phonenumber"></label>
-                <input type="number" id="phonenumber" name="phonenumber" placeholder="Phone number" required />
+                <input type="text" id="phonenumber" name="phone" placeholder="Phone number" value="<?= htmlspecialchars($user['phone'] ?? '') ?>" />
               </div>
-              </form>
               </div>
 
               <div class="row">
                 <div class="label">Address</div>
-                <form>
               <div class="form-group">
-                <label for="address"></label>
-                <input type="text" id="address" name="address" placeholder="Address..." required />
+                <input type="text" id="address" name="address" placeholder="Address..." value="<?= htmlspecialchars($user['address'] ?? '') ?>" />
+              </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <button type="submit" class="save-btn">Save</button>
+                </div>
               </div>
               </form>
-              </div>
          </div>
             </div>
           </div>
@@ -148,20 +176,20 @@
             <div class="profile-card right-card">
               <div class="account-menu">
                 <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/myaccount updated.png" alt="profile icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profile.php" class="menu-link"><p>My Account</p></a>
+                  <span class="menu-icon"><img src="../public/images/myaccount updated.png" alt="profile icon"></span>
+                  <a href="profile.php" class="menu-link"><p>My Account</p></a>
                 </div>
                 <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon updated.png" alt="purchases"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.php" class="menu-link"><p>Purchases</p></a>
+                  <span class="menu-icon"><img src="../public/images/purchases icon updated.png" alt="purchases"></span>
+                  <a href="profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
                 <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notif icon updated.png" alt="notif"></span>
+                  <span class="menu-icon"><img src="../public/images/notif icon updated.png" alt="notif"></span>
                   <a href="#" class="menu-link"><p>Notification</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/signup.php" class="menu-link"><p>Log Out</p></a>
+                  <a href="../../../logout.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>
@@ -177,51 +205,29 @@
       <footer id="footer">
         <div id="footer-content">
           <div id="footer-logo">
-            <img
-              src="/purplestringwebsite/frontend/public/images/footer-logo.png"
-              alt="Purple String Logo"
-              width="100" />
+          <img src="../public/images/footer-logo.png" alt="Purple String Logo" width="100" />
           </div>
 
           <div id="footer-information">
             <div class="info-item">
-              <img
-                src="/purplestringwebsite/frontend/public/images/mail icon.png"
-                alt="Mail"
-                class="footer-icon" />
+              <img src="../public/images/mail icon.png" alt="Mail" class="footer-icon" />
               <span>purplestring@gmail.com</span>
             </div>
 
             <div class="info-item">
-              <img
-                src="/purplestringwebsite/frontend/public/images/phonenum.png"
-                alt="Phone"
-                class="footer-icon" />
+              <img src="../public/images/phonenum.png" alt="Phone" class="footer-icon" />
               <span>+63 900 123 4567</span>
             </div>
           </div>
         </div>
       </footer>
       <div id="page-design">
-        <img
-          id="homepage_whiteflower_1"
-          src="/purplestringwebsite/frontend/public/images/whiteflower.png" />
-        <img
-          id="homepage_bluething"
-          src="/purplestringwebsite/frontend/public/images/bluething.png" />
-        <img
-          id="homepage_heartbutton"
-          src="/purplestringwebsite/frontend/public/images/heartbutton.png" />
-        <img
-          id="homepage_greenbutton"
-          src="/purplestringwebsite/frontend/public/images/greenbutton.png"/>
-          
-        <img
-          id="homepage_greenthread"
-          src="/purplestringwebsite/frontend/public/images/greenthread.png" />
-        <img
-          id="homepage_whiteflower_2"
-          src="/purplestringwebsite/frontend/public/images/whiteflower.png" />
+        <img id="homepage_whiteflower_1" src="../public/images/whiteflower.png" />
+        <img id="homepage_bluething" src="../public/images/bluething.png" />
+        <img id="homepage_heartbutton" src="../public/images/heartbutton.png" />
+        <img id="homepage_greenbutton" src="../public/images/greenbutton.png" />
+        <img id="homepage_greenthread" src="../public/images/greenthread.png" />
+        <img id="homepage_whiteflower_2" src="../public/images/whiteflower.png" />
       </div>
     </div>
     <script src="../js/profile.js"></script>
