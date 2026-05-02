@@ -2,9 +2,9 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-        header("Location: /Weibsite-Purple-String/login.php");
-        exit();
-    }
+    header("Location: ../../../login.php");
+    exit();
+  }
 
 
 ?>
@@ -47,16 +47,30 @@ if (!isset($_SESSION['user_id'])) {
           </div>
         </div>
 
+        <?php
+          // determine avatar for header
+          if (!isset($con)) { include_once __DIR__ . '/../../backend/connection.php'; $con = function_exists('get_db_connection') ? get_db_connection() : null; }
+          $avatar_src = '../public/images/profile icon.png';
+          if (isset($_SESSION['user_id']) && $con) {
+            $uid = $_SESSION['user_id'];
+            $uqr = mysqli_prepare($con, "SELECT avatar FROM users WHERE user_id = ? LIMIT 1");
+            mysqli_stmt_bind_param($uqr, 's', $uid);
+            mysqli_stmt_execute($uqr);
+            $ures = mysqli_stmt_get_result($uqr);
+            if ($ures && ($urow = mysqli_fetch_assoc($ures))) {
+              if (!empty($urow['avatar']) && file_exists(__DIR__ . '/../public/images/avatars/' . $urow['avatar'])) {
+                $avatar_src = '../public/images/avatars/' . $urow['avatar'];
+              }
+            }
+            mysqli_stmt_close($uqr);
+          }
+        ?>
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.php"
-              ><img src="../public/images/shopping cart.png"
-            /></a>
+            <a href="../pages/cart.php"><img src="../public/images/shopping cart.png" /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.php"
-              ><img src="../public/images/profile icon.png"
-            /></a>
+            <a href="../pages/profile.php"><img src="<?= $avatar_src ?>" alt="profile" /></a>
           </div>
         </div>
 
@@ -110,10 +124,15 @@ if (!isset($_SESSION['user_id'])) {
         $where = 'WHERE p.category_id = ' . intval($selected_category);
       }
 
-      $sql = "SELECT p.*, c.name AS category_name, pi.file_name AS image_file
+      $sql = "SELECT p.*, c.name AS category_name, pi.file_name AS image_file, pr.avg_rating, pr.count_ratings
           FROM products p
           LEFT JOIN categories c ON p.category_id = c.category_id
           LEFT JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
+          LEFT JOIN (
+            SELECT product_id, AVG(rating) AS avg_rating, COUNT(*) AS count_ratings
+            FROM product_ratings
+            GROUP BY product_id
+          ) pr ON pr.product_id = p.product_id
           $where
           ORDER BY $orderBy";
 
@@ -160,13 +179,16 @@ if (!isset($_SESSION['user_id'])) {
           $img = $p['image_file'] ? '../public/images/products/' . $p['image_file'] : '../public/images/product image.png';
         ?>
         <div class="product-card">
-          <img src="<?= $img ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="product-img">
+          <a href="view/product.php?product_id=<?= $p['product_id'] ?>">
+            <img src="<?= $img ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="product-img">
+          </a>
 
           <div class="product-info">
-            <p class="product-name"><?= htmlspecialchars($p['name']) ?></p>
+            <p class="product-name"><a href="view/product.php?product_id=<?= $p['product_id'] ?>"><?= htmlspecialchars($p['name']) ?></a></p>
             <div class="rating">
               <span class="star">⭐</span>
-              <span class="rating-value">4.6</span>
+              <span class="rating-value"><?= isset($p['avg_rating']) ? number_format(floatval($p['avg_rating']), 2) : '0.00' ?></span>
+              <span class="rating-count"><?= isset($p['count_ratings']) ? intval($p['count_ratings']) : 0 ?></span>
             </div>
             <p class="price">₱<?= number_format($p['price'], 2) ?></p>
             <p class="category-label"><?= htmlspecialchars($p['category_name'] ?? 'Uncategorized') ?></p>
