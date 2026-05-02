@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-        header("Location: /Weibsite-Purple-String/login.php");
+        header("Location: ../../../login.php");
     exit();
 }
 
@@ -25,7 +25,95 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 <body>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+    .kpi-btn, .chart-btn {
+        padding: 4px 14px;
+        border-radius: 20px;
+        border: 2px solid #7c3aed;
+        background: #fff;
+        color: #7c3aed;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-weight: 600;
+        transition: background 0.15s, color 0.15s;
+    }
+    .kpi-btn.active, .chart-btn.active {
+        background: #7c3aed;
+        color: #fff;
+    }
+    .kpi-btn:hover, .chart-btn:hover {
+        background: #7c3aed;
+        color: #fff;
+    }
   </style>
+
+<?php
+include_once __DIR__ . '/../../backend/connection.php';
+
+// --- KPI: total sales + total orders for week / month / year ---
+$kpi = [];
+$period_clauses = [
+    'week'  => "AND created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)",
+    'month' => "AND created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)",
+    'year'  => "AND created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)",
+];
+foreach ($period_clauses as $key => $clause) {
+    $res = mysqli_query($con,
+        "SELECT SUM(total) AS total_sales, COUNT(*) AS total_orders
+         FROM orders
+         WHERE status != 'cancelled' $clause"
+    );
+    $row = mysqli_fetch_assoc($res);
+    $kpi[$key] = [
+        'sales'  => floatval($row['total_sales'] ?? 0),
+        'orders' => intval($row['total_orders']  ?? 0),
+    ];
+}
+
+// --- Chart: Daily (last 30 days) ---
+$daily_labels = []; $daily_values = [];
+$dres = mysqli_query($con,
+    "SELECT DATE_FORMAT(created_at,'%b %d') AS label,
+            DATE(created_at) AS d,
+            SUM(total) AS revenue
+     FROM orders WHERE status != 'cancelled'
+       AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+     GROUP BY d ORDER BY d ASC"
+);
+if ($dres) while ($r = mysqli_fetch_assoc($dres)) {
+    $daily_labels[] = $r['label'];
+    $daily_values[] = floatval($r['revenue']);
+}
+
+// --- Chart: Monthly (last 12 months) ---
+$monthly_labels = []; $monthly_values = [];
+$mres = mysqli_query($con,
+    "SELECT DATE_FORMAT(created_at,'%b %Y') AS label,
+            DATE_FORMAT(created_at,'%Y-%m') AS ym,
+            SUM(total) AS revenue
+     FROM orders WHERE status != 'cancelled'
+       AND created_at >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+     GROUP BY ym ORDER BY ym ASC"
+);
+if ($mres) while ($r = mysqli_fetch_assoc($mres)) {
+    $monthly_labels[] = $r['label'];
+    $monthly_values[] = floatval($r['revenue']);
+}
+
+// --- Chart: Yearly (last 5 years) ---
+$yearly_labels = []; $yearly_values = [];
+$yres = mysqli_query($con,
+    "SELECT YEAR(created_at) AS label, SUM(total) AS revenue
+     FROM orders WHERE status != 'cancelled'
+       AND YEAR(created_at) >= YEAR(NOW()) - 4
+     GROUP BY label ORDER BY label ASC"
+);
+if ($yres) while ($r = mysqli_fetch_assoc($yres)) {
+    $yearly_labels[] = (string)$r['label'];
+    $yearly_values[] = floatval($r['revenue']);
+}
+?>
+
     <div id="admin-sidebar">
         <img src="../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
@@ -38,7 +126,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </div>
     <div id="admin-content">
         <div id="upper-left-logout">
-            <a href="/Weibsite-Purple-String/logout.php" class="logout-btn">Logout</a>
+            <a href="../../../logout.php" class="logout-btn">Logout</a>
         </div>
         <div id="upper-right-accountname">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
@@ -47,77 +135,134 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
         <div class="upper-row">
 
-    <div class="total-sales">
-        <div>
-        <p>Total Sales:</p>
-        <h2>&#8369; 1000.00</h2>
+            <div class="total-sales">
+                <div>
+                    <p>Total Sales:</p>
+                    <h2 id="sales-value">&#8369; <?= number_format($kpi['week']['sales'], 2) ?></h2>
+                </div>
+                <div class="subtext">
+                    <div style="display:flex; gap:6px; margin-top:8px;">
+                        <button class="kpi-btn active" id="sales-btn-week"  onclick="setKpi('week')">Week</button>
+                        <button class="kpi-btn"        id="sales-btn-month" onclick="setKpi('month')">Month</button>
+                        <button class="kpi-btn"        id="sales-btn-year"  onclick="setKpi('year')">Year</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="total-orders">
+                <div class="text">
+                    <p>Total Orders:</p>
+                    <h2 id="orders-value"><?= number_format($kpi['week']['orders']) ?></h2>
+                    <div style="display:flex; gap:6px; margin-top:8px;">
+                        <button class="kpi-btn active" id="orders-btn-week"  onclick="setKpi('week')">Week</button>
+                        <button class="kpi-btn"        id="orders-btn-month" onclick="setKpi('month')">Month</button>
+                        <button class="kpi-btn"        id="orders-btn-year"  onclick="setKpi('year')">Year</button>
+                    </div>
+                </div>
+                <img class="order-icon" src="../public/images/products icon in admin.png" alt="products icon">
+            </div>
+
+            <div class="conversion-rate">
+                <div>
+                    <p>Conversion Rate:</p>
+                    <h2>25.00%</h2>
+                </div>
+            </div>
+
         </div>
-        <div class="subtext">
-            <p>+0.00</p>
-            <p>since last week</p>
-        </div>
-    </div>
 
-  <div class="total-orders">
-    <div class="text">
-        <p>Total Orders:</p>
-        <h2>3,800</h2>
-    </div>
+        <script>
+        const kpiData = <?= json_encode($kpi) ?>;
 
-    <img class="order-icon" src="/purplestringwebsite/frontend/public/images/products icon in admin.png" alt="products icon">
-</div>
+        function setKpi(period) {
+            const sales  = kpiData[period].sales;
+            const orders = kpiData[period].orders;
 
-    <div class="conversion-rate">
-        <div>
-        <p>Conversion Rate:</p>
-        <h2>25.00%</h2>
-        </div>
-    </div>
+            document.getElementById('sales-value').textContent =
+                '₱ ' + sales.toLocaleString('en-PH', {minimumFractionDigits:2, maximumFractionDigits:2});
+            document.getElementById('orders-value').textContent =
+                orders.toLocaleString('en-PH');
 
-</div>
+            ['week','month','year'].forEach(p => {
+                document.getElementById('sales-btn-'  + p).classList.toggle('active', p === period);
+                document.getElementById('orders-btn-' + p).classList.toggle('active', p === period);
+            });
+        }
+        </script>
 
 <div class="second-row">
     <div class="leftsidesecondrow">
 
-    <div class="graph">
-        <h2>Sales Analytic</h2>
-        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-        <script>
-           const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-            const yValues = [55, 49, 44, 24, 15];
-            const barColors = ["red", "green","blue","orange","brown"];
+        <div class="graph">
+            <h2>Sales Analytic</h2>
 
-            const ctx = document.getElementById('myChart');
+            <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <button class="chart-btn active" id="chart-btn-daily"   onclick="showChart('daily')">Daily</button>
+                <button class="chart-btn"        id="chart-btn-monthly" onclick="showChart('monthly')">Monthly</button>
+                <button class="chart-btn"        id="chart-btn-yearly"  onclick="showChart('yearly')">Yearly</button>
+            </div>
 
-new Chart(ctx, {
-  type: "bar",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
-  options: {
-    plugins: {
-      legend: {display: false},
-      title: {
-        display: false,
-        text: "World Wine Production 2018",
-        font: {size: 16}
-      }
-    }
-  }
-});
-</script>
+            <canvas id="myChart" style="width:100%; max-width:600px;"></canvas>
 
-    </div>
+            <script>
+            const chartDatasets = {
+                daily:   { labels: <?= json_encode($daily_labels) ?>,   data: <?= json_encode($daily_values) ?>,   label: 'Daily Revenue (₱)'   },
+                monthly: { labels: <?= json_encode($monthly_labels) ?>, data: <?= json_encode($monthly_values) ?>, label: 'Monthly Revenue (₱)' },
+                yearly:  { labels: <?= json_encode($yearly_labels) ?>,  data: <?= json_encode($yearly_values) ?>,  label: 'Yearly Revenue (₱)'  },
+            };
+
+            const chart = new Chart(document.getElementById('myChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: chartDatasets.daily.labels,
+                    datasets: [{
+                        label: chartDatasets.daily.label,
+                        data: chartDatasets.daily.data,
+                        backgroundColor: 'rgba(124,58,237,0.7)',
+                        borderColor: '#7c3aed',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => '₱' + ctx.parsed.y.toLocaleString('en-PH', {minimumFractionDigits:2})
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: val => '₱' + val.toLocaleString('en-PH') }
+                        }
+                    }
+                }
+            });
+
+            function showChart(mode) {
+                const ds = chartDatasets[mode];
+                chart.data.labels            = ds.labels;
+                chart.data.datasets[0].data  = ds.data;
+                chart.data.datasets[0].label = ds.label;
+                chart.update();
+
+                ['daily','monthly','yearly'].forEach(m => {
+                    document.getElementById('chart-btn-' + m)
+                            .classList.toggle('active', m === mode);
+                });
+            }
+            </script>
+        </div>
 
        <div class="notifications-preview">
-<div class="viewNotifsButton">
-    <a href="/purplestringwebsite/frontend/pages/admin/admin-notification.php">
+    <div class="viewNotifsButton">
+    <a href="admin/admin-notification.php">
     <div class="view-notifs-button">
-        <img src="/purplestringwebsite/frontend/public/images/view notifications icon admin.png" alt="">
+        <img src="../public/images/view notifications icon admin.png" alt="">
         <p>view notifications</p>
     </div>
     </a>
@@ -132,23 +277,29 @@ new Chart(ctx, {
 </div>
     </div>
 
-    <div class="recent-orders">
-        <h2>Recent Orders</h2>
-        <hr>
-        <ul>
-            <li>
-                <p>Flyers/brochure Trifold Printing Glossy</p>
-            </li>
-            
-            <li>
-                <p>Custom Business Cards</p>
-            </li>
-            
-            <li>
-                <p>Custom Stickers</p>
-            </li>
-        </ul>
-    </div>
+   <div class="recent-orders">
+    <h2>Recent Orders</h2>
+    <hr>
+    <?php
+    $rores = mysqli_query($con,
+        "SELECT p.name
+         FROM orders o
+         JOIN order_items oi ON oi.order_id = o.order_id
+         JOIN products p     ON p.product_id = oi.product_id
+         ORDER BY o.created_at DESC
+         LIMIT 10"
+    );
+    ?>
+    <ul>
+        <?php if (!$rores || mysqli_num_rows($rores) === 0): ?>
+            <li><p>No recent orders.</p></li>
+        <?php else: ?>
+            <?php while ($ror = mysqli_fetch_assoc($rores)): ?>
+                <li><p><?= htmlspecialchars($ror['name']) ?></p></li>
+            <?php endwhile; ?>
+        <?php endif; ?>
+    </ul>
+</div>
 
 </div>
 

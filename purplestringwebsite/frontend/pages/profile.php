@@ -2,9 +2,30 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-        header("Location: /Weibsite-Purple-String/login.php");
-    exit();
+    header("Location: ../../../login.php");
+  exit();
 }
+
+include_once __DIR__ . '/../../backend/connection.php';
+$con = get_db_connection();
+$user = null;
+if ($con) {
+  $uid = intval($_SESSION['user_id']);
+  $q = mysqli_prepare($con, "SELECT user_id, user_name, display_name, bio, phone, address, avatar FROM users WHERE user_id = ? LIMIT 1");
+  mysqli_stmt_bind_param($q, 's', $uid);
+  mysqli_stmt_execute($q);
+  $res = mysqli_stmt_get_result($q);
+  if ($res && mysqli_num_rows($res)>0) $user = mysqli_fetch_assoc($res);
+  mysqli_stmt_close($q);
+}
+
+$avatar_src = '../public/images/profile icon.png';
+if (!empty($user['avatar'])) {
+  $path = __DIR__ . '/../public/images/avatars/' . $user['avatar'];
+  if (file_exists($path)) $avatar_src = '../public/images/avatars/' . $user['avatar'];
+}
+
+?>
 
 ?>
 
@@ -17,9 +38,7 @@ if (!isset($_SESSION['user_id'])) {
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link
-      rel="stylesheet"
-      href="../css/profile.css" />
+    <link rel="stylesheet" href="../css/profile.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -48,28 +67,16 @@ if (!isset($_SESSION['user_id'])) {
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.php"
-              ><img src="../public/images/shopping cart.png"
-            /></a>
+            <a href="../pages/cart.php"><img src="../public/images/shopping cart.png" /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.php"
-              ><img src="../public/images/profile icon.png"
-            /></a>
+            <a href="profile.php"><img src="<?= $avatar_src ?>" alt="profile" /></a>
           </div>
         </div>
 
         <div id="menubar">
-          <a
-            href="/Weibsite-Purple-String/index.php"
-            class="menubutton"
-            >Home</a
-          >
-          <a
-            href="../pages/products.php"
-            class="menubutton"
-            >Products</a
-          >
+          <a href="../homepage.php" class="menubutton">Home</a>
+          <a href="../pages/products.php" class="menubutton">Products</a>
           <a
             href="../pages/contacts.php"
             class="menubutton"
@@ -94,39 +101,35 @@ if (!isset($_SESSION['user_id'])) {
                   <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="profile" class="avatar-img">
                  </div>
                  <div class="editbtn">
-                 <button class="edit-btn"><a href="/purplestringwebsite/frontend/pages/profileEditMode.php"><img src="/purplestringwebsite/frontend/public/images/edit profile icon.png" alt="edit">Edit Profile</a></button>
+                 <button class="edit-btn"><a href="profileEditMode.php"><img src="../public/images/edit profile icon.png" alt="edit">Edit Profile</a></button>
                   </div>
                 </div>
 
              <div class="info-section">
               <div class="row">
                 <div class="label">Name</div>
-                <div class="value name"><h1>John Doe</h1></div>
+                  <div class="value name"><h1><?= htmlspecialchars($user['display_name'] ?? ($user['user_name'] ?? '')) ?></h1></div>
               </div>
 
               <div class="row">
               <div class="label">Username</div>
-              <div class="value username"><strong>usagifan1012</strong></div>
+                <div class="value username"><strong><?= htmlspecialchars($user['user_name'] ?? '') ?></strong></div>
               </div>
 
              
              <div class="row bio">
                 <div class="label">Bio</div>
-                <div class="value">
-                  idoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa<br>
-                  idoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa<br>
-                  unaaidoaiwhidiahwhdidshdawhbk hiufhwuf ieufh ouihushfioe una yaha yaha unaa
-                </div>
+                <div class="value"><?= nl2br(htmlspecialchars($user['bio'] ?? '')) ?></div>
               </div>
 
               <div class="row">
                 <div class="label">Phone Number</div>
-                <div class="value">+97 024 028 8881</div>
+                <div class="value"><?= htmlspecialchars($user['phone'] ?? '') ?></div>
               </div>
 
               <div class="row">
                 <div class="label">Address</div>
-                <div class="value">Blk 350 Lot 09 Cactus St. Pembo<br>Taguig, Metro Manila, 1218</div>
+                <div class="value"><?= nl2br(htmlspecialchars($user['address'] ?? '')) ?></div>
               </div>
          </div>
             </div>
@@ -136,20 +139,20 @@ if (!isset($_SESSION['user_id'])) {
             <div class="profile-card right-card">
               <div class="account-menu">
                 <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/myaccount updated.png" alt="profile icon"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profile.php" class="menu-link"><p>My Account</p></a>
+                  <span class="menu-icon"><img src="../public/images/myaccount updated.png" alt="profile icon"></span>
+                  <a href="profile.php" class="menu-link"><p>My Account</p></a>
                 </div>
                 <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/purchases icon updated.png" alt="purchases"></span>
-                  <a href="/purplestringwebsite/frontend/pages/profilePurchases.php" class="menu-link"><p>Purchases</p></a>
+                  <span class="menu-icon"><img src="../public/images/purchases icon updated.png" alt="purchases"></span>
+                  <a href="profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
                 <div class="menu-item">
-                  <span class="menu-icon"><img src="/purplestringwebsite/frontend/public/images/notif icon updated.png" alt="notif"></span>
+                  <span class="menu-icon"><img src="../public/images/notif icon updated.png" alt="notif"></span>
                   <a href="#" class="menu-link"><p>Notification</p></a>
                 </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="/Weibsite-Purple-String/logout.php" class="menu-link"><p>Log Out</p></a>
+                  <a href="../../../logout.php" class="menu-link"><p>Log Out</p></a>
                 </div>
               </div>
             </div>
@@ -165,52 +168,29 @@ if (!isset($_SESSION['user_id'])) {
       <footer id="footer">
         <div id="footer-content">
           <div id="footer-logo">
-            <img
-              src="/purplestringwebsite/frontend/public/images/footer-logo.png"
-              alt="Purple String Logo"
-              width="100" />
+            <img src="../public/images/footer-logo.png" alt="Purple String Logo" width="100" />
           </div>
 
           <div id="footer-information">
             <div class="info-item">
-              <img
-                src="/purplestringwebsite/frontend/public/images/mail icon.png"
-                alt="Mail"
-                class="footer-icon" />
+              <img src="../public/images/mail icon.png" alt="Mail" class="footer-icon" />
               <span>purplestring@gmail.com</span>
             </div>
 
             <div class="info-item">
-              <img
-                src="/purplestringwebsite/frontend/public/images/phonenum.png"
-                alt="Phone"
-                class="footer-icon" />
+              <img src="../public/images/phonenum.png" alt="Phone" class="footer-icon" />
               <span>+63 900 123 4567</span>
             </div>
           </div>
         </div>
       </footer>
       <div id="page-design">
-        <img
-          id="homepage_whiteflower_1"
-          src="/purplestringwebsite/frontend/public/images/whiteflower.png" />
-        <img
-          id="homepage_bluething"
-          src="/purplestringwebsite/frontend/public/images/bluething.png" />
-        <img
-          id="homepage_heartbutton"
-          src="/purplestringwebsite/frontend/public/images/heartbutton.png" />
-         
-        <img
-          id="homepage_greenbutton"
-          src="/purplestringwebsite/frontend/public/images/greenbutton.png" />
-     
-        <img
-          id="homepage_greenthread"
-          src="/purplestringwebsite/frontend/public/images/greenthread.png" />
-        <img
-          id="homepage_whiteflower_2"
-          src="/purplestringwebsite/frontend/public/images/whiteflower.png" />
+        <img id="homepage_whiteflower_1" src="../public/images/whiteflower.png" />
+        <img id="homepage_bluething" src="../public/images/bluething.png" />
+        <img id="homepage_heartbutton" src="../public/images/heartbutton.png" />
+        <img id="homepage_greenbutton" src="../public/images/greenbutton.png" />
+        <img id="homepage_greenthread" src="../public/images/greenthread.png" />
+        <img id="homepage_whiteflower_2" src="../public/images/whiteflower.png" />
       </div>
     </div>
     <script src="../js/profile.js"></script>
