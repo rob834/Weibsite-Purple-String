@@ -89,21 +89,29 @@ if (!$user_data) {
           <div id="slides">
             <div id="slideshow">
               <div id="wrapper">
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 1.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 2.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 3.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 4.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 5.png" />
+                <?php
+                  // Fetch 5 most recently added products with their images
+                  $query = "SELECT p.product_id, pi.file_name FROM products p 
+                            LEFT JOIN product_images pi ON p.product_id = pi.product_id 
+                            WHERE p.is_active = 1 
+                            ORDER BY p.created_at DESC LIMIT 5";
+                  
+                  $result = mysqli_query($con, $query);
+                  
+                  if($result && mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)) {
+                      $image_path = $row['file_name'] ? "purplestringwebsite/frontend/public/images/products/" . htmlspecialchars($row['file_name']) : "purplestringwebsite/frontend/public/images/carousel pic 1.png";
+                      echo '<div class="product-image-wrapper"><img class="productslide" src="' . $image_path . '" /></div>';
+                    }
+                  } else {
+                    // Fallback to default images if no products found
+                    echo '<div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 1.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 2.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 3.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 4.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 5.png" /></div>';
+                  }
+                ?>
               </div>
             </div>
           </div>

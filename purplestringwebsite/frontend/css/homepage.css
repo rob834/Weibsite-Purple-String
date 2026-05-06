@@ -209,6 +209,13 @@ body {
   }
 }
 
+.product-image-wrapper {
+  width: 300px;
+  height: 280px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
 .productslide {
   flex: 0 0 auto;
   width: 300px;
