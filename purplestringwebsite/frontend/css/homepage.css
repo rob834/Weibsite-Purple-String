@@ -95,7 +95,7 @@ body {
   position: absolute;
   background-color: #d68ce5;
   display: flex;
-  justify-content: stretch;
+  justify-content: center;
   align-items: center;
   height: 50px;
   width: 100%;
@@ -107,16 +107,21 @@ body {
 }
 .menubutton {
   position: relative;
-  padding: 14px 100px;
+  padding: 14px 0;
   color: white;
   border: solid;
   border-color: #d68ce5;
   border-width: 2px;
   text-decoration: none;
-  display: inline-block;
-  margin: 0 100px;
-  background-color: #c071d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 50%;
   border-radius: 50px;
+}
+#toggledbtn {
+  background-color: #c071d0;
 }
 #frills {
   position: absolute;
