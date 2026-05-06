@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+include("purplestringwebsite/backend/connection.php");
+include("purplestringwebsite/backend/functions.php");
+
+$user_data = check_login($con);
+
+// If user is not logged in, redirect to login page
+if (!$user_data) {
+    header("Location: /Weibsite-Purple-String/login.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +24,7 @@
     <title>Homescreen</title>
     <link
       rel="stylesheet"
-      href="../css/homepage.css" />
+      href="purplestringwebsite/frontend/css/homepage.css?v=<?php echo time(); ?>" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -20,7 +36,7 @@
         <div id="leftheader">
           <div id="search">
             <label for="searchbar">
-              <img src="../public/images/search.png" />
+              <img src="purplestringwebsite/frontend/public/images/search.png" />
             </label>
             <input
               type="text"
@@ -31,68 +47,63 @@
 
         <div id="centerheader">
           <div id="logo">
-            <img src="../public/images/Logo.png" />
+            <img src="purplestringwebsite/frontend/public/images/Logo.png" />
           </div>
         </div>
 
         <div id="rightheader">
           <div id="shoppingcart">
-            <a href="../pages/cart.html"
-              ><img src="../public/images/shopping cart.png"
+            <a href="purplestringwebsite/frontend/pages/cart.php"
+              ><img src="purplestringwebsite/frontend/public/images/shopping cart.png"
             /></a>
           </div>
           <div id="account-circle">
-            <a href="../pages/profile.html"
-              ><img src="../public/images/profile icon.png"
+            <a href="purplestringwebsite/frontend/pages/profile.php"
+              ><img src="purplestringwebsite/frontend/public/images/profile icon.png"
             /></a>
           </div>
         </div>
 
         <div id="menubar">
           <a
-            href="../pages/homepage.html"
-            class="menubutton"
+            href="index.php"
+            class="menubutton" id="toggledbtn"
             >Home</a
           >
           <a
-            href="../pages/products.html"
+            href="purplestringwebsite/frontend/pages/products.php"
             class="menubutton"
             >Products</a
-          >
-          <a
-            href="../pages/contacts.html"
-            class="menubutton"
-            >Contacts</a
           >
         </div>
 
         <div id="frills">
-          <img src="../public/images/vectors/frills.png" />
+          <img src="purplestringwebsite/frontend/public/images/vectors/frills.png" />
         </div>
       </section>
 
       <section id="content">
         <div id="notepad">
-          <img src="../public/images/vectors/notepad.png" />
+          <img src="purplestringwebsite/frontend/public/images/vectors/notepad.png" />
           <h1 id="notepadtext">Recent Designs</h1>
           <div id="slides">
             <div id="slideshow">
               <div id="wrapper">
                 <img
                   class="productslide"
-                  src="../public/images/carousel pic 1.png" />
+                  src="purplestringwebsite/frontend/public/images/carousel pic 1.png" />
                 <img
                   class="productslide"
-                  src="../public/images/carousel pic 2.png" />
+                  src="purplestringwebsite/frontend/public/images/carousel pic 2.png" />
                 <img
                   class="productslide"
-                  src="../public/images/carousel pic 3.png" />
+                  src="purplestringwebsite/frontend/public/images/carousel pic 3.png" />
                 <img
                   class="productslide"
-                  src="../public/images/carousel pic 4.png" />
+                  src="purplestringwebsite/frontend/public/images/carousel pic 4.png" />
                 <img
                   class="productslide"
-                  src="../public/images/carousel pic 5.png" />
+                  src="purplestringwebsite/frontend/public/images/carousel pic 5.png" />
               </div>
             </div>
           </div>
@@ -106,35 +117,35 @@
               <div id="custom-crochet">
                 <div id="crochet-button">
                   <a>
-                    <img src="../public/images/hover imgs/custom-crochet.png" />
+                    <img src="purplestringwebsite/frontend/public/images/hover imgs/custom-crochet.png" />
                   </a>
                 </div>
                 <div id="extra-crochet">
                   <img
-                    src="../public/images/hover imgs/custom-crochet-hover.png" />
+                    src="purplestringwebsite/frontend/public/images/hover imgs/custom-crochet-hover.png" />
                 </div>
               </div>
               <div id="custom-miscellaneous">
                 <div id="miscellaneous-button">
                   <a>
                     <img
-                      src="../public/images/hover imgs/custom-miscellaneous.png" />
+                      src="purplestringwebsite/frontend/public/images/hover imgs/custom-miscellaneous.png" />
                   </a>
                 </div>
                 <div id="extra-miscellaneous">
                   <img
-                    src="../public/images/hover imgs/custom-miscellaneous-hover.png" />
+                    src="purplestringwebsite/frontend/public/images/hover imgs/custom-miscellaneous-hover.png" />
                 </div>
               </div>
               <div id="custom-print">
                 <div id="print-button">
                   <a>
-                    <img src="../public/images/hover imgs/custom-prints.png" />
+                    <img src="purplestringwebsite/frontend/public/images/hover imgs/custom-prints.png" />
                   </a>
                 </div>
                 <div id="extra-print">
                   <img
-                    src="../public/images/hover imgs/custom-prints-hover.png" />
+                    src="purplestringwebsite/frontend/public/images/hover imgs/custom-prints-hover.png" />
                 </div>
               </div>
             </div>
@@ -146,13 +157,13 @@
             <a>
               <img
                 id="viewallprod-base"
-                src="../public/images/hover imgs/viewallprod.png"
+                src="purplestringwebsite/frontend/public/images/hover imgs/viewallprod.png"
                 alt="View All Products" />
             </a>
           </div>
           <img
             id="viewallprod-hover"
-            src="../public/images/hover imgs/viewallprod-hover.png"
+            src="purplestringwebsite/frontend/public/images/hover imgs/viewallprod-hover.png"
             alt="View All Products Hover" />
         </div>
 
@@ -165,8 +176,8 @@
         </div>
 
         <div id="otherwebsites">
-          <a><img src="../public/images/shopeeicon.png" /></a>
-          <a><img src="../public/images/fbicon.png" /></a>
+          <a><img src="purplestringwebsite/frontend/public/images/shopeeicon.png" /></a>
+          <a><img src="purplestringwebsite/frontend/public/images/fbicon.png" /></a>
         </div>
       </section>
 
@@ -180,7 +191,7 @@
         <div id="footer-content">
           <div id="footer-logo">
             <img
-              src="../public/images/footer-logo.png"
+              src="purplestringwebsite/frontend/public/images/footer-logo.png"
               alt="Purple String Logo"
               width="100" />
           </div>
@@ -188,7 +199,7 @@
           <div id="footer-information">
             <div class="info-item">
               <img
-                src="../public/images/mail.png"
+                src="purplestringwebsite/frontend/public/images/mail.png"
                 alt="Mail"
                 class="footer-icon" />
               <span>purplestring@gmail.com</span>
@@ -196,7 +207,7 @@
 
             <div class="info-item">
               <img
-                src="../public/images/phonenum.png"
+                src="purplestringwebsite/frontend/public/images/phonenum.png"
                 alt="Phone"
                 class="footer-icon" />
               <span>+63 900 123 4567</span>
@@ -207,22 +218,22 @@
       <div id="page-design">
         <img
           id="homepage_whiteflower_1"
-          src="../public/images/whiteflower.png" />
+          src="purplestringwebsite/frontend/public/images/whiteflower.png" />
         <img
           id="homepage_bluething"
-          src="../public/images/bluething.png" />
+          src="purplestringwebsite/frontend/public/images/bluething.png" />
         <img
           id="homepage_heartbutton"
-          src="../public/images/heartbutton.png" />
+          src="purplestringwebsite/frontend/public/images/heartbutton.png" />
         <img
           id="homepage_greenbutton"
-          src="../public/images/greenbutton.png" />
+          src="purplestringwebsite/frontend/public/images/greenbutton.png" />
         <img
           id="homepage_greenthread"
-          src="../public/images/greenthread.png" />
+          src="purplestringwebsite/frontend/public/images/greenthread.png" />
         <img
           id="homepage_whiteflower_2"
-          src="../public/images/whiteflower.png" />
+          src="purplestringwebsite/frontend/public/images/whiteflower.png" />
       </div>
     </div>
   </body>
