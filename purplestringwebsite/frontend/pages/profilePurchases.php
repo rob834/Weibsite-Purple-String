@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -70,16 +70,18 @@ if (!isset($_SESSION['user_id'])) {
           </div>
         </div>
 
-       <div id="menubar">
-          <button><a
-            href="index.php"
-            class="menubutton">Home</a></button>
-          <button><a
-            href="purplestringwebsite/frontend/pages/products.php"
+        <div id="menubar">
+          <a href="../homepage.php" class="menubutton">Home</a>
+          <a
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
-          ></button>
-      
+          >
+          <a
+            href="../pages/contacts.php"
+            class="menubutton"
+            >Contacts</a
+          >
         </div>
 
         <div id="frills">
@@ -148,7 +150,10 @@ if (!isset($_SESSION['user_id'])) {
                   <span class="menu-icon"><img src="../public/images/purchases icon updated.png" alt="purchases"></span>
                   <a href="profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
-
+                <div class="menu-item">
+                  <span class="menu-icon"><img src="../public/images/notif icon updated.png" alt="notif"></span>
+                  <a href="#" class="menu-link"><p>Notification</p></a>
+                </div>
                 <div class="menu-item">
                   <span class="menu-icon"></span>
                   <a href="../../../logout.php" class="menu-link"><p>Log Out</p></a>
