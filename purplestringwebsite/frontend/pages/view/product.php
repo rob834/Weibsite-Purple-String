@@ -96,21 +96,15 @@ if ($product_id > 0 && $con) {
         </div>
 
         <div id="menubar">
-          <a
-            href="../homepage.php"
-            class="menubutton"
-            >Home</a
-          >
-          <a
-            href="../products.php"
+          <button><a
+            href="index.php"
+            class="menubutton">Home</a></button>
+          <button><a
+            href="purplestringwebsite/frontend/pages/products.php"
             class="menubutton"
             >Products</a
-          >
-          <a
-            href="../contacts.php"
-            class="menubutton"
-            >Contacts</a
-          >
+          ></button>
+      
         </div>
 
         <div id="frills">
