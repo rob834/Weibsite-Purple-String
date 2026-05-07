@@ -97,7 +97,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px;
   height: 50px;
   width: 100%;
   top: 150px;
@@ -105,35 +104,24 @@ body {
   border: 3px;
   border-style: dashed;
   border-color: #c071d0;
-  font-family: 'Inter', Courier, monospace;
-}
-#menubar button {
-  background: none;
-  border: none;
-  padding: 0;
 }
 .menubutton {
   position: relative;
-  font-size: 20px;
-  padding: 15px 310px;
-  color: rgb(255, 255, 255);
+  padding: 14px 0;
+  color: white;
+  border: solid;
+  border-color: #d68ce5;
+  border-width: 2px;
   text-decoration: none;
-  display: inline-block;
-  font-family: 'Inter', Courier, monospace;
-  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 50%;
   border-radius: 50px;
 }
-
-.menubuttonselected {
-  position: relative;
-  font-size: 20px;
-  font-family: 'Inter', Courier, monospace;
-  padding: 15px 310px;
-  color: rgb(255, 255, 255);
-  text-decoration: none;
-  display: inline-block;
-  background-color: #C071D0;
-  border-radius: 50px;
+#toggledbtn {
+  background-color: #c071d0;
 }
 #frills {
   position: absolute;

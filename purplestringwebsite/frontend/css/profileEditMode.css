@@ -95,9 +95,8 @@ body {
   position: absolute;
   background-color: #d68ce5;
   display: flex;
-  justify-content: center;
+  justify-content: stretch;
   align-items: center;
-  gap: 40px;
   height: 50px;
   width: 100%;
   top: 150px;
@@ -105,25 +104,20 @@ body {
   border: 3px;
   border-style: dashed;
   border-color: #c071d0;
-  font-family: 'Inter', Courier, monospace;
-}
-#menubar button {
-  background: none;
-  border: none;
-  padding: 0;
 }
 .menubutton {
   position: relative;
-  font-size: 20px;
-  padding: 15px 310px;
-  color: rgb(255, 255, 255);
+  padding: 14px 100px;
+  color: white;
+  border: solid;
+  border-color: #d68ce5;
+  border-width: 2px;
   text-decoration: none;
   display: inline-block;
-  font-family: 'Inter', Courier, monospace;
-  background-color: transparent;
+  margin: 0 100px;
+  background-color: #c071d0;
   border-radius: 50px;
 }
-
 #frills {
   position: absolute;
   overflow: hidden;
@@ -253,45 +247,32 @@ body {
   padding: 40px 10%;
 }
 
-/* LEFT SIDE: AVATAR */
-.avatar-section {
-  text-align: left;
-  margin-bottom: 0;
+.profile-card {
   display: flex;
-  flex-direction: row;
   align-items: flex-start;
-  gap: 2rem;
-  width: 100%;
+  background-color: #fff6fa;
+  border-radius: 15px;
+  padding: 2rem 3rem;
+  box-shadow: 2px 2px 60px black;
 }
 
-.avatar-column {
+/* LEFT SIDE: AVATAR */
+.avatar-section {
+  text-align: center;
+  margin-right: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .pfpf {
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  border: 3px solid #B87BA4;
+  border: 2px solid #e8c2e4;
   object-fit: cover;
-  flex: 0 0 160px;
-}
-
-.profile-upload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.upload-filename {
-  font-size: 0.85rem;
-  color: #5a2a59;
-  min-height: 1.2rem;
-  text-align: center;
+  margin-bottom: 0;
 }
 
 .avatar-img {
@@ -328,9 +309,8 @@ input[type="file"]{
 
 .info-section {
   flex: 1;
-  width: 100%;
-  margin-top: 0;
 }
+
 .row {
   display: flex;
   align-items: flex-start;
@@ -408,13 +388,9 @@ input[type="file"]{
 }
 
 .profile-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background: #FFF8FD;
   border: none;
   border-radius: 14px;
-  padding: 2rem 3rem;
   padding-top: 40px;
   box-shadow: 1px 8px 50px rgb(164, 164, 164);
 }
@@ -435,21 +411,6 @@ input[type="file"]{
   font-weight: 500;
   font-size: 14px;
   margin-bottom: 8px;
-}
-
-.form-group {
-  flex: 1;
-}
-
-.save-btn {
-  background-color: #B87BA4;
-  border: none;
-  padding: 0.45rem 1rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  color: #ffffff;
-  cursor: pointer;
-  display: inline-block;
 }
 
 .form-group input,

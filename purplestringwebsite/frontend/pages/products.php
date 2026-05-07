@@ -75,13 +75,21 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
         <div id="menubar">
-          <button><a
-            href="index.php"
-            class="menubutton">Home</a></button>
-          <button><a
-            href="purplestringwebsite/frontend/pages/products.php" 
-            class="menubuttonselected">Products</a></button>
-      
+          <a
+            href="../pages/homepage.php"
+            class="menubutton"
+            >Home</a
+          >
+          <a
+            href="../pages/products.php"
+            class="menubutton"
+            >Products</a
+          >
+          <a
+            href="../pages/contacts.php"
+            class="menubutton"
+            >Contacts</a
+          >
         </div>
 
         <div id="frills">
