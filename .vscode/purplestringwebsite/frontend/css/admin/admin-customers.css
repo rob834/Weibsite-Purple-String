@@ -1,0 +1,211 @@
+body {
+  font-family: Inter;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+#admin-sidebar a#toggled {
+    background-color: #FFFFFF;
+    color: #9A5081;
+}
+#admin-sidebar a#toggled:hover {
+    color: #9A5081;
+}
+#admin-sidebar {
+    width: 200px;
+    background-color: #9A5081;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+#admin-sidebar a {
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    display: block;
+}
+#admin-sidebar a:hover {
+    background-color: #FFFFFF;
+    color: #9A5081;
+}
+#admin-content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+.icon {
+    margin-right: 10px;
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+
+#upper-left-searchbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  width: 300px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+}
+
+#upper-left-searchbar:hover {
+  background-color: #e8e8e8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+#upper-left-searchbar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  margin: 0;
+  padding: 0 8px;
+  font-size: 14px;
+  color: #333;
+  font-family: inherit;
+}
+
+#upper-left-searchbar input::placeholder {
+  color: #999;
+}
+
+#upper-left-searchbar input:focus {
+  color: #333;
+}
+
+#upper-left-searchbar button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+#upper-left-searchbar button:hover {
+  transform: scale(1.1);
+}
+
+#upper-left-searchbar button img {
+  width: 30px;
+  height: 30px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+#upper-left-searchbar button:hover img {
+  opacity: 1;
+}
+
+
+
+#upper-right-accountname {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+}
+.account-icon {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcfcfc;
+    padding: 40px;
+    color: #333;
+}
+
+.table-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header Styling */
+.table-header {
+    display: flex;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-bottom: 2px solid #d8b4fe; /* Purple underline */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Row Styling */
+.order-row {
+    display: flex;
+    align-items: center;
+    background-color: #fffafb; /* Slight pinkish tint */
+    margin-bottom: 12px;
+    padding: 15px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    text-align: center;
+}
+
+/* Column Widths */
+.col-icon { width: 5%; }
+.col-customer { width: 40%; display: flex; align-items: center; justify-content: flex-start; font-weight: 600; }
+.col-status { width: 25%; }
+.col-total { width: 15%; font-weight: 600; }
+.col-date { width: 15%; font-weight: 600; }
+
+/* Components */
+.user-avatar {
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.delete-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.delete-btn {
+    color: #a855f7;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* Status Badges */
+.badge {
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.paid-yellow { background-color: #fef08a; color: #854d0e; }
+.paid-green { background-color: #86efac; color: #166534; }
+.completed { background-color: #4ade80; color: #064e3b; }
+.delivering { background-color: #fdba74; color: #9a3412; }
+.cancelled { background-color: #f87171; color: #ffffff; }
