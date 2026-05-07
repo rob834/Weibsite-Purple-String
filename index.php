@@ -24,7 +24,7 @@ if (!$user_data) {
     <title>Homescreen</title>
     <link
       rel="stylesheet"
-      href="purplestringwebsite/frontend/css/homepage.css?v=<?php echo time(); ?>" />
+      href="purplestringwebsite/frontend/css/homepage.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -65,16 +65,15 @@ if (!$user_data) {
         </div>
 
         <div id="menubar">
-          <a
+          <button><a
             href="index.php"
-            class="menubutton" id="toggledbtn"
-            >Home</a
-          >
-          <a
+            class="menubuttonselected">Home</a></button>
+          <button><a
             href="purplestringwebsite/frontend/pages/products.php"
             class="menubutton"
             >Products</a
-          >
+          ></button>
+      
         </div>
 
         <div id="frills">

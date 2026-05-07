@@ -72,22 +72,16 @@ if (!isset($_SESSION['user_id'])) {
           </div>
         </div>
 
-        <div id="menubar">
-          <a
-            href="/Weibsite-Purple-String/index.php"
-            class="menubutton"
-            >Home</a
-          >
-          <a
-            href="../pages/products.php"
+       <div id="menubar">
+          <button><a
+            href="index.php"
+            class="menubuttonselected">Home</a></button>
+          <button><a
+            href="purplestringwebsite/frontend/pages/products.php"
             class="menubutton"
             >Products</a
-          >
-          <a
-            href="../pages/contacts.php"
-            class="menubutton"
-            >Contacts</a
-          >
+          ></button>
+      
         </div>
 
         <div id="frills">
