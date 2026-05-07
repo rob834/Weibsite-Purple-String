@@ -93,7 +93,7 @@ body {
 }
 #menubar {
   position: absolute;
-  background-color: #d68ce5;
+  background-color: #000000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,7 +110,7 @@ body {
   padding: 14px 0;
   color: white;
   border: solid;
-  border-color: #d68ce5;
+  border-color: #000000;
   border-width: 2px;
   text-decoration: none;
   display: flex;
