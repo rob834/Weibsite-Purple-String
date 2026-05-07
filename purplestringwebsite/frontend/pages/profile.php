@@ -83,7 +83,7 @@ if (!empty($user['avatar'])) {
           <button><a
             href="purplestringwebsite/frontend/pages/products.php"
             class="menubutton"
-            >Products</a
+            >Proddwhaaoiiwodutietects</a
           ></button>
       
         </div>
