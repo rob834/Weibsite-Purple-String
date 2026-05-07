@@ -76,10 +76,10 @@ if (!isset($_SESSION['user_id'])) {
 
         <div id="menubar">
           <button><a
-            href="index.php"
+            href="../pages/index.php"
             class="menubutton">Home</a></button>
           <button><a
-            href="purplestringwebsite/frontend/pages/products.php" 
+            href="products.php" 
             class="menubuttonselected">Products</a></button>
       
         </div>
