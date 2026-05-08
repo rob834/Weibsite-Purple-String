@@ -84,12 +84,26 @@ body {
   margin-left: 75px;
   cursor: pointer;
 }
+
+/* account circle */
 #account-circle {
   position: inherit;
-  object-fit: contain;
   margin-top: 30px;
   margin-left: 150px;
   cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#account-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 #menubar {
   position: absolute;
@@ -132,7 +146,7 @@ body {
   color: rgb(255, 255, 255);
   text-decoration: none;
   display: inline-block;
-  background-color: #C071D0;
+  background-color: #c071d0;
   border-radius: 50px;
 }
 #frills {
@@ -224,7 +238,7 @@ body {
 .productslide {
   flex: 0 0 auto;
   width: 300px;
-  height: auto;
+  height: 250px;
   object-fit: contain;
   scroll-snap-align: center;
 }
