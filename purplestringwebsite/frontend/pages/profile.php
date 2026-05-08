@@ -78,10 +78,10 @@ if (!empty($user['avatar'])) {
 
        <div id="menubar">
           <button><a
-            href="index.php"
+            href="../../../index.php"
             class="menubutton">Home</a></button>
           <button><a
-            href="purplestringwebsite/frontend/pages/products.php"
+            href="products.php"
             class="menubutton"
             >Products</a
           ></button>
