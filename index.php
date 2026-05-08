@@ -14,6 +14,24 @@ if (!$user_data) {
 
 ?>
 
+<?php
+          // determine avatar for header
+          if (!isset($con)) { include_once __DIR__ . '/purplestringwebsite/backend/connection.php'; $con = function_exists('get_db_connection') ? get_db_connection() : null; }
+          $avatar_src = 'purplestringwebsite/frontend/public/images/profile icon.png';
+          if (isset($_SESSION['user_id']) && $con) {
+            $uid = $_SESSION['user_id'];
+            $uqr = mysqli_prepare($con, "SELECT avatar FROM users WHERE user_id = ? LIMIT 1");
+            mysqli_stmt_bind_param($uqr, 's', $uid);
+            mysqli_stmt_execute($uqr);
+            $ures = mysqli_stmt_get_result($uqr);
+            if ($ures && ($urow = mysqli_fetch_assoc($ures))) {
+              if (!empty($urow['avatar']) && file_exists(__DIR__ . '/purplestringwebsite/frontend/public/images/avatars/' . $urow['avatar'])) {
+                $avatar_src = 'purplestringwebsite/frontend/public/images/avatars/' . $urow['avatar'];
+              }
+            }
+            mysqli_stmt_close($uqr);
+          }
+        ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -59,8 +77,7 @@ if (!$user_data) {
           </div>
           <div id="account-circle">
             <a href="purplestringwebsite/frontend/pages/profile.php"
-              ><img src="purplestringwebsite/frontend/public/images/profile icon.png"
-            /></a>
+              ><img src="<?= $avatar_src ?>" alt="profile" /></a>
           </div>
         </div>
 
@@ -88,21 +105,29 @@ if (!$user_data) {
           <div id="slides">
             <div id="slideshow">
               <div id="wrapper">
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 1.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 2.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 3.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 4.png" />
-                <img
-                  class="productslide"
-                  src="purplestringwebsite/frontend/public/images/carousel pic 5.png" />
+                 <?php
+                  // Fetch 5 most recently added products with their images
+                  $query = "SELECT p.product_id, pi.file_name FROM products p 
+                            LEFT JOIN product_images pi ON p.product_id = pi.product_id 
+                            WHERE p.is_active = 1 
+                            ORDER BY p.created_at DESC LIMIT 5";
+                  
+                  $result = mysqli_query($con, $query);
+                  
+                  if($result && mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)) {
+                      $image_path = $row['file_name'] ? "purplestringwebsite/frontend/public/images/products/" . htmlspecialchars($row['file_name']) : "purplestringwebsite/frontend/public/images/carousel pic 1.png";
+                      echo '<div class="product-image-wrapper"><img class="productslide" src="' . $image_path . '" /></div>';
+                    }
+                  } else {
+                    // Fallback to default images if no products found
+                    echo '<div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 1.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 2.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 3.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 4.png" /></div>
+                          <div class="product-image-wrapper"><img class="productslide" src="purplestringwebsite/frontend/public/images/carousel pic 5.png" /></div>';
+                  }
+                ?>
               </div>
             </div>
           </div>
@@ -113,34 +138,28 @@ if (!$user_data) {
           </div>
           <div id="productreccomendations">
             <div id="productbuttons">
-              <div id="custom-crochet">
+              <div id="custom-crochet" onclick="window.location.href='purplestringwebsite/frontend/pages/products.php?category=Crochet'" style="cursor: pointer;">
                 <div id="crochet-button">
-                  <a>
-                    <img src="purplestringwebsite/frontend/public/images/hover imgs/custom-crochet.png" />
-                  </a>
+                  <img src="purplestringwebsite/frontend/public/images/hover imgs/custom-crochet.png" />
                 </div>
                 <div id="extra-crochet">
                   <img
                     src="purplestringwebsite/frontend/public/images/hover imgs/custom-crochet-hover.png" />
                 </div>
               </div>
-              <div id="custom-miscellaneous">
+              <div id="custom-miscellaneous" onclick="window.location.href='purplestringwebsite/frontend/pages/products.php?category=Miscellaneous'" style="cursor: pointer;">
                 <div id="miscellaneous-button">
-                  <a>
-                    <img
-                      src="purplestringwebsite/frontend/public/images/hover imgs/custom-miscellaneous.png" />
-                  </a>
+                  <img
+                    src="purplestringwebsite/frontend/public/images/hover imgs/custom-miscellaneous.png" />
                 </div>
                 <div id="extra-miscellaneous">
                   <img
                     src="purplestringwebsite/frontend/public/images/hover imgs/custom-miscellaneous-hover.png" />
                 </div>
               </div>
-              <div id="custom-print">
+              <div id="custom-print" onclick="window.location.href='purplestringwebsite/frontend/pages/products.php?category=Print'" style="cursor: pointer;">
                 <div id="print-button">
-                  <a>
-                    <img src="purplestringwebsite/frontend/public/images/hover imgs/custom-prints.png" />
-                  </a>
+                  <img src="purplestringwebsite/frontend/public/images/hover imgs/custom-prints.png" />
                 </div>
                 <div id="extra-print">
                   <img
@@ -151,19 +170,17 @@ if (!$user_data) {
           </div>
         </div>
 
-        <div id="viewallprod">
+        <div id="viewallprod" onclick="window.location.href='purplestringwebsite/frontend/pages/products.php'" style="cursor: pointer;">
           <div id="viewallprod-button">
-            <a>
-              <img
-                id="viewallprod-base"
-                src="purplestringwebsite/frontend/public/images/hover imgs/viewallprod.png"
-                alt="View All Products" />
-            </a>
+            <img
+              id="viewallprod-base"
+              src="purplestringwebsite/frontend/public/images/hover imgs/viewallprod.png"
+              alt="View All Products" />
+            <img
+              id="viewallprod-hover"
+              src="purplestringwebsite/frontend/public/images/hover imgs/viewallprod-hover.png"
+              alt="View All Products Hover" />
           </div>
-          <img
-            id="viewallprod-hover"
-            src="purplestringwebsite/frontend/public/images/hover imgs/viewallprod-hover.png"
-            alt="View All Products Hover" />
         </div>
 
         <div id="purplestring-description">

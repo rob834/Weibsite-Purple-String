@@ -76,10 +76,10 @@ if (!isset($_SESSION['user_id'])) {
 
         <div id="menubar">
           <button><a
-            href="index.php"
+            href="../../../index.php"
             class="menubutton">Home</a></button>
           <button><a
-            href="purplestringwebsite/frontend/pages/products.php" 
+            href="products.php" 
             class="menubuttonselected">Products</a></button>
       
         </div>
@@ -184,10 +184,9 @@ if (!isset($_SESSION['user_id'])) {
             </div>
             <p class="price">₱<?= number_format($p['price'], 2) ?></p>
             <p class="category-label"><?= htmlspecialchars($p['category_name'] ?? 'Uncategorized') ?></p>
-            <form method="POST" action="../../backend/add_to_cart.php">
-              <input type="hidden" name="product_id" value="<?= $p['product_id'] ?>" />
-              <input type="hidden" name="quantity" value="1" />
-              <input type="hidden" name="redirect" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" />
+            <form class="cart-form">
+              <input type="hidden" class="product-id" value="<?= $p['product_id'] ?>" />
+              <input type="hidden" class="quantity" value="1" />
               <button type="submit" class="cart-btn">🛒</button>
             </form>
           </div>
@@ -246,13 +245,39 @@ if (!isset($_SESSION['user_id'])) {
           src="../public/images/whiteflower.png" />
       </div>
   <script>
-    // Make all buttons with class `cart-btn` navigate to the product view
+    // Handle cart form submissions
     (function(){
-      var buttons = document.querySelectorAll('.cart-btn');
-      buttons.forEach(function(b){
-        b.addEventListener('click', function(){
-          // relative path from this file (`pages/products.php`) to the view page
-          window.location.href = 'view/product.php';
+      var forms = document.querySelectorAll('.cart-form');
+      forms.forEach(function(form){
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          
+          var productId = form.querySelector('.product-id').value;
+          var quantity = form.querySelector('.quantity').value;
+          
+          var fd = new FormData();
+          fd.append('product_id', productId);
+          fd.append('quantity', quantity);
+          
+          fetch('../../backend/add_to_cart.php', { 
+            method: 'POST', 
+            body: fd,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data.success) {
+              alert('Product added to cart!');
+            } else {
+              alert('Error adding to cart. Please try again.');
+            }
+          })
+          .catch(function(err) {
+            console.error('add to cart error', err);
+            alert('Error adding to cart. Please try again.');
+          });
         });
       });
     })();
