@@ -47,7 +47,7 @@ if (!empty($user['avatar'])) {
     <div id="page-container">
       <section id="header">
         <div id="PurpleBox"></div>
-        <div id="leftheader">
+        <div id="leftheader"> 
           <div id="search">
             <label for="searchbar">
               <img src="../public/images/search.png" />
@@ -71,23 +71,29 @@ if (!empty($user['avatar'])) {
           </div>
           <div id="account-circle">
             <a href="profile.php"><img src="<?= $avatar_src ?>" alt="profile" /></a>
+            
+            
           </div>
         </div>
 
-        <div id="menubar">
-          <a href="../homepage.php" class="menubutton">Home</a>
-          <a href="../pages/products.php" class="menubutton">Products</a>
-          <a
-            href="../pages/contacts.php"
+       <div id="menubar">
+          <button><a
+            href="../../../index.php"
+            class="menubutton">Home</a></button>
+          <button><a
+            href="products.php"
             class="menubutton"
-            >Contacts</a
-          >
+            >Products</a
+          ></button>
+      
         </div>
 
         <div id="frills">
           <img src="../public/images/vectors/frills.png" />
         </div>
       </section>
+
+<!-- content -->
 
       <section id="content">
         <div class="profile-grid">
@@ -98,7 +104,21 @@ if (!empty($user['avatar'])) {
 
               <div class="avatar-section">
                  <div class="pfpf">
-                  <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="profile" class="avatar-img">
+
+                 <!-- pfp -->
+                                   <?php
+                   $avatar_src = '../public/images/profile icon.png';
+                   if (!empty($user['avatar'])) {
+                     $path = __DIR__ . '/../public/images/avatars/' . $user['avatar'];
+                     if (file_exists($path)) {
+                       $avatar_src = '../public/images/avatars/' . $user['avatar'];
+                     }
+                   }
+                 ?>
+                  <img src="<?= $avatar_src ?>" alt="profile" class="avatar-img">
+
+                  <!-- pfp -->
+                   
                  </div>
                  <div class="editbtn">
                  <button class="edit-btn"><a href="profileEditMode.php"><img src="../public/images/edit profile icon.png" alt="edit">Edit Profile</a></button>
@@ -146,10 +166,7 @@ if (!empty($user['avatar'])) {
                   <span class="menu-icon"><img src="../public/images/purchases icon updated.png" alt="purchases"></span>
                   <a href="profilePurchases.php" class="menu-link"><p>Purchases</p></a>
                 </div>
-                <div class="menu-item">
-                  <span class="menu-icon"><img src="../public/images/notif icon updated.png" alt="notif"></span>
-                  <a href="#" class="menu-link"><p>Notification</p></a>
-                </div>
+
                 <div class="menu-item">
                   <span class="menu-icon"></span>
                   <a href="../../../logout.php" class="menu-link"><p>Log Out</p></a>

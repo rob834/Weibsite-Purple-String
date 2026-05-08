@@ -86,17 +86,30 @@ body {
 }
 #account-circle {
   position: inherit;
-  object-fit: contain;
   margin-top: 30px;
   margin-left: 150px;
   cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#account-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 #menubar {
   position: absolute;
   background-color: #d68ce5;
   display: flex;
-  justify-content: stretch;
+  justify-content: center;
   align-items: center;
+  gap: 40px;
   height: 50px;
   width: 100%;
   top: 150px;
@@ -104,18 +117,34 @@ body {
   border: 3px;
   border-style: dashed;
   border-color: #c071d0;
+  font-family: 'Inter', Courier, monospace;
+}
+#menubar button {
+  background: none;
+  border: none;
+  padding: 0;
 }
 .menubutton {
   position: relative;
-  padding: 14px 100px;
-  color: white;
-  border: solid;
-  border-color: #d68ce5;
-  border-width: 2px;
+  font-size: 20px;
+  padding: 15px 310px;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   display: inline-block;
-  margin: 0 100px;
-  background-color: #c071d0;
+  font-family: 'Inter', Courier, monospace;
+  background-color: transparent;
+  border-radius: 50px;
+}
+
+.menubuttonselected {
+  position: relative;
+  font-size: 20px;
+  font-family: 'Inter', Courier, monospace;
+  padding: 15px 310px;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  display: inline-block;
+  background-color: transparent;
   border-radius: 50px;
 }
 #frills {
@@ -193,7 +222,7 @@ body {
 }
 
 #page-design {
-  z-index: 20;
+  z-index: -5;
   position: absolute;
   height: 100%;
   width: 100%;

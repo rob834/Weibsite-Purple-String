@@ -22,4 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // initialize — ensure first card visible
   showCard('card-1');
+
+  const avatarInput = document.getElementById('UploadBtn');
+  const uploadFilename = document.getElementById('uploadFilename');
+
+  if (avatarInput && uploadFilename) {
+    avatarInput.addEventListener('change', () => {
+      const fileName = avatarInput.files && avatarInput.files.length > 0 ? avatarInput.files[0].name : 'No file chosen';
+      uploadFilename.textContent = fileName;
+    });
+  }
 });
