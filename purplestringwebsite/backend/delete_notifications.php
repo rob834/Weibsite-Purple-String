@@ -27,19 +27,20 @@ $order_ids = array_map('intval', $order_ids);
 // Create placeholders for the IN clause
 $placeholders = implode(',', array_fill(0, count($order_ids), '?'));
 
-// Delete from order_items first (foreign key constraint)
-$delete_items_query = "DELETE FROM order_items WHERE order_id IN ($placeholders)";
-$stmt = mysqli_prepare($con, $delete_items_query);
-if ($stmt) {
-    $types = str_repeat('i', count($order_ids));
-    mysqli_stmt_bind_param($stmt, $types, ...$order_ids);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+// First, check and add notif_deleted column if it doesn't exist
+$check_column = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='orders' AND COLUMN_NAME='notif_deleted'";
+$column_result = mysqli_query($con, $check_column);
+
+if (!$column_result || mysqli_num_rows($column_result) === 0) {
+    // Column doesn't exist, add it
+    $alter_query = "ALTER TABLE orders ADD COLUMN notif_deleted TINYINT(1) DEFAULT 0";
+    mysqli_query($con, $alter_query);
 }
 
-// Delete from orders
-$delete_orders_query = "DELETE FROM orders WHERE order_id IN ($placeholders)";
-$stmt = mysqli_prepare($con, $delete_orders_query);
+// Soft delete: Update notif_deleted to 1 instead of deleting records
+$update_query = "UPDATE orders SET notif_deleted = 1 WHERE order_id IN ($placeholders)";
+$stmt = mysqli_prepare($con, $update_query);
+
 if ($stmt) {
     $types = str_repeat('i', count($order_ids));
     mysqli_stmt_bind_param($stmt, $types, ...$order_ids);
@@ -54,3 +55,4 @@ if ($stmt) {
 } else {
     echo json_encode(['success' => false, 'message' => 'Query preparation error: ' . mysqli_error($con)]);
 }
+
