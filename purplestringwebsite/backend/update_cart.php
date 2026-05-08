@@ -17,5 +17,5 @@ if ($quantity <= 0) {
     $_SESSION['cart'][$product_id] = $quantity;
 }
 
-header('Location: ../../frontend/pages/cart.php');
+header('Location: ../../../../../Weibsite-Purple-String/purplestringwebsite/frontend/pages/cart.php');
 exit();
