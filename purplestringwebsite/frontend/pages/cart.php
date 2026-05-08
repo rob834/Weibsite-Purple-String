@@ -74,10 +74,10 @@ if (!isset($_SESSION['user_id'])) {
 
        <div id="menubar">
           <button><a
-            href="index.php"
+            href="../../../index.php"
             class="menubuttonselected">Home</a></button>
           <button><a
-            href="purplestringwebsite/frontend/pages/products.php"
+            href="../pages/products.php"
             class="menubutton"
             >Products</a
           ></button>
@@ -158,34 +158,55 @@ if (!isset($_SESSION['user_id'])) {
           </div>
 
           <!-- Order Summary Card -->
+                    <!-- Order Summary Card -->
+
           <div class="order-card">
+
             <h2>Order Summary</h2>
+
             <div class="order-details">
+
+              <?php foreach ($cart as $pid => $qty):
+
+                if (!isset($products_map[$pid])) continue;
+
+                $prod = $products_map[$pid];
+
+                $line_total = floatval($prod['price']) * intval($qty);
+
+              ?>
+
               <div class="order-row">
-                <span>Subtotal:</span>
-                <span class="amount">₱<?= number_format($subtotal, 2) ?></span>
+
+                <span><?= htmlspecialchars($prod['name']) ?> x<?= intval($qty) ?></span>
+
+                <span class="amount">₱<?= number_format($line_total, 2) ?></span>
+
               </div>
-              <div class="order-row">
-                <span>Shipping:</span>
-                <?php $shipping = ($subtotal > 0) ? 50.00 : 0.00; ?>
-                <span class="amount">₱<?= number_format($shipping, 2) ?></span>
-              </div>
-              <div class="order-row">
-                <span>Tax:</span>
-                <?php $tax = $subtotal * 0.08; ?>
-                <span class="amount">₱<?= number_format($tax, 2) ?></span>
-              </div>
+
+              <?php endforeach; ?>
+
               <div class="order-row total">
+
                 <span>Total:</span>
-                <span class="amount total-amount">₱<?= number_format($subtotal + $shipping + $tax, 2) ?></span>
+
+                <span class="amount total-amount">₱<?= number_format($subtotal, 2) ?></span>
+
               </div>
+
             </div>
+
             <form method="POST" action="../../backend/place_order.php">
+
               <button type="submit" class="checkout-btn" <?= empty($cart) ? 'disabled' : '' ?>>
+
                 Proceed to Checkout
+
               </button>
+
             </form>
-          </div>
+
+              </div>
         </div>
       </section>
 
