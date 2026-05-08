@@ -9,11 +9,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 // Include database connection
 include_once __DIR__ . '/../../../backend/connection.php';
 
-// Fetch all orders from the database
-$orders_query = "SELECT o.order_id, o.user_id, o.total, o.status, o.created_at, o.is_read,
+// Fetch all orders from the database (excluding soft deleted)
+$orders_query = "SELECT o.order_id, o.user_id, o.total, o.status, o.created_at, o.is_read, o.notif_deleted,
                         u.user_name, u.display_name
                  FROM orders o
                  JOIN users u ON o.user_id = u.user_id
+                 WHERE o.notif_deleted = 0
                  ORDER BY o.created_at DESC";
 
 $orders_result = mysqli_query($con, $orders_query);
