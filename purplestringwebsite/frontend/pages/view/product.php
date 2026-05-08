@@ -96,21 +96,15 @@ if ($product_id > 0 && $con) {
         </div>
 
         <div id="menubar">
-          <a
-            href="../homepage.php"
-            class="menubutton"
-            >Home</a
-          >
-          <a
+          <button><a
+            href="../../../../index.php"
+            class="menubutton">Home</a></button>
+          <button><a
             href="../products.php"
             class="menubutton"
             >Products</a
-          >
-          <a
-            href="../contacts.php"
-            class="menubutton"
-            >Contacts</a
-          >
+          ></button>
+      
         </div>
 
         <div id="frills">
@@ -221,12 +215,74 @@ if ($product_id > 0 && $con) {
       </div>
   <script src="../../js/product.js"></script>
   <script>
-    // Redirect 'Buy Now' button to cart page
+    // Get product ID from URL
+    var productId = new URLSearchParams(window.location.search).get('product_id') || 0;
+
+    // Add to Cart functionality
+    function addToCart() {
+      var fd = new FormData();
+      fd.append('product_id', productId);
+      fd.append('quantity', 1);
+
+      fetch('../../../backend/add_to_cart.php', { 
+        method: 'POST', 
+        body: fd,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.success) {
+            alert('Product added to cart!');
+          } else {
+            alert('Error adding to cart. Please try again.');
+          }
+        })
+        .catch(function(err) {
+          console.error('add to cart error', err);
+          alert('Error adding to cart. Please try again.');
+        });
+    }
+
+    // Add to Cart Button
+    (function(){
+      var addBtn = document.querySelector('.btn-add-to-cart');
+      if(addBtn){
+        addBtn.addEventListener('click', function(){
+          addToCart();
+        });
+      }
+    })();
+
+    // Buy Now Button - Add to Cart and Redirect
     (function(){
       var buyBtn = document.querySelector('.btn-buy-now');
       if(buyBtn){
         buyBtn.addEventListener('click', function(){
-          window.location.href = '../cart.php';
+          var fd = new FormData();
+          fd.append('product_id', productId);
+          fd.append('quantity', 1);
+
+          fetch('../../../backend/add_to_cart.php', { 
+            method: 'POST', 
+            body: fd,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              if (data.success) {
+                window.location.href = '../cart.php';
+              } else {
+                alert('Error adding to cart. Please try again.');
+              }
+            })
+            .catch(function(err) {
+              console.error('buy now error', err);
+              alert('Error processing your request. Please try again.');
+            });
         });
       }
     })();

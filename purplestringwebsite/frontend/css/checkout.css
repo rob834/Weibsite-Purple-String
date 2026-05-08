@@ -86,17 +86,30 @@ body {
 }
 #account-circle {
   position: inherit;
-  object-fit: contain;
   margin-top: 30px;
   margin-left: 150px;
   cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#account-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 #menubar {
   position: absolute;
   background-color: #d68ce5;
   display: flex;
-  justify-content: stretch;
+  justify-content: center;
   align-items: center;
+  gap: 40px;
   height: 50px;
   width: 100%;
   top: 150px;
@@ -104,17 +117,33 @@ body {
   border: 3px;
   border-style: dashed;
   border-color: #c071d0;
+  font-family: 'Inter', Courier, monospace;
+}
+#menubar button {
+  background: none;
+  border: none;
+  padding: 0;
 }
 .menubutton {
   position: relative;
-  padding: 14px 100px;
-  color: white;
-  border: solid;
-  border-color: #d68ce5;
-  border-width: 2px;
+  font-size: 20px;
+  padding: 15px 310px;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   display: inline-block;
-  margin: 0 100px;
+  font-family: 'Inter', Courier, monospace;
+  background-color: transparent;
+  border-radius: 50px;
+}
+
+.menubuttonselected {
+  position: relative;
+  font-size: 20px;
+  font-family: 'Inter', Courier, monospace;
+  padding: 15px 310px;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  display: inline-block;
   background-color: #c071d0;
   border-radius: 50px;
 }
@@ -652,6 +681,78 @@ body {
   font-size: 12px;
 }
 
+/* Payment Instructions */
+.payment-instructions {
+  margin-top: 20px;
+  background-color: #fff8fe;
+  border: 2px solid #c071d0;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.payment-instructions h3 {
+  color: #8a226f;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.payment-steps {
+  margin: 0 0 18px 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payment-steps li {
+  color: #444;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.payment-steps li strong {
+  color: #8a226f;
+}
+
+.messenger-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 13px;
+  background-color: #0084ff;
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+.messenger-btn:hover {
+  background-color: #006edb;
+  transform: translateY(-2px);
+}
+
+.messenger-btn:active {
+  transform: translateY(0);
+}
+
+.payment-note {
+  color: #b5451b;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
 /* Continue Shopping Section */
 .continue-shopping {
   margin-top: 50px;
@@ -681,6 +782,9 @@ body {
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .product-card:hover {
@@ -689,28 +793,54 @@ body {
   border-color: #c071d0;
 }
 
-.product-card img {
+.product-img {
   width: 100%;
   height: 150px;
   object-fit: contain;
   margin-bottom: 15px;
 }
 
-.product-card h3 {
+.product-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-name {
   color: #333;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  margin: 0 0 8px 0;
+  margin: 0;
 }
 
-.product-price {
+.product-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-name a:hover {
   color: #8a226f;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0 0 15px 0;
 }
 
-.add-to-cart-btn {
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.price {
+  color: #8a226f;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.buy-now-btn {
+  display: inline-block;
   width: 100%;
   padding: 10px;
   background-color: #c071d0;
@@ -719,17 +849,21 @@ body {
   border-radius: 25px;
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
+  text-align: center;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  margin-top: 8px;
 }
 
-.add-to-cart-btn:hover {
+.buy-now-btn:hover {
   background-color: #d68ce5;
   border-color: #d68ce5;
   transform: translateY(-2px);
 }
 
-.add-to-cart-btn:active {
+.buy-now-btn:active {
   transform: translateY(0);
 }
