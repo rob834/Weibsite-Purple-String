@@ -73,21 +73,15 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
         <div id="menubar">
-          <a
-            href="/Weibsite-Purple-String/index.php"
-            class="menubutton"
-            >Home</a
-          >
-          <a
+          <button><a
+            href="../../../index.php"
+            class="menubutton">Home</a></button>
+          <button><a
             href="../pages/products.php"
             class="menubutton"
             >Products</a
-          >
-          <a
-            href="../pages/contacts.php"
-            class="menubutton"
-            >Contacts</a
-          >
+          ></button>
+      
         </div>
 
         <div id="frills">
@@ -233,33 +227,83 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="tracking-history">
           <h3>Order Summary</h3>
+          <?php foreach ($order_items as $item): ?>
           <div class="tracking-item">
-            <span class="track-time">Subtotal</span>
-            <span class="track-status">₱<?= number_format($order['subtotal'], 2) ?></span>
+            <span class="track-time"><?= htmlspecialchars($item['name']) ?> &times;<?= intval($item['quantity']) ?></span>
+            <span class="track-status">₱<?= number_format($item['unit_price'] * $item['quantity'], 2) ?></span>
           </div>
-          <div class="tracking-item">
-            <span class="track-time">Shipping</span>
-            <span class="track-status">₱<?= number_format($order['shipping'], 2) ?></span>
-          </div>
-          <div class="tracking-item">
-            <span class="track-time">Tax (8%)</span>
-            <span class="track-status">₱<?= number_format($order['tax'], 2) ?></span>
-          </div>
+          <?php endforeach; ?>
           <div class="tracking-item" style="font-weight:bold;">
             <span class="track-time">Total</span>
             <span class="track-status">₱<?= number_format($order['total'], 2) ?></span>
           </div>
         </div>
+
+        <!-- Payment Instructions -->
+        <div class="payment-instructions">
+          <h3>💳 How to Pay</h3>
+          <ol class="payment-steps">
+            <li>Take a <strong>screenshot</strong> of this invoice and your order total above.</li>
+            <li>Click the button below to open a <strong>private message</strong> with the shop owner on Messenger.</li>
+            <li>Send the screenshot and include your <strong>Order #<?= $order['order_id'] ?></strong>.</li>
+            <li>The owner will provide payment details and confirm your order once paid.</li>
+          </ol>
+          <a href="https://m.me/purplestring.official" target="_blank" class="messenger-btn">
+            Message Us on Messenger
+          </a>
+          <p class="payment-note">⚠️ Your order will only be processed after payment is confirmed by the owner.</p>
+        </div>
+
       </div>
     </div>
 
     <?php endif; ?>
 
-    <!-- Continue Shopping — keep your existing product cards here -->
+    <!-- Continue Shopping -->
     <div class="continue-shopping">
-      <h2>Continue Shopping</h2>
+      <h2>You Might Also Like</h2>
       <div class="products-grid">
-        <!-- your existing product cards unchanged -->
+        <?php
+        $rec_sql = "SELECT p.*, pi.file_name AS image_file, pr.avg_rating, pr.count_ratings
+            FROM products p
+            LEFT JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
+            LEFT JOIN (
+              SELECT product_id, AVG(rating) AS avg_rating, COUNT(*) AS count_ratings
+              FROM product_ratings
+              GROUP BY product_id
+            ) pr ON pr.product_id = p.product_id
+            ORDER BY RAND()
+            LIMIT 4";
+        $rec_res = mysqli_query($con, $rec_sql);
+        if ($rec_res && mysqli_num_rows($rec_res) > 0):
+          while ($rp = mysqli_fetch_assoc($rec_res)):
+            $rec_img = $rp['image_file']
+              ? '../public/images/products/' . $rp['image_file']
+              : '../public/images/product image.png';
+        ?>
+        <div class="product-card">
+          <a href="view/product.php?product_id=<?= $rp['product_id'] ?>">
+            <img src="<?= $rec_img ?>" alt="<?= htmlspecialchars($rp['name']) ?>" class="product-img">
+          </a>
+          <div class="product-info">
+            <p class="product-name">
+              <a href="view/product.php?product_id=<?= $rp['product_id'] ?>"><?= htmlspecialchars($rp['name']) ?></a>
+            </p>
+            <div class="rating">
+              <span class="star">⭐</span>
+              <span class="rating-value"><?= isset($rp['avg_rating']) ? number_format(floatval($rp['avg_rating']), 2) : '0.00' ?></span>
+              <span class="rating-count"><?= isset($rp['count_ratings']) ? intval($rp['count_ratings']) : 0 ?></span>
+            </div>
+            <p class="price">₱<?= number_format($rp['price'], 2) ?></p>
+            <a href="products.php" class="buy-now-btn">Buy Now</a>
+          </div>
+        </div>
+        <?php
+          endwhile;
+        else:
+        ?>
+          <p>No products available.</p>
+        <?php endif; ?>
       </div>
     </div>
 
