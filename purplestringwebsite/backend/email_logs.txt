@@ -1,0 +1,44 @@
+=== Email Log Entry ===
+Date: 2026-05-12 01:03:20
+To: louisemanio048@gmail.com
+Username: Louise Manio
+Subject: Email Verification - Purple String
+Verification Link: http://localhost/Weibsite-Purple-String/verify_email.php?token=02204c9f14425162bef9b433ee44e9f4b18bcbb3236e6791a8d9346c335e6959
+Token: 02204c9f14425162bef9b433ee44e9f4b18bcbb3236e6791a8d9346c335e6959
+Message:
+
+	<html>
+		<head>
+			<title>Email Verification</title>
+			<style>
+				body { font-family: Arial, sans-serif; }
+				.container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
+				.header { background-color: #8B4789; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+				.content { background-color: white; padding: 20px; }
+				.footer { background-color: #f5f5f5; padding: 10px; text-align: center; font-size: 12px; color: #666; }
+				.button { background-color: #8B4789; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+			</style>
+		</head>
+		<body>
+			<div class='container'>
+				<div class='header'>
+					<h1>Purple String</h1>
+				</div>
+				<div class='content'>
+					<h2>Welcome, Louise Manio!</h2>
+					<p>Thank you for signing up for Purple String. Please verify your email address to activate your account.</p>
+					<p>Click the button below to verify your email:</p>
+					<p><a href='http://localhost/Weibsite-Purple-String/verify_email.php?token=02204c9f14425162bef9b433ee44e9f4b18bcbb3236e6791a8d9346c335e6959' class='button'>Verify Email</a></p>
+					<p>Or copy and paste this link in your browser:</p>
+					<p>http://localhost/Weibsite-Purple-String/verify_email.php?token=02204c9f14425162bef9b433ee44e9f4b18bcbb3236e6791a8d9346c335e6959</p>
+					<p>If you did not sign up for this account, please ignore this email.</p>
+				</div>
+				<div class='footer'>
+					<p>&copy; 2026 Purple String. All rights reserved.</p>
+				</div>
+			</div>
+		</body>
+	</html>
+	
+========================
+
