@@ -23,6 +23,75 @@ if (!isset($_SESSION['user_id'])) {
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+    .cart-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .cart-card-header h2 {
+      margin: 0;
+    }
+
+    .cart-header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .remove-selected-btn,
+    .update-all-btn {
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    .remove-selected-btn {
+      background: #e53e3e;
+      color: #fff;
+    }
+
+    .remove-selected-btn:hover:not(:disabled) {
+      background: #c53030;
+    }
+
+    .remove-selected-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .update-all-btn {
+      background: #6b46c1;
+      color: #fff;
+    }
+
+    .update-all-btn:hover {
+      background: #553c9a;
+    }
+
+    .item-checkbox {
+      width: 17px;
+      height: 17px;
+      accent-color: #6b46c1;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-right: 4px;
+    }
+
+    .qty-input {
+      width: 64px;
+      padding: 4px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
   </style>
   <body>
     <div id="page-container">
@@ -93,68 +162,81 @@ if (!isset($_SESSION['user_id'])) {
         <div class="cart-container">
           <!-- My Cart Card -->
           <div class="cart-card">
-            <h2>My Cart</h2>
-            <div class="cart-items">
-              <?php
-              include_once __DIR__ . '/../../backend/connection.php';
-
-              $cart = $_SESSION['cart'] ?? [];
-              $subtotal = 0.0;
-
-              if (empty($cart)) {
-                  echo '<p>Your cart is empty.</p>';
-              } else {
-                  // Fetch product data for items in cart
-                  $ids = array_keys($cart);
-                  $placeholders = implode(',', array_fill(0, count($ids), '?'));
-                  $types = str_repeat('i', count($ids));
-                  $stmt = mysqli_prepare($con, "SELECT product_id, name, price FROM products WHERE product_id IN ($placeholders)");
-                  mysqli_stmt_bind_param($stmt, $types, ...$ids);
-                  mysqli_stmt_execute($stmt);
-                  $res = mysqli_stmt_get_result($stmt);
-                  $products_map = [];
-                  while ($row = mysqli_fetch_assoc($res)) {
-                      $products_map[$row['product_id']] = $row;
-                  }
-                  mysqli_stmt_close($stmt);
-
-                  foreach ($cart as $pid => $qty) {
-                      if (!isset($products_map[$pid])) continue;
-                      $prod = $products_map[$pid];
-                      $line_total = floatval($prod['price']) * intval($qty);
-                      $subtotal += $line_total;
-                      $img = '../public/images/products/';
-                      // attempt to find primary image
-                      $imgres = mysqli_query($con, "SELECT file_name FROM product_images WHERE product_id = " . intval($pid) . " AND is_primary = 1 LIMIT 1");
-                      $imgfile = ($imgres && mysqli_num_rows($imgres)) ? mysqli_fetch_assoc($imgres)['file_name'] : 'product image.png';
-                      $imgsrc = $img . $imgfile;
-                      ?>
-                      <div class="cart-item">
-                        <img src="<?= $imgsrc ?>" alt="<?= htmlspecialchars($prod['name']) ?>" class="item-image" />
-                        <div class="item-details">
-                          <h3><?= htmlspecialchars($prod['name']) ?></h3>
-                          <p class="price">₱<?= number_format($prod['price'], 2) ?></p>
-                        </div>
-                        <div class="item-quantity">
-                          <form method="POST" action="../../backend/update_cart.php">
-                            <input type="hidden" name="product_id" value="<?= $pid ?>" />
-                            <input type="number" name="quantity" value="<?= intval($qty) ?>" min="0" />
-                            <button type="submit">Update</button>
-                          </form>
-                        </div>
-                        <div class="item-total">
-                          <p>₱<?= number_format($line_total, 2) ?></p>
-                        </div>
-                        <form method="POST" action="../../backend/remove_from_cart.php">
-                          <input type="hidden" name="product_id" value="<?= $pid ?>" />
-                          <button class="remove-btn" type="submit">Remove</button>
-                        </form>
-                      </div>
-                      <?php
-                  }
-              }
-              ?>
+            <div class="cart-card-header">
+              <h2>My Cart</h2>
+              <div class="cart-header-actions">
+                <button type="button" class="remove-selected-btn" id="removeSelectedBtn" onclick="submitRemoveSelected()" disabled>Remove Selected</button>
+                <button type="button" class="update-all-btn" id="updateAllBtn" onclick="submitUpdateAll()">Update All</button>
+              </div>
             </div>
+
+            <?php
+            include_once __DIR__ . '/../../backend/connection.php';
+
+            $cart = $_SESSION['cart'] ?? [];
+            $subtotal = 0.0;
+
+            if (empty($cart)) {
+                echo '<div class="cart-items"><p>Your cart is empty.</p></div>';
+            } else {
+                // Fetch product data for items in cart
+                $ids = array_keys($cart);
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                $types = str_repeat('i', count($ids));
+                $stmt = mysqli_prepare($con, "SELECT product_id, name, price FROM products WHERE product_id IN ($placeholders)");
+                mysqli_stmt_bind_param($stmt, $types, ...$ids);
+                mysqli_stmt_execute($stmt);
+                $res = mysqli_stmt_get_result($stmt);
+                $products_map = [];
+                while ($row = mysqli_fetch_assoc($res)) {
+                    $products_map[$row['product_id']] = $row;
+                }
+                mysqli_stmt_close($stmt);
+            ?>
+
+            <!-- Update All form wraps all items -->
+            <form method="POST" action="../../backend/update_cart.php" id="updateAllForm">
+              <div class="cart-items">
+                <?php foreach ($cart as $pid => $qty):
+                    if (!isset($products_map[$pid])) continue;
+                    $prod = $products_map[$pid];
+                    $line_total = floatval($prod['price']) * intval($qty);
+                    $subtotal += $line_total;
+                    $img = '../public/images/products/';
+                    $imgres = mysqli_query($con, "SELECT file_name FROM product_images WHERE product_id = " . intval($pid) . " AND is_primary = 1 LIMIT 1");
+                    $imgfile = ($imgres && mysqli_num_rows($imgres)) ? mysqli_fetch_assoc($imgres)['file_name'] : 'product image.png';
+                    $imgsrc = $img . $imgfile;
+                ?>
+                <div class="cart-item">
+                  <input
+                    type="checkbox"
+                    class="item-checkbox"
+                    name="remove_ids[]"
+                    value="<?= $pid ?>"
+                    onchange="updateRemoveBtn()" />
+                  <img src="<?= $imgsrc ?>" alt="<?= htmlspecialchars($prod['name']) ?>" class="item-image" />
+                  <div class="item-details">
+                    <h3><?= htmlspecialchars($prod['name']) ?></h3>
+                    <p class="price">₱<?= number_format($prod['price'], 2) ?></p>
+                  </div>
+                  <div class="item-quantity">
+                    <input type="hidden" name="product_id[]" value="<?= $pid ?>" />
+                    <input type="number" name="quantity[]" value="<?= intval($qty) ?>" min="1" class="qty-input" />
+                  </div>
+                  <div class="item-total">
+                    <p>₱<?= number_format($line_total, 2) ?></p>
+                  </div>
+                </div>
+                <?php endforeach; ?>
+              </div>
+            </form>
+
+            <!-- Remove Selected hidden form -->
+            <form method="POST" action="../../backend/remove_from_cart.php" id="removeSelectedForm">
+              <div id="removeInputsContainer"></div>
+            </form>
+
+            <?php } ?>
           </div>
 
           <!-- Order Summary Card -->
@@ -259,5 +341,31 @@ if (!isset($_SESSION['user_id'])) {
           src="../public/images/whiteflower.png" />
       </div>
     </div>
+  <script>
+    function updateRemoveBtn() {
+      const checked = document.querySelectorAll('.item-checkbox:checked');
+      const btn = document.getElementById('removeSelectedBtn');
+      if (btn) btn.disabled = checked.length === 0;
+    }
+
+    function submitRemoveSelected() {
+      const checked = document.querySelectorAll('.item-checkbox:checked');
+      if (checked.length === 0) return;
+      const container = document.getElementById('removeInputsContainer');
+      container.innerHTML = '';
+      checked.forEach(function(cb) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'product_id[]';
+        input.value = cb.value;
+        container.appendChild(input);
+      });
+      document.getElementById('removeSelectedForm').submit();
+    }
+
+    function submitUpdateAll() {
+      document.getElementById('updateAllForm').submit();
+    }
+  </script>
   </body>
 </html>
