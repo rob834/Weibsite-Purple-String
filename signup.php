@@ -1,32 +1,49 @@
-<?php 
+<?php
 session_start();
 
-	include("purplestringwebsite/backend/connection.php");
-	include("purplestringwebsite/backend/functions.php");
+include("purplestringwebsite/backend/connection.php");
+include("purplestringwebsite/backend/functions.php");
+include("purplestringwebsite/backend/mailer.php"); // ← add this
 
+$error_message = "";
+$success_message = "";
 
-	if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST")
-	{
-		//something was posted
-		$user_name = $_POST['user_name'];
-		$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
+    $user_name = $_POST['user_name'];
+    $email     = $_POST['email'];
+    $password  = $_POST['password']; // hash this — see note below
+
+    // 1. Generate a unique token
+    $token = bin2hex(random_bytes(32));
+
+    // 2. Insert user with email_verified = 0 and the token
+    $query = "INSERT INTO users (user_name, email, password, email_verified, verification_token)
+              VALUES ('$user_name', '$email', '$password', 0, '$token')";
+
+    if (mysqli_query($con, $query)) {
+
+        // 3. Send the verification email
+        $sent = sendVerificationEmail($email, $user_name, $token);
+
+        if ($sent)
+        {
+						$success_message = "Account created successfully! Please check your email to verify your account.";
+					}
+					else
+					{
+						$success_message = "Account created! However, verification email could not be sent. Please contact support.";
+					}
+				}
+				else
+				{
+					$error_message = "Error creating account. Please try again.";
+				}
+			}
+		else
 		{
-
-			//save to database
-			$user_id = random_num(20);
-			$query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
-
-			mysqli_query($con, $query);
-
-			header("Location: /Weibsite-Purple-String/login.php");
-			die;
-		}else
-		{
-			echo "Please enter some valid information!";
+			$error_message = "Please enter all required information!";
 		}
-	}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +53,7 @@ session_start();
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Purple String - Login</title>
+    <title>Purple String - Sign Up</title>
     <link
       rel="stylesheet"
       href="purplestringwebsite/frontend/css/homepage.css" />
@@ -53,9 +70,21 @@ session_start();
         <div id="login-content">
           <div id="login-card">
             <div id="login-header">
-              <h1>Welcome Back</h1>
-              <p>Sign in to your Purple String account</p>
+              <h1>Create Account</h1>
+              <p>Sign up for Purple String</p>
             </div>
+
+            <?php if($error_message): ?>
+              <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #f5c6cb;">
+                <?php echo htmlspecialchars($error_message); ?>
+              </div>
+            <?php endif; ?>
+
+            <?php if($success_message): ?>
+              <div style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #c3e6cb;">
+                <?php echo htmlspecialchars($success_message); ?>
+              </div>
+            <?php endif; ?>
             
             <form method="POST" action="" id="login-form">
               <div class="form-group">
@@ -64,7 +93,17 @@ session_start();
                   type="text" 
                   id="user_name" 
                   name="user_name" 
-                  placeholder="Enter your username"
+                  placeholder="Choose a username"
+                  required />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="Enter your email address"
                   required />
               </div>
 
@@ -74,19 +113,11 @@ session_start();
                   type="password" 
                   id="password" 
                   name="password" 
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   required />
               </div>
 
-              <div class="remember-forgot">
-                <label class="remember-me">
-                  <input type="checkbox" name="remember" />
-                  <span>Remember me</span>
-                </label>
-                <a href="#" class="forgot-password">Forgot Password?</a>
-              </div>
-
-              <button type="submit" value="Login" class="login-btn">Log In</button>
+              <button type="submit" value="Sign Up" class="login-btn">Sign Up</button>
             </form>
 
             <div class="divider">OR</div>
