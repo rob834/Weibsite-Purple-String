@@ -1,11 +1,9 @@
 <?php 
-
 session_start();
 
 	include("purplestringwebsite/backend/connection.php");
 	include("purplestringwebsite/backend/functions.php");
 
-	$error_message = "";
 
 	if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST")
 	{
@@ -16,57 +14,19 @@ session_start();
 		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
 		{
 
-			//read from database
-			$query = "select * from users where user_name = '$user_name' limit 1";
-			$result = mysqli_query($con, $query);
+			//save to database
+			$user_id = random_num(20);
+			$query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
 
-			if($result)
-			{
-				if($result && mysqli_num_rows($result) > 0)
-				{
+			mysqli_query($con, $query);
 
-					$user_data = mysqli_fetch_assoc($result);
-					
-					if($user_data['password'] === $password)
-					{
-						// Check if email is verified
-						if(isset($user_data['email_verified']) && $user_data['email_verified'] == 1)
-						{
-							$_SESSION['user_id'] = $user_data['user_id'];
-              $_SESSION['role'] = $user_data['role']; 
-
-              if ($user_data['role'] === 'admin') {
-                header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
-              } else {
-              header("Location: index.php");
-							die;
-              }
-						}
-						else
-						{
-							$error_message = "Please verify your email before logging in. Check your email for the verification link.";
-						}
-					}
-					else
-					{
-						$error_message = "Wrong username or password!";
-					}
-				}
-				else
-				{
-					$error_message = "Wrong username or password!";
-				}
-			}
-			else
-			{
-				$error_message = "Login failed. Please try again.";
-			}
+			header("Location: /Weibsite-Purple-String/login.php");
+			die;
 		}else
 		{
-			$error_message = "Please enter all required information!";
+			echo "Please enter some valid information!";
 		}
 	}
-
 ?>
 
 <!DOCTYPE html>
@@ -96,12 +56,6 @@ session_start();
               <h1>Welcome Back</h1>
               <p>Sign in to your Purple String account</p>
             </div>
-
-            <?php if($error_message): ?>
-              <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #f5c6cb;">
-                <?php echo htmlspecialchars($error_message); ?>
-              </div>
-            <?php endif; ?>
             
             <form method="POST" action="" id="login-form">
               <div class="form-group">
@@ -145,7 +99,7 @@ session_start();
             </button>
 
             <div id="signup-link">
-              Don't have an account? <a href="/Weibsite-Purple-String/signup.php">Create one here</a>
+              Already have an account? <a href="/Weibsite-Purple-String/login.php">Sign in here</a>
             </div>
           </div>
 

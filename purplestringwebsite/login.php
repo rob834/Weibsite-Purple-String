@@ -5,7 +5,6 @@ session_start();
 	include("purplestringwebsite/backend/connection.php");
 	include("purplestringwebsite/backend/functions.php");
 
-	$error_message = "";
 
 	if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST")
 	{
@@ -29,41 +28,24 @@ session_start();
 					
 					if($user_data['password'] === $password)
 					{
-						// Check if email is verified
-						if(isset($user_data['email_verified']) && $user_data['email_verified'] == 1)
-						{
-							$_SESSION['user_id'] = $user_data['user_id'];
-              $_SESSION['role'] = $user_data['role']; 
 
-              if ($user_data['role'] === 'admin') {
-                header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
-              } else {
-              header("Location: index.php");
-							die;
-              }
-						}
-						else
-						{
-							$error_message = "Please verify your email before logging in. Check your email for the verification link.";
-						}
-					}
-					else
-					{
-						$error_message = "Wrong username or password!";
+						$_SESSION['user_id'] = $user_data['user_id'];
+            $_SESSION['role'] = $user_data['role']; 
+
+            if ($user_data['role'] === 'admin') {
+              header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
+            } else {
+            header("Location: index.php");
+						die;
+            }
 					}
 				}
-				else
-				{
-					$error_message = "Wrong username or password!";
-				}
 			}
-			else
-			{
-				$error_message = "Login failed. Please try again.";
-			}
+			
+			echo "wrong username or password!";
 		}else
 		{
-			$error_message = "Please enter all required information!";
+			echo "wrong username or password!";
 		}
 	}
 
@@ -96,12 +78,6 @@ session_start();
               <h1>Welcome Back</h1>
               <p>Sign in to your Purple String account</p>
             </div>
-
-            <?php if($error_message): ?>
-              <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #f5c6cb;">
-                <?php echo htmlspecialchars($error_message); ?>
-              </div>
-            <?php endif; ?>
             
             <form method="POST" action="" id="login-form">
               <div class="form-group">
