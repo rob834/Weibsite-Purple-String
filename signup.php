@@ -2,64 +2,67 @@
 session_start();
 
 include("purplestringwebsite/backend/connection.php");
+// Ensure autocommit is on (safety)
+mysqli_autocommit($con, true);
+
 include("purplestringwebsite/backend/functions.php");
-include("purplestringwebsite/backend/mailer.php"); // ← add this
+include("purplestringwebsite/backend/mailer.php");
 
 $error_message = "";
 $success_message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $user_name = $_POST['user_name'];
-    $email     = $_POST['email'];
-    $password  = $_POST['password']; // hash this — see note below
+    if (isset($_POST['user_name']) && isset($_POST['email']) && isset($_POST['password'])) {
+        
+        $user_name = $_POST['user_name'];
+        $email     = $_POST['email'];
+        $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // 1. Generate a unique token
-    $token = bin2hex(random_bytes(32));
+        // Generate a unique verification token
+        $token = bin2hex(random_bytes(32));
 
-    // 2. Insert user with email_verified = 0 and the token
-    $query = "INSERT INTO users (user_name, email, password, email_verified, verification_token)
-              VALUES ('$user_name', '$email', '$password', 0, '$token')";
+        // Generate a random user_id (unique identifier used throughout the app)
+        $user_id = random_int(100000000000, 99999999999999999);
 
-    if (mysqli_query($con, $query)) {
+        // Insert with user_id included
+        $query = "INSERT INTO users (user_id, user_name, email, password, email_verified, verification_token)
+                  VALUES (?, ?, ?, ?, 0, ?)";
+                  
+        $stmt = mysqli_prepare($con, $query);
+        mysqli_stmt_bind_param($stmt, "issss", $user_id, $user_name, $email, $password, $token);
+        
+        if (mysqli_stmt_execute($stmt)) {
+            // Commit the transaction so the row is permanent
+            mysqli_commit($con);
 
-        // 3. Send the verification email
-        $sent = sendVerificationEmail($email, $user_name, $token);
+            // Send verification email
+            $sent = sendVerificationEmail($email, $user_name, $token);
 
-        if ($sent)
-        {
-						$success_message = "Account created successfully! Please check your email to verify your account.";
-					}
-					else
-					{
-						$success_message = "Account created! However, verification email could not be sent. Please contact support.";
-					}
-				}
-				else
-				{
-					$error_message = "Error creating account. Please try again.";
-				}
-			}
-		else
-		{
-			$error_message = "Please enter all required information!";
-		}
+            if ($sent) {
+                $success_message = "Account created successfully! Please check your email to verify your account.";
+            } else {
+                $success_message = "Account created! However, verification email could not be sent. Please contact support.";
+            }
+        } else {
+            $error_message = "Error creating account. Please try again. " . mysqli_error($con);
+        }
+        
+        mysqli_stmt_close($stmt);
+    } else {
+        $error_message = "Please enter all required information!";
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Purple String - Sign Up</title>
-    <link
-      rel="stylesheet"
-      href="purplestringwebsite/frontend/css/homepage.css" />
-    <link
-      rel="stylesheet"
-      href="purplestringwebsite/frontend/css/login.css" />
+    <link rel="stylesheet" href="purplestringwebsite/frontend/css/homepage.css" />
+    <link rel="stylesheet" href="purplestringwebsite/frontend/css/login.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -89,32 +92,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" action="" id="login-form">
               <div class="form-group">
                 <label for="user_name">Username</label>
-                <input 
-                  type="text" 
-                  id="user_name" 
-                  name="user_name" 
-                  placeholder="Choose a username"
-                  required />
+                <input type="text" id="user_name" name="user_name" placeholder="Choose a username" required />
               </div>
 
               <div class="form-group">
                 <label for="email">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="Enter your email address"
-                  required />
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required />
               </div>
 
               <div class="form-group">
                 <label for="password">Password</label>
-                <input 
-                  type="password" 
-                  id="password" 
-                  name="password" 
-                  placeholder="Create a password"
-                  required />
+                <input type="password" id="password" name="password" placeholder="Create a password" required />
               </div>
 
               <button type="submit" value="Sign Up" class="login-btn">Sign Up</button>
@@ -142,7 +130,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
     </div>
-
-    
   </body>
 </html>
