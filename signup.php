@@ -10,40 +10,42 @@ $success_message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $user_name = $_POST['user_name'];
-    $email     = $_POST['email'];
-    $password  = $_POST['password']; // hash this — see note below
+    // Check if all required fields are present
+    if (isset($_POST['user_name']) && isset($_POST['email']) && isset($_POST['password'])) {
+        
+        $user_name = $_POST['user_name'];
+        $email     = $_POST['email'];
+        $password  = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password!
 
-    // 1. Generate a unique token
-    $token = bin2hex(random_bytes(32));
+        // 1. Generate a unique token
+        $token = bin2hex(random_bytes(32));
 
-    // 2. Insert user with email_verified = 0 and the token
-    $query = "INSERT INTO users (user_name, email, password, email_verified, verification_token)
-              VALUES ('$user_name', '$email', '$password', 0, '$token')";
+        // 2. Use prepared statement to prevent SQL injection and properly insert the token
+        $query = "INSERT INTO users (user_name, email, password, email_verified, verification_token)
+                  VALUES (?, ?, ?, 0, ?)";
+        
+        $stmt = mysqli_prepare($con, $query);
+        mysqli_stmt_bind_param($stmt, "ssss", $user_name, $email, $password, $token);
+        
+        if (mysqli_stmt_execute($stmt)) {
 
-    if (mysqli_query($con, $query)) {
+            // 3. Send the verification email
+            $sent = sendVerificationEmail($email, $user_name, $token);
 
-        // 3. Send the verification email
-        $sent = sendVerificationEmail($email, $user_name, $token);
-
-        if ($sent)
-        {
-						$success_message = "Account created successfully! Please check your email to verify your account.";
-					}
-					else
-					{
-						$success_message = "Account created! However, verification email could not be sent. Please contact support.";
-					}
-				}
-				else
-				{
-					$error_message = "Error creating account. Please try again.";
-				}
-			}
-		else
-		{
-			$error_message = "Please enter all required information!";
-		}
+            if ($sent) {
+                $success_message = "Account created successfully! Please check your email to verify your account.";
+            } else {
+                $success_message = "Account created! However, verification email could not be sent. Please contact support.";
+            }
+        } else {
+            $error_message = "Error creating account. Please try again. " . mysqli_error($con);
+        }
+        
+        mysqli_stmt_close($stmt);
+    } else {
+        $error_message = "Please enter all required information!";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +144,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
     </div>
-
-    
   </body>
 </html>
