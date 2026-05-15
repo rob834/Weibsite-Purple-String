@@ -122,29 +122,30 @@ $confirm_url = $base_url . '?order_id=' . $order_id . '&token=' . $confirm_token
 
 $display_name = ($order['display_name'] ?? '') ?: ($order['user_name'] ?? 'Customer');
 
-// ── Email buyer: payment confirmed + confirm delivery button ──────────────────
+// ── Email buyer: payment confirmed, order ready for delivery ──────────────────
 $buyer_email = $order['email'] ?? '';
 if (filter_var($buyer_email, FILTER_VALIDATE_EMAIL)) {
-    $buyer_subject = 'Payment Confirmed - Your Purple String Order #' . $order_id . ' is Ready!';
+    $buyer_subject = 'Your Purple String Order #' . $order_id . ' is Ready for Delivery!';
     $buyer_html =
         '<!DOCTYPE html><html><head><meta charset="UTF-8"></head>'
         . '<body style="font-family:Arial,sans-serif;background:#f5f5f5;margin:0;padding:0;">'
         . '<div style="max-width:600px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">'
         . '<div style="background:#6b21a8;padding:28px 32px;">'
         . '<h1 style="color:#fff;margin:0;font-size:24px;">Purple String</h1>'
-        . '<p style="color:#e9d5ff;margin:6px 0 0;font-size:14px;">Your payment has been confirmed!</p>'
+        . '<p style="color:#e9d5ff;margin:6px 0 0;font-size:14px;">Your order is on its way!</p>'
         . '</div>'
         . '<div style="padding:28px 32px;">'
         . '<p style="font-size:16px;color:#333;margin-top:0;">Hi <strong>' . htmlspecialchars($display_name) . '</strong>!</p>'
-        . '<p style="color:#555;">Your payment for <strong>Order #' . $order_id . '</strong> has been verified. Your order is now being prepared!</p>'
+        . '<p style="color:#555;">Great news! Your payment for <strong>Order #' . $order_id . '</strong> has been verified and your order is now <strong>ready to be delivered</strong>.</p>'
         . $receipt_table
-        . '<div style="margin-top:32px;text-align:center;background:#f0fdf4;border-radius:10px;padding:24px;">'
-        . '<p style="color:#166534;font-weight:600;margin:0 0 8px;">Once you receive your order, please confirm delivery:</p>'
-        . '<p style="color:#555;font-size:13px;margin:0 0 20px;">This lets us know your items arrived safely.</p>'
-        . '<a href="' . $confirm_url . '" style="display:inline-block;background:#16a34a;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:700;font-size:16px;">'
-        . 'Confirm I Received My Order'
+        . '<div style="margin-top:24px;background:#f0fdf4;border-left:4px solid #16a34a;padding:14px 18px;border-radius:0 8px 8px 0;">'
+        . '<p style="margin:0;color:#166534;font-size:14px;">&#128230; Your items are being prepared for delivery. You will receive another email once your order is on its way and has been confirmed.</p>'
+        . '</div>'
+        . '<div style="margin-top:20px;text-align:center;">'
+        . '<a href="' . $confirm_url . '" style="display:inline-block;background:#6b21a8;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:700;font-size:16px;">'
+        . 'Confirm &amp; Start Delivery'
         . '</a>'
-        . '<p style="color:#aaa;font-size:12px;margin-top:12px;">Only click once you have received your items.</p>'
+        . '<p style="color:#aaa;font-size:12px;margin-top:10px;">Click this to confirm you are aware and ready to receive your order.</p>'
         . '</div>'
         . '</div>'
         . '<div style="background:#f9f5ff;padding:16px 32px;text-align:center;color:#aaa;font-size:12px;">'
@@ -156,7 +157,7 @@ if (filter_var($buyer_email, FILTER_VALIDATE_EMAIL)) {
 echo renderPage(
     'Payment Confirmed',
     'Order #' . $order_id . ' has been marked as Paid.<br><br>'
-    . 'An email has been sent to the customer with a delivery confirmation button.'
+    . 'The customer has been notified that their order is ready for delivery.'
 );
 exit();
 
