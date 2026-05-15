@@ -2,34 +2,41 @@
 session_start();
 
 include("purplestringwebsite/backend/connection.php");
+// Ensure autocommit is on (safety)
+mysqli_autocommit($con, true);
+
 include("purplestringwebsite/backend/functions.php");
-include("purplestringwebsite/backend/mailer.php"); // ← add this
+include("purplestringwebsite/backend/mailer.php");
 
 $error_message = "";
 $success_message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Check if all required fields are present
     if (isset($_POST['user_name']) && isset($_POST['email']) && isset($_POST['password'])) {
         
         $user_name = $_POST['user_name'];
         $email     = $_POST['email'];
-        $password  = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password!
+        $password  = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-        // 1. Generate a unique token
+        // Generate a unique verification token
         $token = bin2hex(random_bytes(32));
 
-        // 2. Use prepared statement to prevent SQL injection and properly insert the token
-        $query = "INSERT INTO users (user_name, email, password, email_verified, verification_token)
-                  VALUES (?, ?, ?, 0, ?)";
-        
+        // Generate a random user_id (unique identifier used throughout the app)
+        $user_id = random_int(100000000000, 99999999999999999);
+
+        // Insert with user_id included
+        $query = "INSERT INTO users (user_id, user_name, email, password, email_verified, verification_token)
+                  VALUES (?, ?, ?, ?, 0, ?)";
+                  
         $stmt = mysqli_prepare($con, $query);
-        mysqli_stmt_bind_param($stmt, "ssss", $user_name, $email, $password, $token);
+        mysqli_stmt_bind_param($stmt, "issss", $user_id, $user_name, $email, $password, $token);
         
         if (mysqli_stmt_execute($stmt)) {
+            // Commit the transaction so the row is permanent
+            mysqli_commit($con);
 
-            // 3. Send the verification email
+            // Send verification email
             $sent = sendVerificationEmail($email, $user_name, $token);
 
             if ($sent) {
@@ -52,16 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Purple String - Sign Up</title>
-    <link
-      rel="stylesheet"
-      href="purplestringwebsite/frontend/css/homepage.css" />
-    <link
-      rel="stylesheet"
-      href="purplestringwebsite/frontend/css/login.css" />
+    <link rel="stylesheet" href="purplestringwebsite/frontend/css/homepage.css" />
+    <link rel="stylesheet" href="purplestringwebsite/frontend/css/login.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -91,32 +92,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" action="" id="login-form">
               <div class="form-group">
                 <label for="user_name">Username</label>
-                <input 
-                  type="text" 
-                  id="user_name" 
-                  name="user_name" 
-                  placeholder="Choose a username"
-                  required />
+                <input type="text" id="user_name" name="user_name" placeholder="Choose a username" required />
               </div>
 
               <div class="form-group">
                 <label for="email">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  placeholder="Enter your email address"
-                  required />
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required />
               </div>
 
               <div class="form-group">
                 <label for="password">Password</label>
-                <input 
-                  type="password" 
-                  id="password" 
-                  name="password" 
-                  placeholder="Create a password"
-                  required />
+                <input type="password" id="password" name="password" placeholder="Create a password" required />
               </div>
 
               <button type="submit" value="Sign Up" class="login-btn">Sign Up</button>
