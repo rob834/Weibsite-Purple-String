@@ -47,7 +47,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
         <?php
-          if (!isset($con)) { include_once __DIR__ . '/../../backend/connection.php'; $con = function_exists('get_db_connection') ? get_db_connection() : null; }
+          if (!isset($con)) { include_once __DIR__ . '/../../backend/connection.php'; if (function_exists('get_db_connection')) { $con = get_db_connection(); } }
           $avatar_src = '../public/images/profile icon.png';
           if (isset($_SESSION['user_id']) && $con) {
             $uid = $_SESSION['user_id'];
@@ -159,11 +159,11 @@ if (!isset($_SESSION['user_id'])) {
           </div>
           <div class="info-group">
             <label>Contact Number</label>
-            <p><?= htmlspecialchars($order['phone'] ?? 'Not provided') ?></p>
+            <p><?= htmlspecialchars($order['phone'] ?? 'Not provided (Please input in profile settings)') ?></p>
           </div>
           <div class="info-group">
             <label>Delivery Address</label>
-            <p><?= htmlspecialchars($order['address'] ?? 'Not provided') ?></p>
+            <p><?= htmlspecialchars($order['address'] ?? 'Not provided (Please input in profile settings)') ?></p>
           </div>
           <div class="info-group">
             <label>Items Ordered</label>
