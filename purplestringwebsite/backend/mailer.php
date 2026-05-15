@@ -2,30 +2,55 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php';
+require __DIR__ . '../../../vendor/phpmailer/phpmailer/src/Exception.php';
+require __DIR__ . '../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require __DIR__ . '../../../vendor/phpmailer/phpmailer/src/SMTP.php';
 
-function sendVerificationEmail($toEmail, $toName, $token) {
+// ── Shared SMTP factory ───────────────────────────────────────────────────────
+function createMailer(): PHPMailer {
     $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'u.toob.poob.noob.poop@gmail.com'; // Your Gmail address
-        $mail->Password   = 'tnzv ruoo fekw vajx'; // App Password
-        $mail->SMTPSecure = 'tls';
-        $mail->Port       = 587;
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'u.toob.poob.noob.poop@gmail.com';
+    $mail->Password   = 'tnzv ruoo fekw vajx';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
+    $mail->setFrom('purplestring@gmail.com', 'Purple String');
+    $mail->CharSet    = 'UTF-8';
+    return $mail;
+}
 
-        $mail->setFrom('purplestring@gmail.com', 'Purple String');
+// ── Generic mailer (used by place_order, send_receipt, mark_paid) ─────────────
+function sendMail(string $to, string $subject, string $htmlBody): bool {
+    $mail = createMailer();
+    $mail->addAddress($to);
+    $mail->Subject = $subject;
+    $mail->isHTML(true);
+    $mail->Body    = $htmlBody;
+    $mail->AltBody = strip_tags($htmlBody);
+    try {
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        error_log("Mailer Error: " . $mail->ErrorInfo);
+        return false;
+    }
+}
+
+// ── Verification email (used by signup) ───────────────────────────────────────
+function sendVerificationEmail($toEmail, $toName, $token) {
+    $mail = createMailer();
+    try {
         $mail->addAddress($toEmail, $toName);
 
-$verifyUrl = "http://localhost/Weibsite-Purple-String/verify_email.php?token=" . urlencode($token);
+        $verifyUrl = "http://localhost/Weibsite-Purple-String/verify_email.php?token=" . urlencode($token);
 
         $mail->isHTML(true);
         $mail->Subject = 'Verify your Purple String email';
         $mail->Body    = "Hi $toName,<br><br>Click below to verify your email:<br><br>
                           <a href='$verifyUrl'>$verifyUrl</a><br><br>
                           If you didn't sign up, ignore this.";
-
         $mail->send();
         return true;
     } catch (Exception $e) {

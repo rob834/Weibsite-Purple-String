@@ -116,7 +116,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
         <?php
-          if (!isset($con)) { include_once __DIR__ . '/../../backend/connection.php'; $con = function_exists('get_db_connection') ? get_db_connection() : null; }
+          if (!isset($con)) { include_once __DIR__ . '/../../backend/connection.php'; if (function_exists('get_db_connection')) { $con = get_db_connection(); } }
           $avatar_src = '../public/images/profile icon.png';
           if (isset($_SESSION['user_id']) && $con) {
             $uid = $_SESSION['user_id'];
