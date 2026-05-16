@@ -47,9 +47,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         <a href="admin-customers.php">
           <img src="../../public/images/admin/customers icon.png"
             class="icon" />Customers</a>
-        <a href="admin-chat.php">
-          <img src="../../public/images/admin/chats icon.png"
-            class="icon" />Chat</a>
         <a href="admin-notification.php">
           <img src="../../public/images/admin/Notification bell icon.png"
             class="icon" />Notifications</a>
@@ -57,12 +54,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </div>
     <div id="admin-content">
       <div id="upper-right-accountname">
-        <img
-          src="../../public/images/admin/account_profile.png"
-          alt="Account Icon"
-          class="account-icon" />
-        <span>Seller Name</span>
-      </div>
+            <a href="admin-profile.php" class="accountbtn">
+            <img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
+            </a>
+        </div>
 
       <div id="add-product-card">
         <form id="add-product-form" method="POST" action="../../../backend/add_product.php" enctype="multipart/form-data">
