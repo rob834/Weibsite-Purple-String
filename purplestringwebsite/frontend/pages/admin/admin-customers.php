@@ -27,7 +27,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <a href="../admin-homepage.php"><img src="../../public/images/admin/dashboard icon.png" class="icon">Dashboard</a>
             <a href="admin-products.php"><img src="../../public/images/admin/products icon.png" class="icon">Products</a>
             <a id="toggled" href="admin-customers.php"><img src="../../public/images/admin/customers icon-toggled.png" class="icon">Customers</a>
-            <a href="admin-chat.php"><img src="../../public/images/admin/chats icon.png" class="icon">Chat</a>
             <a href="admin-notification.php"><img src="../../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
@@ -40,16 +39,17 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
   <form method="GET" id="upper-left-searchbar">
     <input type="text" name="search" placeholder="Search Customers..."
-           value="<?= htmlspecialchars($search) ?>">
+            value="<?= htmlspecialchars($search) ?>">
     <button type="submit">
       <img src="../../public/images/admin/search-icon.png" alt="Search Icon">
     </button>
   </form>
 
   <div id="upper-right-accountname">
-    <img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
-    <span>Admin</span>
-  </div>
+            <a href="admin-profile.php" class="accountbtn">
+            <img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
+            </a>
+        </div>
 
   <?php
   $where = '';
@@ -91,11 +91,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
   <div class="table-container">
     <div class="table-header">
-      <div class="col-icon"></div>
       <div class="col-customer">Customer</div>
       <div class="col-status">Status</div>
       <div class="col-total">Total</div>
       <div class="col-date">Date</div>
+      <div class="col-icon"></div>
     </div>
 
     <?php if (empty($rows)): ?>
@@ -113,15 +113,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       $date  = date('M j', strtotime($row['created_at']));
     ?>
     <div class="order-row">
-      <div class="col-icon">
-        <form method="POST" action="../../../backend/delete_order.php"
-              onsubmit="return confirm('Delete order #<?= $row['order_id'] ?>?')">
-          <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
-          <button type="submit" style="background:none;border:none;cursor:pointer;">
-            <img src="../../public/images/admin/delete-btn.png" alt="Delete">
-          </button>
-        </form>
-      </div>
       <div class="col-customer">
         <div class="user-avatar">
           <img src="<?= $avatar_src ?>" alt="Avatar">
@@ -133,6 +124,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       </div>
       <div class="col-total">₱<?= number_format($row['total'], 2) ?></div>
       <div class="col-date"><?= $date ?></div>
+      <div class="col-icon">
+        <form method="POST" action="../../../backend/delete_order.php"
+              onsubmit="return confirm('Delete order #<?= $row['order_id'] ?>?')">
+          <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
+          <button type="submit" style="background:none;border:none;cursor:pointer;">
+            <img src="../../public/images/admin/delete-btn.png" alt="Delete">
+          </button>
+        </form>
+      </div>
     </div>
     <?php endforeach; ?>
   </div>

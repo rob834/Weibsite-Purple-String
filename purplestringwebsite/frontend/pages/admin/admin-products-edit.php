@@ -60,40 +60,27 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
         class="logo" />
       <p>
         <a href="../admin-homepage.php">
-          ><img
+          <img
             src="../../public/images/admin/dashboard icon.png"
-            class="icon" />Dashboard</a
-        >
+            class="icon" />Dashboard</a>
         <a href="admin-products.php">
-           <img src="../../public/images/admin/products icon.png"
-             class="icon" />Products</a
-          >
-        >
+            <img src="../../public/images/admin/products icon.png"
+              class="icon" />Products</a>
         <a href="admin-customers.php">
-           <img src="../../public/images/admin/customers icon.png"
-             class="icon" />Customers</a
-          >
-        >
-        <a href="admin-chat.php"
-          ><img
-            src="../../public/images/admin/chats icon.png"
-            class="icon" />Chat</a
-        >
+            <img src="../../public/images/admin/customers icon.png"
+              class="icon" />Customers</a>
         <a href="admin-notification.php"
           ><img
             src="../../public/images/admin/Notification bell icon.png"
-            class="icon" />Notifications</a
-        >
+            class="icon" />Notifications</a>
       </p>
     </div>
     <div id="admin-content">
       <div id="upper-right-accountname">
-        <img
-          src="../../public/images/admin/account_profile.png"
-          alt="Account Icon"
-          class="account-icon" />
-        <span>Seller Name</span>
-      </div>
+            <a href="admin-profile.php" class="accountbtn">
+            <img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
+            </a>
+        </div>
       <div id="edit-product-card">
         <div class="left-section">
           <div class="gallery">
