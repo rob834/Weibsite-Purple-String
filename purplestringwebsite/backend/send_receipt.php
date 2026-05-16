@@ -115,6 +115,7 @@ $html    = "
       Order <strong>#$order_id</strong> &nbsp;·&nbsp; Placed on $order_date &nbsp;·&nbsp;
       Status: <span style='color:#6b21a8;font-weight:700;'>$status_label</span>
     </p>
+    " . (!empty($order['reference_number']) ? "<p style='color:#4a1d96;font-size:13px;font-weight:600;margin-top:-8px;'>Reference #: " . htmlspecialchars($order['reference_number']) . "</p>" : "") . "
 
     <!-- Items table -->
     <table style='width:100%;border-collapse:collapse;font-size:14px;margin-top:16px;'>
