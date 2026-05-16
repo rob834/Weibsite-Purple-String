@@ -28,14 +28,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <a href="../admin-homepage.php"><img src="../../public/images/admin/dashboard icon.png" class="icon">Dashboard</a>
             <a id="toggled" href="admin-products.php"><img src="../../public/images/admin/products icon-toggled.png" class="icon">Products</a>
             <a href="admin-customers.php"><img src="../../public/images/admin/customers icon.png" class="icon">Customers</a>
-            <a href="admin-chat.php"><img src="../../public/images/admin/chats icon.png" class="icon">Chat</a>
+
             <a href="admin-notification.php"><img src="../../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
     <div id="admin-content">
         <div id="upper-right-accountname">
+            <a href="admin-profile.php" class="accountbtn">
             <img src="../../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
-            <span>Seller Name</span>
+            </a>
         </div>
 
         <div class="productsMainContent">
