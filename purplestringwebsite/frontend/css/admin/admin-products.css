@@ -46,9 +46,21 @@ span {
   font-family: "Josefin Sans", sans-serif;
 }
 
+.product-actions {
+  margin-right: 20px;
+  font-size: 15px;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: "Josefin Sans", sans-serif;
+}
+
 .edit-btn {
   background-color: #B87BA4;
   padding: 10px 15px;
+  border-radius: 20px;
 }
 
 button {
