@@ -2,10 +2,13 @@ body {
   font-family: Inter;
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+  background-color: rgb(255, 255, 255);
   overflow-x: hidden;
   overflow-y: scroll;
 }
+/* sales value */
+
+
 #admin-sidebar a#toggled {
   background-color: #ffffff;
   color: #9a5081;
@@ -38,6 +41,12 @@ body {
   margin-left: 200px;
   padding: 20px;
 }
+
+.accountbtn {
+  text-decoration: none;
+  color: black;
+}
+
 .icon {
   margin-right: 10px;
   margin-bottom: 5px;
@@ -49,8 +58,8 @@ body {
   right: 20px;
   display: flex;
   align-items: center;
+  color: black;
 }
-
 #upper-left-logout {
   position: absolute;
   top: 20px;

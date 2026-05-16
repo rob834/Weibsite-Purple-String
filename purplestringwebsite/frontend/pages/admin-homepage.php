@@ -113,7 +113,7 @@ if ($yres) while ($r = mysqli_fetch_assoc($yres)) {
     $yearly_values[] = floatval($r['revenue']);
 }
 ?>
-
+<!-- sidebar -->
     <div id="admin-sidebar">
         <img src="../public/images/admin/companylogo.png" alt="Company Logo" class="logo">
         <p>
@@ -123,14 +123,13 @@ if ($yres) while ($r = mysqli_fetch_assoc($yres)) {
             <a href="admin/admin-notification.php"><img src="../public/images/admin/Notification bell icon.png" class="icon">Notifications</a>
         </p>
     </div>
+    
     <div id="admin-content">
-        <div id="upper-left-logout">
-            <a href="../../../logout.php" class="logout-btn">Logout</a>
-        </div>
+   
         <div id="upper-right-accountname">
-            
+            <a href="admin/admin-profile.php" class="accountbtn">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
-            <span>Seller Name</span>
+            </a>
         </div>
 
         <div class="upper-row">
@@ -139,15 +138,26 @@ if ($yres) while ($r = mysqli_fetch_assoc($yres)) {
                 <div>
                     <p>Total Sales:</p>
                     <h2 id="sales-value">&#8369; <?= number_format($kpi['week']['sales'], 2) ?></h2>
+                    <div style="display:flex; gap:6px; margin-left: 40px; margin-bottom: 15px;">
+                        <button class="kpi-btn active" id="sales-btn-week"  onclick="setKpi('week')">Week</button>
+                        <button class="kpi-btn"        id="sales-btn-month" onclick="setKpi('month')">Month</button>
+                        <button class="kpi-btn"        id="sales-btn-year"  onclick="setKpi('year')">Year</button>
+                    </div>
                 </div>
-              
+                <div class="subtext">
+                    
+                </div>
             </div>
 
             <div class="total-orders">
                 <div class="text">
                     <p>Total Orders:</p>
-                    <h2 id="orders-value"><?= number_format($kpi['week']['orders']) ?></h2>
-                
+                         <h2 id="orders-value"><?= number_format($kpi['week']['orders']) ?></h2>
+                    <div style="display:flex; gap:6px; margin-left: 40px; margin-bottom: 15px;">
+                        <button class="kpi-btn active" id="orders-btn-week"  onclick="setKpi('week')">Week</button>
+                        <button class="kpi-btn"        id="orders-btn-month" onclick="setKpi('month')">Month</button>
+                        <button class="kpi-btn"        id="orders-btn-year"  onclick="setKpi('year')">Year</button>
+                    </div>
                 </div>
                 <img class="order-icon" src="../public/images/admin/products icon-toggled.png" alt="products icon">
             </div>
