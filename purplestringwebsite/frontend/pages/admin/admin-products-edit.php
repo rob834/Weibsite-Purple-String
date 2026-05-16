@@ -122,8 +122,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             rows="6"
             cols="70"
             required><?= htmlspecialchars($product['description'] ?? '') ?></textarea>
-          <label for="product-stock">Stock:</label>
-          <input type="number" id="product-stock" name="stock" value="<?= intval($product['stock'] ?? 0) ?>" />
+          <label for="product-stock">Stock (Managed via Orders):</label>
+<input 
+  type="number" 
+  id="product-stock" 
+  name="stock" 
+  value="<?= intval($product['stock'] ?? 0) ?>" 
+  readonly 
+  style="background-color: #f3f4f6; color: #6b7280; cursor: not-allowed; border: 1px solid #d1d5db;" />
           <label for="product-category">Category (name):</label>
           <input type="text" id="product-category" name="category" value="<?= htmlspecialchars($product['category_name'] ?? '') ?>" />
           <label for="product-images">Change Photos:</label>

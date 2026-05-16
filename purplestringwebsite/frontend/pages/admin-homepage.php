@@ -50,6 +50,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 <?php
 include_once __DIR__ . '/../../backend/connection.php';
 
+// --- KPI Inventory Calculations ---
+$instock_query = mysqli_query($con, "SELECT COUNT(*) as cnt FROM products WHERE stock > 0");
+$instock_row = mysqli_fetch_assoc($instock_query);
+$count_in_stock = intval($instock_row['cnt'] ?? 0);
+
+$outofstock_query = mysqli_query($con, "SELECT COUNT(*) as cnt FROM products WHERE stock <= 0");
+$outofstock_row = mysqli_fetch_assoc($outofstock_query);
+$count_out_stock = intval($outofstock_row['cnt'] ?? 0);
+
 // --- KPI: total sales + total orders for week / month / year ---
 $kpi = [];
 $period_clauses = [
@@ -164,12 +173,16 @@ if ($yres) while ($r = mysqli_fetch_assoc($yres)) {
                 <img class="order-icon" src="../public/images/admin/products icon-toggled.png" alt="products icon">
             </div>
 
-            <div class="conversion-rate">
-                <div>
-                    <p>Conversion Rate:</p>
-                    <h2>25.00%</h2>
-                </div>
-            </div>
+            <div class="conversion-rate" style="border: 2px solid #7c3aed; background: #faf5ff;">
+    <div>
+        <p>Stock Status Breakdown:</p>
+        <h2 style="font-size: 1.2rem; margin-top: 8px;">
+            <span style="color: #10b981; font-weight: 800;"><?= $count_in_stock ?> Active</span> 
+            <span style="color: #6b7280; font-weight: 400; margin: 0 4px;">/</span> 
+            <span style="color: #ef4444; font-weight: 800;"><?= $count_out_stock ?> Empty</span>
+        </h2>
+    </div>
+</div>
 
         </div>
 
