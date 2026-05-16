@@ -125,7 +125,9 @@ if ($yres) while ($r = mysqli_fetch_assoc($yres)) {
     </div>
     
     <div id="admin-content">
-   
+    
+    
+<!-- Admin Account/Profile -->
         <div id="upper-right-accountname">
             <a href="admin/admin-profile.php" class="accountbtn">
             <img src="../public/images/admin/account_profile.png" alt="Account Icon" class="account-icon">
