@@ -112,7 +112,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       $label = $label_map[$row['status']] ?? ucfirst($row['status']);
       $date  = date('M j', strtotime($row['created_at']));
     ?>
-    <div class="order-row">
+    <div class="order-row" style="<?= $row['status'] === 'cancelled' ? 'opacity: 0.65;' : '' ?>">
       <div class="col-customer">
         <div class="user-avatar">
           <img src="<?= $avatar_src ?>" alt="Avatar">
@@ -125,13 +125,17 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
       <div class="col-total">₱<?= number_format($row['total'], 2) ?></div>
       <div class="col-date"><?= $date ?></div>
       <div class="col-icon">
-        <form method="POST" action="../../../backend/delete_order.php"
-              onsubmit="return confirm('Delete order #<?= $row['order_id'] ?>?')">
-          <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
-          <button type="submit" style="background:none;border:none;cursor:pointer;">
-            <img src="../../public/images/admin/delete-btn.png" alt="Delete">
-          </button>
-        </form>
+        <?php if ($row['status'] !== 'cancelled'): ?>
+          <form method="POST" action="../../../backend/delete_order.php"
+                onsubmit="return confirm('Are you sure you want to cancel order #<?= $row['order_id'] ?>? This will restore the items back to stock inventory.')">
+            <input type="hidden" name="order_id" value="<?= $row['order_id'] ?>">
+            <button type="submit" style="background:none;border:none;cursor:pointer;">
+              <img src="../../public/images/admin/delete-btn.png" alt="Cancel Order">
+            </button>
+          </form>
+        <?php else: ?>
+          <span style="font-size: 0.85rem; color: #94a3b8; font-style: italic; padding-right: 5px;">Cancelled</span>
+        <?php endif; ?>
       </div>
     </div>
     <?php endforeach; ?>

@@ -168,30 +168,38 @@ if (!isset($_SESSION['user_id'])) {
         <?php endif; ?>
 
         <?php foreach ($products as $p): 
-          $img = $p['image_file'] ? '../public/images/products/' . $p['image_file'] : '../public/images/product image.png';
-        ?>
-        <div class="product-card">
-          <a href="view/product.php?product_id=<?= $p['product_id'] ?>">
-            <img src="<?= $img ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="product-img">
-          </a>
+  $img = $p['image_file'] ? '../public/images/products/' . $p['image_file'] : '../public/images/product image.png';
+  $is_out_of_stock = intval($p['stock']) <= 0;
+?>
+<div class="product-card" style="<?= $is_out_of_stock ? 'opacity: 0.75;' : '' ?>">
+  <a href="view/product.php?product_id=<?= $p['product_id'] ?>">
+    <img src="<?= $img ?>" alt="<?= htmlspecialchars($p['name']) ?>" class="product-img">
+  </a>
 
-          <div class="product-info">
-            <p class="product-name"><a href="view/product.php?product_id=<?= $p['product_id'] ?>"><?= htmlspecialchars($p['name']) ?></a></p>
-            <div class="rating">
-              <span class="star">⭐</span>
-              <span class="rating-value"><?= isset($p['avg_rating']) ? number_format(floatval($p['avg_rating']), 2) : '0.00' ?></span>
-              <span class="rating-count"><?= isset($p['count_ratings']) ? intval($p['count_ratings']) : 0 ?></span>
-            </div>
-            <p class="price">₱<?= number_format($p['price'], 2) ?></p>
-            <p class="category-label"><?= htmlspecialchars($p['category_name'] ?? 'Uncategorized') ?></p>
-            <form class="cart-form">
-              <input type="hidden" class="product-id" value="<?= $p['product_id'] ?>" />
-              <input type="hidden" class="quantity" value="1" />
-              <button type="submit" class="cart-btn">🛒</button>
-            </form>
-          </div>
-        </div>
-        <?php endforeach; ?>
+  <div class="product-info">
+    <p class="product-name"><a href="view/product.php?product_id=<?= $p['product_id'] ?>"><?= htmlspecialchars($p['name']) ?></a></p>
+    <div class="rating">
+      <span class="star">⭐</span>
+      <span class="rating-value"><?= isset($p['avg_rating']) ? number_format(floatval($p['avg_rating']), 2) : '0.00' ?></span>
+      <span class="rating-count"><?= isset($p['count_ratings']) ? intval($p['count_ratings']) : 0 ?></span>
+    </div>
+    <p class="price">₱<?= number_format($p['price'], 2) ?></p>
+    <p class="category-label"><?= htmlspecialchars($p['category_name'] ?? 'Uncategorized') ?></p>
+    
+    <?php if ($is_out_of_stock): ?>
+      <p class="stock-status out-of-stock" style="color: #e53e3e; font-weight: bold; font-size: 0.85rem; margin: 5px 0;">Out of Stock</p>
+      <button type="button" class="cart-btn" disabled style="background: #cbd5e1; cursor: not-allowed; color: #64748b;">❌</button>
+    <?php else: ?>
+      <p class="stock-status in-stock" style="color: #10b981; font-size: 0.82rem; margin: 5px 0;"><?= intval($p['stock']) ?> left</p>
+      <form class="cart-form">
+        <input type="hidden" class="product-id" value="<?= $p['product_id'] ?>" />
+        <input type="hidden" class="quantity" value="1" />
+        <button type="submit" class="cart-btn">🛒</button>
+      </form>
+    <?php endif; ?>
+  </div>
+</div>
+<?php endforeach; ?>
       </section>
 
       </section>
