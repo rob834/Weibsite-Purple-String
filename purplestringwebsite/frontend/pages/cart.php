@@ -183,7 +183,7 @@ if (!isset($_SESSION['user_id'])) {
                 $ids = array_keys($cart);
                 $placeholders = implode(',', array_fill(0, count($ids), '?'));
                 $types = str_repeat('i', count($ids));
-                $stmt = mysqli_prepare($con, "SELECT product_id, name, price FROM products WHERE product_id IN ($placeholders)");
+                $stmt = mysqli_prepare($con, "SELECT product_id, name, price, stock FROM products WHERE product_id IN ($placeholders)");
                 mysqli_stmt_bind_param($stmt, $types, ...$ids);
                 mysqli_stmt_execute($stmt);
                 $res = mysqli_stmt_get_result($stmt);
@@ -220,9 +220,10 @@ if (!isset($_SESSION['user_id'])) {
                     <p class="price">₱<?= number_format($prod['price'], 2) ?></p>
                   </div>
                   <div class="item-quantity">
-                    <input type="hidden" name="product_id[]" value="<?= $pid ?>" />
-                    <input type="number" name="quantity[]" value="<?= intval($qty) ?>" min="1" class="qty-input" />
-                  </div>
+  <input type="hidden" name="product_id[]" value="<?= $pid ?>" />
+  <input type="number" name="quantity[]" value="<?= intval($qty) ?>" min="1" max="<?= intval($prod['stock']) ?>" class="qty-input" oninput="if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;" />
+  <span style="display:block; font-size:11px; color:#888; text-align:center; margin-top:2px;">Max: <?= $prod['stock'] ?></span>
+</div>
                   <div class="item-total">
                     <p>₱<?= number_format($line_total, 2) ?></p>
                   </div>

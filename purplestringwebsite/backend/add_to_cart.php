@@ -25,8 +25,8 @@ if ($product_id <= 0) {
     exit();
 }
 
-// Verify product exists
-$pstmt = mysqli_prepare($con, "SELECT product_id, price FROM products WHERE product_id = ? LIMIT 1");
+// CRITICAL SECURITY: Added `stock` to verification query
+$pstmt = mysqli_prepare($con, "SELECT product_id, price, stock FROM products WHERE product_id = ? LIMIT 1");
 if (!$pstmt) {
     if ($is_ajax) {
         header('Content-Type: application/json');
@@ -49,6 +49,9 @@ if (!$res || mysqli_num_rows($res) === 0) {
     }
     exit();
 }
+
+$product_data = mysqli_fetch_assoc($res);
+$available_stock = intval($product_data['stock']);
 mysqli_stmt_close($pstmt);
 
 // Initialize cart in session
@@ -56,7 +59,23 @@ if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// Add or update quantity
+// CRITICAL SECURITY: Check if the total combined quantity exceeds stock limits
+$current_cart_qty = isset($_SESSION['cart'][$product_id]) ? intval($_SESSION['cart'][$product_id]) : 0;
+if (($current_cart_qty + $quantity) > $available_stock) {
+    if ($is_ajax) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false, 
+            'error' => "Cannot add more. Only {$available_stock} item(s) are available in stock, and you already have {$current_cart_qty} in your cart."
+        ]);
+    } else {
+        $_SESSION['error_message'] = "Insufficient stock available.";
+        header('Location: ' . $redirect);
+    }
+    exit();
+}
+
+// Add or update quantity safely
 if (isset($_SESSION['cart'][$product_id])) {
     $_SESSION['cart'][$product_id] += $quantity;
 } else {

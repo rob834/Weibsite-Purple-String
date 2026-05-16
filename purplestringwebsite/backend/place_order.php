@@ -21,66 +21,102 @@ if (empty($cart)) {
 
 $user_id = $_SESSION['user_id'];
 
-// ── 1. Fetch product names + prices ──────────────────────────────────────────
-$ids          = array_keys($cart);
-$placeholders = implode(',', array_fill(0, count($ids), '?'));
-$types        = str_repeat('i', count($ids));
+// CRITICAL SECURITY: Initialize database transaction processing block
+mysqli_begin_transaction($con);
 
-$stmt = mysqli_prepare($con, "SELECT product_id, name, price FROM products WHERE product_id IN ($placeholders)");
-mysqli_stmt_bind_param($stmt, $types, ...$ids);
-mysqli_stmt_execute($stmt);
-$res = mysqli_stmt_get_result($stmt);
+try {
+    // ── 1. Fetch names, prices, and LOCK stock values via FOR UPDATE ──────────
+    $ids          = array_keys($cart);
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+    $types        = str_repeat('i', count($ids));
 
-$prices       = [];
-$products_map = [];
-while ($row = mysqli_fetch_assoc($res)) {
-    $prices[$row['product_id']]       = floatval($row['price']);
-    $products_map[$row['product_id']] = $row;
-}
-mysqli_stmt_close($stmt);
+    // Added `stock` and `FOR UPDATE` row-level lock flag configuration 
+    $stmt = mysqli_prepare($con, "SELECT product_id, name, price, stock FROM products WHERE product_id IN ($placeholders) FOR UPDATE");
+    mysqli_stmt_bind_param($stmt, $types, ...$ids);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
 
-// ── 2. Calculate subtotal (products only) ─────────────────────────────────────
-$subtotal = 0.0;
-foreach ($cart as $pid => $qty) {
-    if (!isset($prices[$pid])) continue;
-    $subtotal += $prices[$pid] * intval($qty);
-}
+    $prices       = [];
+    $products_map = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $prices[$row['product_id']]       = floatval($row['price']);
+        $products_map[$row['product_id']] = $row;
+    }
+    mysqli_stmt_close($stmt);
 
-$shipping = ($subtotal > 0) ? 50.00 : 0.00;
-$tax      = $subtotal * 0.08;
-$total    = $subtotal + $shipping + $tax;
+    // CRITICAL SECURITY: Run stock validation checks against final database limits
+    foreach ($cart as $pid => $qty) {
+        if (!isset($products_map[$pid])) {
+            throw new Exception("One of the products in your cart is no longer available.");
+        }
+        if (intval($products_map[$pid]['stock']) < intval($qty)) {
+            throw new Exception("Stock constraint error: Product '" . $products_map[$pid]['name'] . "' only has " . $products_map[$pid]['stock'] . " item(s) left.");
+        }
+    }
 
-// ── 3. Insert order ───────────────────────────────────────────────────────────
-$mark_paid_token = bin2hex(random_bytes(32));
+    // ── 2. Calculate subtotal (products only) ─────────────────────────────────────
+    $subtotal = 0.0;
+    foreach ($cart as $pid => $qty) {
+        if (!isset($prices[$pid])) continue;
+        $subtotal += $prices[$pid] * intval($qty);
+    }
 
-$ostmt = mysqli_prepare($con,
-    "INSERT INTO orders (user_id, subtotal, shipping, tax, total, status, created_at, mark_paid_token, reference_number)
-     VALUES (?, ?, ?, ?, ?, 'pending', NOW(), ?, ?)"
-);
-mysqli_stmt_bind_param($ostmt, 'sddddss', $user_id, $subtotal, $shipping, $tax, $total, $mark_paid_token, $reference_number);
-mysqli_stmt_execute($ostmt);
-$order_id = mysqli_insert_id($con);
-mysqli_stmt_close($ostmt);
+    $shipping = ($subtotal > 0) ? 50.00 : 0.00;
+    $tax      = $subtotal * 0.08;
+    $total    = $subtotal + $shipping + $tax;
 
-if (!$order_id) {
-    // Order insert failed — go back to cart
-    header("Location: /Weibsite-Purple-String/purplestringwebsite/frontend/pages/cart.php");
+    // ── 3. Insert order ───────────────────────────────────────────────────────────
+    $mark_paid_token = bin2hex(random_bytes(32));
+
+    $ostmt = mysqli_prepare($con,
+        "INSERT INTO orders (user_id, subtotal, shipping, tax, total, status, created_at, mark_paid_token, reference_number)
+         VALUES (?, ?, ?, ?, ?, 'pending', NOW(), ?, ?)"
+    );
+    mysqli_stmt_bind_param($ostmt, 'sddddss', $user_id, $subtotal, $shipping, $tax, $total, $mark_paid_token, $reference_number);
+    mysqli_stmt_execute($ostmt);
+    $order_id = mysqli_insert_id($con);
+    mysqli_stmt_close($ostmt);
+
+    if (!$order_id) {
+        throw new Exception("Order setup compilation issue. Please try checking out again.");
+    }
+
+    // ── 4. Insert order items & DECREMENT STOCK ───────────────────────────────────
+    $istmt = mysqli_prepare($con,
+        "INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)"
+    );
+    // Prepared statement targeting safe stock decrement reductions
+    $ustmt = mysqli_prepare($con,
+        "UPDATE products SET stock = stock - ? WHERE product_id = ?"
+    );
+
+    foreach ($cart as $pid => $qty) {
+        if (!isset($prices[$pid])) continue;
+        $p = intval($pid);
+        $q = intval($qty);
+        $u = $prices[$pid];
+        
+        // Write item details logs to table 
+        mysqli_stmt_bind_param($istmt, 'iiid', $order_id, $p, $q, $u);
+        mysqli_stmt_execute($istmt);
+
+        // Execute stock quantity reductions securely 
+        mysqli_stmt_bind_param($ustmt, 'ii', $q, $p);
+        mysqli_stmt_execute($ustmt);
+    }
+    mysqli_stmt_close($istmt);
+    mysqli_stmt_close($ustmt);
+
+    // If operations verify cleanly up to this stage, save modifications to database 
+    mysqli_commit($con);
+
+} catch (Exception $e) {
+    // If any error or validation constraint failure triggered, wipe out partial records immediately
+    mysqli_rollback($con);
+    $_SESSION['error_message'] = $e->getMessage();
+    header("Location: /Weibsite-Purple-String/purplestringwebsite/frontend/pages/cart.php?status=failed_checkout");
     exit();
 }
-
-// ── 4. Insert order items ─────────────────────────────────────────────────────
-$istmt = mysqli_prepare($con,
-    "INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)"
-);
-foreach ($cart as $pid => $qty) {
-    if (!isset($prices[$pid])) continue;
-    $p = intval($pid);
-    $q = intval($qty);
-    $u = $prices[$pid];
-    mysqli_stmt_bind_param($istmt, 'iiid', $order_id, $p, $q, $u);
-    mysqli_stmt_execute($istmt);
-}
-mysqli_stmt_close($istmt);
 
 // ── 5. Save order ID in session, clear cart ───────────────────────────────────
 $_SESSION['last_order_id'] = $order_id;
