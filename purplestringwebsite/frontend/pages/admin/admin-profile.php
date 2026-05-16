@@ -109,7 +109,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 
                 <div class="menu-item">
                   <span class="menu-icon"></span>
-                  <a href="../../../logout.php" class="menu-link"><strong>Log Out</strong></a>
+                  <a href="../../../../logout.php" class="menu-link"><strong>Log Out</strong></a>
                 </div>
               </div>
             </div>

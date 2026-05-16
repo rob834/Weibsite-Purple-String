@@ -7,6 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$reference_number = isset($_POST['reference_number']) ? trim($_POST['reference_number']) : '';
+
 include_once __DIR__ . '/connection.php';
 include_once __DIR__ . '/mailer.php';
 
@@ -52,10 +54,10 @@ $total    = $subtotal + $shipping + $tax;
 $mark_paid_token = bin2hex(random_bytes(32));
 
 $ostmt = mysqli_prepare($con,
-    "INSERT INTO orders (user_id, subtotal, shipping, tax, total, status, created_at, mark_paid_token)
-     VALUES (?, ?, ?, ?, ?, 'pending', NOW(), ?)"
+    "INSERT INTO orders (user_id, subtotal, shipping, tax, total, status, created_at, mark_paid_token, reference_number)
+     VALUES (?, ?, ?, ?, ?, 'pending', NOW(), ?, ?)"
 );
-mysqli_stmt_bind_param($ostmt, 'sdddds', $user_id, $subtotal, $shipping, $tax, $total, $mark_paid_token);
+mysqli_stmt_bind_param($ostmt, 'sddddss', $user_id, $subtotal, $shipping, $tax, $total, $mark_paid_token, $reference_number);
 mysqli_stmt_execute($ostmt);
 $order_id = mysqli_insert_id($con);
 mysqli_stmt_close($ostmt);
@@ -150,6 +152,7 @@ if (filter_var($buyer_email, FILTER_VALIDATE_EMAIL)) {
         . '<div style="padding:28px 32px;">'
         . '<p style="color:#333;">Hi <strong>' . htmlspecialchars($display_name) . '</strong>, here is your order summary:</p>'
         . '<p style="color:#888;font-size:13px;">Order #' . $order_id . ' &nbsp;&middot;&nbsp; ' . $order_date . '</p>'
+        . ($reference_number ? '<p style="color:#4a1d96;font-size:13px;font-weight:600;">Reference #: ' . htmlspecialchars($reference_number) . '</p>' : '')
         . $receipt_table
         . '<div style="background:#fffbeb;border-left:4px solid #f59e0b;padding:14px 18px;margin-top:20px;">'
         . '<p style="margin:0;color:#92400e;"><strong>Next step:</strong> Message us on '
@@ -180,6 +183,7 @@ $admin_html =
     . '<tr><td style="color:#888;padding:4px 0;">Email</td><td>' . htmlspecialchars($user['email'] ?? 'Not provided') . '</td></tr>'
     . '<tr><td style="color:#888;padding:4px 0;">Phone</td><td>' . htmlspecialchars($user['phone'] ?? 'Not provided') . '</td></tr>'
     . '<tr><td style="color:#888;padding:4px 0;">Address</td><td>' . htmlspecialchars($user['address'] ?? 'Not provided') . '</td></tr>'
+    . ($reference_number ? '<tr><td style="color:#888;padding:4px 0;">Reference #</td><td style="font-weight:700;color:#6b21a8;">' . htmlspecialchars($reference_number) . '</td></tr>' : '')
     . '</table>'
     . $receipt_table
     . '<div style="margin-top:28px;text-align:center;padding:24px;background:#faf5ff;border-radius:8px;">'
