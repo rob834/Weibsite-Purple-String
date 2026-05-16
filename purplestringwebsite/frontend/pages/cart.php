@@ -278,14 +278,11 @@ if (!isset($_SESSION['user_id'])) {
 
             </div>
 
-            <form method="POST" action="../../backend/place_order.php">
-
-              <button type="submit" class="checkout-btn" <?= empty($cart) ? 'disabled' : '' ?>>
-
+            <form method="POST" action="../../backend/place_order.php" id="checkoutForm">
+              <input type="hidden" name="reference_number" id="referenceNumberInput" value="" />
+              <button type="button" class="checkout-btn" <?= empty($cart) ? 'disabled' : '' ?> onclick="startCheckout()">
                 Proceed to Checkout
-
               </button>
-
             </form>
 
               </div>
@@ -341,6 +338,68 @@ if (!isset($_SESSION['user_id'])) {
           src="../public/images/whiteflower.png" />
       </div>
     </div>
+  <!-- ── Modal: Missing Profile Info ─────────────────────────────────────── -->
+  <div id="profileModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:420px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+      <div style="font-size:48px;margin-bottom:12px;">⚠️</div>
+      <h2 style="color:#6b21a8;margin:0 0 10px;">Profile Incomplete</h2>
+      <p style="color:#555;margin:0 0 20px;line-height:1.6;">
+        Please add your <strong>phone number</strong> and <strong>delivery address</strong>
+        in your profile before checking out. We need these to deliver your order!
+      </p>
+      <a href="profile.php"
+         style="display:inline-block;background:#6b21a8;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:700;margin-right:8px;">
+        Go to Profile
+      </a>
+      <button onclick="closeModal('profileModal')"
+              style="padding:12px 20px;border:2px solid #6b21a8;background:#fff;color:#6b21a8;border-radius:8px;font-weight:700;cursor:pointer;">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Modal: Payment / QR Code ─────────────────────────────────────────── -->
+  <div id="paymentModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:460px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+      <h2 style="color:#6b21a8;margin:0 0 6px;text-align:center;">Complete Your Payment</h2>
+      <p style="color:#888;font-size:13px;text-align:center;margin:0 0 20px;">Scan the QR code below and send the exact amount, then enter your reference number.</p>
+
+      <!-- QR Code box -->
+      <div style="border:2px dashed #d8b4fe;border-radius:10px;padding:20px;text-align:center;margin-bottom:20px;background:#faf5ff;">
+        <img src="../public/images/qr_code.png"
+             onerror="this.style.display='none';document.getElementById('qrPlaceholder').style.display='block';"
+             style="max-width:220px;width:100%;border-radius:6px;" />
+        <div id="qrPlaceholder" style="display:none;padding:40px 0;color:#a855f7;font-size:14px;">
+          <div style="font-size:48px;margin-bottom:8px;">📷</div>
+          QR code will be placed here by admin.<br>
+          <span style="font-size:12px;color:#bbb;">Upload <code>qr_code.png</code> to <code>frontend/public/images/</code></span>
+        </div>
+      </div>
+
+      <!-- Reference number input -->
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-weight:700;color:#4a1d96;margin-bottom:6px;font-size:14px;">
+          Payment Reference Number <span style="color:#e53e3e;">*</span>
+        </label>
+        <input type="text" id="refNumberField" placeholder="e.g. 1234567890"
+               style="width:100%;box-sizing:border-box;padding:10px 14px;border:2px solid #d8b4fe;border-radius:8px;font-size:15px;outline:none;"
+               oninput="validateRefField()" />
+        <p id="refError" style="color:#e53e3e;font-size:12px;margin:4px 0 0;display:none;">Please enter your reference number.</p>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button onclick="closeModal('paymentModal')"
+                style="flex:1;padding:12px;border:2px solid #ccc;background:#fff;color:#666;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">
+          Cancel
+        </button>
+        <button id="confirmPayBtn" onclick="confirmPayment()"
+                style="flex:2;padding:12px;background:#6b21a8;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:15px;">
+          Confirm &amp; Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function updateRemoveBtn() {
       const checked = document.querySelectorAll('.item-checkbox:checked');
@@ -365,6 +424,60 @@ if (!isset($_SESSION['user_id'])) {
 
     function submitUpdateAll() {
       document.getElementById('updateAllForm').submit();
+    }
+
+    function openModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Close modals when clicking the backdrop
+    ['profileModal', 'paymentModal'].forEach(function(id) {
+      document.getElementById(id).addEventListener('click', function(e) {
+        if (e.target === this) closeModal(id);
+      });
+    });
+
+    function validateRefField() {
+      const val = document.getElementById('refNumberField').value.trim();
+      document.getElementById('refError').style.display = val ? 'none' : 'block';
+      return val.length > 0;
+    }
+
+    function startCheckout() {
+      // Check profile completeness via AJAX
+      fetch('/Weibsite-Purple-String/purplestringwebsite/backend/check_profile.php', {
+        method: 'GET',
+        credentials: 'same-origin'
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.complete) {
+          openModal('paymentModal');
+        } else {
+          openModal('profileModal');
+        }
+      })
+      .catch(function() {
+        // If check fails, allow checkout to proceed anyway
+        openModal('paymentModal');
+      });
+    }
+
+    function confirmPayment() {
+      const ref = document.getElementById('refNumberField').value.trim();
+      if (!ref) {
+        document.getElementById('refError').style.display = 'block';
+        return;
+      }
+      document.getElementById('referenceNumberInput').value = ref;
+      const btn = document.getElementById('confirmPayBtn');
+      btn.disabled = true;
+      btn.textContent = 'Placing Order...';
+      document.getElementById('checkoutForm').submit();
     }
   </script>
   </body>
