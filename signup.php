@@ -108,15 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <button type="submit" value="Sign Up" class="login-btn">Sign Up</button>
             </form>
 
-            <div class="divider">OR</div>
-
-            <button class="social-btn google-btn">
-              <span>🔍</span> Continue with Google
-            </button>
-            <button class="social-btn facebook-btn">
-              <span>f</span> Continue with Facebook
-            </button>
-
             <div id="signup-link">
               Already have an account? <a href="/Weibsite-Purple-String/login.php">Sign in here</a>
             </div>
