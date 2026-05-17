@@ -31,6 +31,8 @@ if ($product_id > 0 && $con) {
   mysqli_stmt_close($ir);
 }
 
+// Check stock status dynamically
+$is_out_of_stock = intval($product['stock'] ?? 0) <= 0;
 ?>
 
 
@@ -113,7 +115,6 @@ if ($product_id > 0 && $con) {
       </section>
       <section id="content">
             <div class="product-card">
-          <!-- Left: 5-image collage -->
           <div class="collage-left">
             <?php if (!empty($images)): ?>
               <img src="../../public/images/products/<?= htmlspecialchars($images[0]) ?>" alt="Main" />
@@ -129,27 +130,38 @@ if ($product_id > 0 && $con) {
             <?php endif; ?>
           </div>
 
-          <!-- Right: Product information -->
-            <div class="product-info-right">
+          <div class="product-info-right">
             <div class="product-header-row">
               <h2 class="product-title"><?= htmlspecialchars($product['name'] ?? 'Product') ?></h2>
               <div class="rating" data-product-id="<?= $product_id ?>">
                 <span class="stars">
                   <span class="star-buttons">
-                    <!-- clickable stars will be rendered by JS -->
-                  </span>
+                    </span>
                 </span>
                 <span class="score">0</span>
                 <span class="count">• 0 ratings</span>
               </div>
               <div class="prices">
-                <div class="current-price">₱17-₱22</div>
+                <div class="current-price">₱<?= number_format(($product['price'] ?? 0), 2) ?></div>
               </div>
             </div>
 
+            <div class="stock-display" style="margin: 12px 0;">
+              <?php if ($is_out_of_stock): ?>
+                <span style="background-color: #fee2e2; color: #ef4444; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; display: inline-block;">⚠️ Out of Stock</span>
+              <?php else: ?>
+                <span style="background-color: #d1fae5; color: #10b981; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; display: inline-block;">In Stock: <?= intval($product['stock']) ?> left</span>
+              <?php endif; ?>
+            </div>
+
             <div class="actions">
-              <button class="btn-add-to-cart">Add to Cart</button>
-              <button class="btn-buy-now">Buy Now</button>
+              <button class="btn-add-to-cart" <?= $is_out_of_stock ? 'disabled style="background-color: #cbd5e1; color: #64748b; cursor: not-allowed; border: none; box-shadow: none;"' : '' ?>>
+                Add to Cart
+              </button>
+              
+              <button class="btn-buy-now" <?= $is_out_of_stock ? 'disabled style="background-color: #cbd5e1; color: #64748b; cursor: not-allowed; border: none; box-shadow: none;"' : '' ?>>
+                Buy Now
+              </button>
             </div>
 
             <div class="product-description">
@@ -236,7 +248,8 @@ if ($product_id > 0 && $con) {
           if (data.success) {
             alert('Product added to cart!');
           } else {
-            alert('Error adding to cart. Please try again.');
+            // Enhanced Security: Display the backend error message directly to the customer
+            alert(data.error || 'Error adding to cart. Please try again.');
           }
         })
         .catch(function(err) {
@@ -276,7 +289,8 @@ if ($product_id > 0 && $con) {
               if (data.success) {
                 window.location.href = '../cart.php';
               } else {
-                alert('Error adding to cart. Please try again.');
+                // Enhanced Security: Display backend validation constraint rejection messages
+                alert(data.error || 'Error adding to cart. Please try again.');
               }
             })
             .catch(function(err) {

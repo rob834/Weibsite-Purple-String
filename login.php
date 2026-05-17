@@ -15,36 +15,55 @@ session_start();
 
 		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
 		{
+			// reCAPTCHA Server-side Validation
+			$recaptcha_secret = "6Le-du4sAAAAAPVHLA-9sjgolije8e9jnSqQQdz_";
+			$recaptcha_response = isset($_POST['g-recaptcha-response']) ? $_POST['g-recaptcha-response'] : '';
 
-			//read from database
-			$query = "select * from users where user_name = '$user_name' limit 1";
-			$result = mysqli_query($con, $query);
+			// Verify the response with Google APIs
+			$verify_url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $recaptcha_secret . "&response=" . $recaptcha_response;
+			$response_call = file_get_contents($verify_url);
+			$response_data = json_decode($response_call, true);
 
-			if($result)
+			if(!$response_data["success"])
 			{
-				if($result && mysqli_num_rows($result) > 0)
+				$error_message = "Please complete the reCAPTCHA verification checkpoint.";
+			}
+			else
+			{
+				//read from database
+				$query = "select * from users where user_name = '$user_name' limit 1";
+				$result = mysqli_query($con, $query);
+
+				if($result)
 				{
-
-					$user_data = mysqli_fetch_assoc($result);
-					
-					if($user_data['password'] === $password)
+					if($result && mysqli_num_rows($result) > 0)
 					{
-						// Check if email is verified
-						if(isset($user_data['email_verified']) && $user_data['email_verified'] == 1)
-						{
-							$_SESSION['user_id'] = $user_data['user_id'];
-              $_SESSION['role'] = $user_data['role']; 
 
-              if ($user_data['role'] === 'admin') {
-                header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
-              } else {
-              header("Location: index.php");
-							die;
-              }
+						$user_data = mysqli_fetch_assoc($result);
+						
+						if($user_data['password'] === $password)
+						{
+							// Check if email is verified
+							if(isset($user_data['email_verified']) && $user_data['email_verified'] == 1)
+							{
+								$_SESSION['user_id'] = $user_data['user_id'];
+								$_SESSION['role'] = $user_data['role']; 
+
+								if ($user_data['role'] === 'admin') {
+									header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
+								} else {
+									header("Location: index.php");
+									die;
+								}
+							}
+							else
+							{
+								$error_message = "Please verify your email before logging in. Check your email for the verification link.";
+							}
 						}
 						else
 						{
-							$error_message = "Please verify your email before logging in. Check your email for the verification link.";
+							$error_message = "Wrong username or password!";
 						}
 					}
 					else
@@ -54,12 +73,8 @@ session_start();
 				}
 				else
 				{
-					$error_message = "Wrong username or password!";
+					$error_message = "Login failed. Please try again.";
 				}
-			}
-			else
-			{
-				$error_message = "Login failed. Please try again.";
 			}
 		}else
 		{
@@ -83,9 +98,10 @@ session_start();
     <link
       rel="stylesheet"
       href="purplestringwebsite/frontend/css/login.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght=0,14..32,100..900;1,14..32,100..900&display=swap');
   </style>
   <body>
     <div id="page-container">
@@ -129,22 +145,17 @@ session_start();
                   <input type="checkbox" name="remember" />
                   <span>Remember me</span>
                 </label>
-                <a href="#" class="forgot-password">Forgot Password?</a>
+                <a href="forgot_password.php" class="forgot-password">Forgot Password?</a>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px; display: flex; justify-content: center;">
+                <div class="g-recaptcha" data-sitekey="6Le-du4sAAAAAPe_QFxx8bvQcWm8xnFXLW_UGMfD"></div>
               </div>
 
               <button type="submit" value="Login" class="login-btn">Log In</button>
             </form>
 
-            <div class="divider">OR</div>
-
-            <button class="social-btn google-btn">
-              <span>🔍</span> Continue with Google
-            </button>
-            <button class="social-btn facebook-btn">
-              <span>f</span> Continue with Facebook
-            </button>
-
-            <div id="signup-link">
+            <div id="signup-link" style="margin-top: 25px;">
               Don't have an account? <a href="/Weibsite-Purple-String/signup.php">Create one here</a>
             </div>
           </div>
@@ -158,6 +169,6 @@ session_start();
       </div>
     </div>
 
-    <!-- <script src="./js/login.js"></!--> -->
+    -->
   </body>
 </html>

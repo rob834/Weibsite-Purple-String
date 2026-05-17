@@ -160,7 +160,6 @@ if (!isset($_SESSION['user_id'])) {
 
       <section id="content">
         <div class="cart-container">
-          <!-- My Cart Card -->
           <div class="cart-card">
             <div class="cart-card-header">
               <h2>My Cart</h2>
@@ -183,7 +182,7 @@ if (!isset($_SESSION['user_id'])) {
                 $ids = array_keys($cart);
                 $placeholders = implode(',', array_fill(0, count($ids), '?'));
                 $types = str_repeat('i', count($ids));
-                $stmt = mysqli_prepare($con, "SELECT product_id, name, price FROM products WHERE product_id IN ($placeholders)");
+                $stmt = mysqli_prepare($con, "SELECT product_id, name, price, stock FROM products WHERE product_id IN ($placeholders)");
                 mysqli_stmt_bind_param($stmt, $types, ...$ids);
                 mysqli_stmt_execute($stmt);
                 $res = mysqli_stmt_get_result($stmt);
@@ -194,7 +193,6 @@ if (!isset($_SESSION['user_id'])) {
                 mysqli_stmt_close($stmt);
             ?>
 
-            <!-- Update All form wraps all items -->
             <form method="POST" action="../../backend/update_cart.php" id="updateAllForm">
               <div class="cart-items">
                 <?php foreach ($cart as $pid => $qty):
@@ -220,9 +218,10 @@ if (!isset($_SESSION['user_id'])) {
                     <p class="price">₱<?= number_format($prod['price'], 2) ?></p>
                   </div>
                   <div class="item-quantity">
-                    <input type="hidden" name="product_id[]" value="<?= $pid ?>" />
-                    <input type="number" name="quantity[]" value="<?= intval($qty) ?>" min="1" class="qty-input" />
-                  </div>
+  <input type="hidden" name="product_id[]" value="<?= $pid ?>" />
+  <input type="number" name="quantity[]" value="<?= intval($qty) ?>" min="1" max="<?= intval($prod['stock']) ?>" class="qty-input" oninput="if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;" />
+  <span style="display:block; font-size:11px; color:#888; text-align:center; margin-top:2px;">Max: <?= $prod['stock'] ?></span>
+</div>
                   <div class="item-total">
                     <p>₱<?= number_format($line_total, 2) ?></p>
                   </div>
@@ -231,16 +230,12 @@ if (!isset($_SESSION['user_id'])) {
               </div>
             </form>
 
-            <!-- Remove Selected hidden form -->
             <form method="POST" action="../../backend/remove_from_cart.php" id="removeSelectedForm">
               <div id="removeInputsContainer"></div>
             </form>
 
             <?php } ?>
           </div>
-
-          <!-- Order Summary Card -->
-                    <!-- Order Summary Card -->
 
           <div class="order-card">
 
@@ -338,7 +333,6 @@ if (!isset($_SESSION['user_id'])) {
           src="../public/images/whiteflower.png" />
       </div>
     </div>
-  <!-- ── Modal: Missing Profile Info ─────────────────────────────────────── -->
   <div id="profileModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
     <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:420px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
       <div style="font-size:48px;margin-bottom:12px;">⚠️</div>
@@ -358,15 +352,17 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
-  <!-- ── Modal: Payment / QR Code ─────────────────────────────────────────── -->
   <div id="paymentModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
     <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:460px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
       <h2 style="color:#6b21a8;margin:0 0 6px;text-align:center;">Complete Your Payment</h2>
-      <p style="color:#888;font-size:13px;text-align:center;margin:0 0 20px;">Scan the QR code below and send the exact amount, then enter your reference number.</p>
+      <p style="color:#888;font-size:13px;text-align:center;margin:0 0 10px;">Scan the QR code below and send the exact amount, then enter your reference number.</p>
 
-      <!-- QR Code box -->
+      <h3 style="text-align:center; color:#6b46c1; margin:0 0 20px 0; font-family:'Inter', sans-serif; font-size:18px; font-weight:700;">
+        Amount Payable: ₱<?= number_format($subtotal, 2) ?>
+      </h3>
+
       <div style="border:2px dashed #d8b4fe;border-radius:10px;padding:20px;text-align:center;margin-bottom:20px;background:#faf5ff;">
-        <img src="../public/images/qr_code.png"
+        <img src="../public/images/qr_code.png?t=<?= time() ?>"
              onerror="this.style.display='none';document.getElementById('qrPlaceholder').style.display='block';"
              style="max-width:220px;width:100%;border-radius:6px;" />
         <div id="qrPlaceholder" style="display:none;padding:40px 0;color:#a855f7;font-size:14px;">
@@ -376,7 +372,6 @@ if (!isset($_SESSION['user_id'])) {
         </div>
       </div>
 
-      <!-- Reference number input -->
       <div style="margin-bottom:20px;">
         <label style="display:block;font-weight:700;color:#4a1d96;margin-bottom:6px;font-size:14px;">
           Payment Reference Number <span style="color:#e53e3e;">*</span>
