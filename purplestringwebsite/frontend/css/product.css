@@ -183,6 +183,24 @@ body {
   gap: 15px;
 }
 
+.product-controls select {
+  border: 2px solid #C071D0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #8a226f;
+  padding: 3px 3px;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-controls select:hover,
+.product-controls select:focus {
+  border-color: #C071D0;
+  box-shadow: 0 0 0 3px rgba(192, 113, 208, 0.15);
+  outline: none;
+}
+
+
 .sort-btn {
   background-color: transparent;
   border: none;
@@ -259,7 +277,7 @@ body {
 
 /* product grid styles */
 .product-grid {
-  margin-top: 150px;
+  margin-top: 1px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 25px;
@@ -288,15 +306,24 @@ body {
   border-radius: 10px;
 }
 
+.filters-form {
+  border: #8a226f;
+}
+
 .product-info {
   margin-top: 8px;
 }
 
 .product-name {
-  font-size: 13px;
-  color: #333;
+  font-size: 15px;
+  color: #000000;
   margin: 5px 0;
   line-height: 1.3;
+}
+
+.product-name a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .rating {
