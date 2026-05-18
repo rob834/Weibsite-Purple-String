@@ -1,87 +1,81 @@
 <?php 
+// 1. Configure secure session cookie settings BEFORE starting the session
+session_set_cookie_params([
+    'lifetime' => 0,                      // Expires when browser closes
+    'path' => '/',
+    'secure' => true,                     // Set to true if using HTTPS
+    'httponly' => true,                   // Protects session cookie from XSS access
+    'samesite' => 'Strict'                // Protects against CSRF attacks
+]);
 
 session_start();
 
-	include("purplestringwebsite/backend/connection.php");
-	include("purplestringwebsite/backend/functions.php");
+include("purplestringwebsite/backend/connection.php");
+include("purplestringwebsite/backend/functions.php");
 
-	$error_message = "";
+$error_message = "";
 
-	if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST")
-	{
-		//something was posted
-		$user_name = $_POST['user_name'];
-		$password = $_POST['password'];
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST") {
+    $user_name = trim($_POST['user_name']);
+    $password = $_POST['password'];
 
-		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
-		{
-			// reCAPTCHA Server-side Validation
-			$recaptcha_secret = "6Le-du4sAAAAAPVHLA-9sjgolije8e9jnSqQQdz_";
-			$recaptcha_response = isset($_POST['g-recaptcha-response']) ? $_POST['g-recaptcha-response'] : '';
+    if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+        // reCAPTCHA Server-side Validation
+        $recaptcha_secret = "6Le-du4sAAAAAPVHLA-9sjgolije8e9jnSqQQdz_";
+        $recaptcha_response = isset($_POST['g-recaptcha-response']) ? $_POST['g-recaptcha-response'] : '';
 
-			// Verify the response with Google APIs
-			$verify_url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $recaptcha_secret . "&response=" . $recaptcha_response;
-			$response_call = file_get_contents($verify_url);
-			$response_data = json_decode($response_call, true);
+        // Verify the response with Google APIs
+        $verify_url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $recaptcha_secret . "&response=" . $recaptcha_response;
+        $response_call = file_get_contents($verify_url);
+        $response_data = json_decode($response_call, true);
 
-			if(!$response_data["success"])
-			{
-				$error_message = "Please complete the reCAPTCHA verification checkpoint.";
-			}
-			else
-			{
-				//read from database
-				$query = "select * from users where user_name = '$user_name' limit 1";
-				$result = mysqli_query($con, $query);
+        if (!$response_data["success"]) {
+            $error_message = "Please complete the reCAPTCHA verification checkpoint.";
+        } else {
+            // FIXED: Using Prepared Statements to prevent SQL Injection
+            $query = "SELECT * FROM users WHERE user_name = ? LIMIT 1";
+            $stmt = mysqli_prepare($con, $query);
+            mysqli_stmt_bind_param($stmt, "s", $user_name);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
-				if($result)
-				{
-					if($result && mysqli_num_rows($result) > 0)
-					{
+            if ($result && mysqli_num_rows($result) > 0) {
+                $user_data = mysqli_fetch_assoc($result);
+                
+                // FIXED: Verifying the securely hashed password
+                if (password_verify($password, $user_data['password'])) {
+                    
+                    // Check if email is verified
+                    if (isset($user_data['email_verified']) && $user_data['email_verified'] == 1) {
+                        
+                        // FIXED: Secure Session Regeneration on login to prevent Session Fixation
+                        session_regenerate_id(true);
+                        
+                        $_SESSION['user_id'] = $user_data['user_id'];
+                        $_SESSION['role'] = $user_data['role']; 
 
-						$user_data = mysqli_fetch_assoc($result);
-						
-						if($user_data['password'] === $password)
-						{
-							// Check if email is verified
-							if(isset($user_data['email_verified']) && $user_data['email_verified'] == 1)
-							{
-								$_SESSION['user_id'] = $user_data['user_id'];
-								$_SESSION['role'] = $user_data['role']; 
-
-								if ($user_data['role'] === 'admin') {
-									header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
-								} else {
-									header("Location: index.php");
-									die;
-								}
-							}
-							else
-							{
-								$error_message = "Please verify your email before logging in. Check your email for the verification link.";
-							}
-						}
-						else
-						{
-							$error_message = "Wrong username or password!";
-						}
-					}
-					else
-					{
-						$error_message = "Wrong username or password!";
-					}
-				}
-				else
-				{
-					$error_message = "Login failed. Please try again.";
-				}
-			}
-		}else
-		{
-			$error_message = "Please enter all required information!";
-		}
-	}
-
+                        if ($user_data['role'] === 'admin') {
+                            header("Location: purplestringwebsite/frontend/pages/admin-homepage.php");
+                            exit;
+                        } else {
+                            header("Location: index.php");
+                            exit;
+                        }
+                    } else {
+                        $error_message = "Please verify your email before logging in.";
+                    }
+                } else {
+                    $error_message = "Wrong username or password!";
+                }
+            } else {
+                $error_message = "Wrong username or password!";
+            }
+            mysqli_stmt_close($stmt);
+        }
+    } else {
+        $error_message = "Please enter valid information.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +95,7 @@ session_start();
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght=0,14..32,100..900;1,14..32,100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
   </style>
   <body>
     <div id="page-container">

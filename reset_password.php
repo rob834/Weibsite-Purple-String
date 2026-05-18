@@ -35,15 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $valid_token) {
     if (!empty($new_password) && !empty($confirm_password)) {
         if ($new_password === $confirm_password) {
             $user_id = $user_data['user_id'];
-            
-            // Clean/Escape incoming string to prevent query structural failures
-            $escaped_password = mysqli_real_escape_string($con, $new_password);
+
+            // FIXED: Hash the password before saving — plain text would break password_verify() in login.php
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $escaped_hashed = mysqli_real_escape_string($con, $hashed_password);
 
             // Update user password and wipe out token parameters so it can't be reused
-            $update_query = "UPDATE users SET password = '$escaped_password', reset_token = NULL, reset_expiry = NULL WHERE user_id = '$user_id'";
-            
+            $update_query = "UPDATE users SET password = '$escaped_hashed', reset_token = NULL, reset_expiry = NULL WHERE user_id = '$user_id'";
+
             if (mysqli_query($con, $update_query)) {
-                $message = "Password successfully modified! You can now log in safely.";
+                $message = "Password successfully updated! You can now log in.";
                 $message_type = "success";
                 $valid_token = false; // Collapse form view on success
             } else {
@@ -51,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $valid_token) {
                 $message_type = "error";
             }
         } else {
-            $message = "The structural confirmation input does not match your new password.";
+            $message = "Passwords do not match. Please try again.";
             $message_type = "error";
         }
     } else {
-        $message = "Please complete all mandatory confirmation entry forms.";
+        $message = "Please fill in all required fields.";
         $message_type = "error";
     }
 }
@@ -77,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $valid_token) {
           <div id="login-card">
             <div id="login-header">
               <h1>Change Password</h1>
-              <p>Type and confirm your updated system account credentials</p>
+              <p>Type and confirm your new password</p>
             </div>
 
             <?php if($message): ?>
