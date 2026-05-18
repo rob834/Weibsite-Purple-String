@@ -2,7 +2,6 @@
 session_start();
 
 include("purplestringwebsite/backend/connection.php");
-// Ensure autocommit is on (safety)
 mysqli_autocommit($con, true);
 
 include("purplestringwebsite/backend/functions.php");
@@ -15,42 +14,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['user_name']) && isset($_POST['email']) && isset($_POST['password'])) {
         
-        $user_name = $_POST['user_name'];
-        $email     = $_POST['email'];
+        $user_name = trim($_POST['user_name']);
+        $email     = trim($_POST['email']);
         $password  = $_POST['password'];
 
-        // Generate a unique verification token
-        $token = bin2hex(random_bytes(32));
+        if (!empty($user_name) && !empty($email) && !empty($password) && !is_numeric($user_name)) {
+            
+            $token = bin2hex(random_bytes(32));
+            $user_id = random_int(100000000000, 99999999999999999);
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Generate a random user_id (unique identifier used throughout the app)
-        $user_id = random_int(100000000000, 99999999999999999);
+            $query = "INSERT INTO users (user_id, user_name, email, password, email_verified, verification_token)
+                      VALUES (?, ?, ?, ?, 0, ?)";
+                      
+            $stmt = mysqli_prepare($con, $query);
+            mysqli_stmt_bind_param($stmt, "issss", $user_id, $user_name, $email, $hashed_password, $token);
+            
+            try {
+                if (mysqli_stmt_execute($stmt)) {
+                    mysqli_commit($con);
 
-        // Insert with user_id included
-        $query = "INSERT INTO users (user_id, user_name, email, password, email_verified, verification_token)
-                  VALUES (?, ?, ?, ?, 0, ?)";
-                  
-        $stmt = mysqli_prepare($con, $query);
-        mysqli_stmt_bind_param($stmt, "issss", $user_id, $user_name, $email, $password, $token);
-        
-        if (mysqli_stmt_execute($stmt)) {
-            // Commit the transaction so the row is permanent
-            mysqli_commit($con);
+                    // FIXED: Correct function name is sendVerificationEmail() — not send_verification_email()
+                    // FIXED: Correct argument order is (email, name, token) — was (email, token, name)
+                    $sent = sendVerificationEmail($email, $user_name, $token);
 
-            // Send verification email
-            $sent = sendVerificationEmail($email, $user_name, $token);
-
-            if ($sent) {
-                $success_message = "Account created successfully! Please check your email to verify your account.";
-            } else {
-                $success_message = "Account created! However, verification email could not be sent. Please contact support.";
+                    if ($sent) {
+                        $success_message = "Account created successfully! Please check your email to verify your account.";
+                    } else {
+                        $success_message = "Account created! However, the verification email could not be sent. Please contact support.";
+                    }
+                } else {
+                    $error_message = "An unknown error occurred during registration.";
+                }
+            } catch (mysqli_sql_exception $e) {
+                // Error code 1062 is the standard MySQL code for Duplicate Entries
+                if ($e->getCode() === 1062) {
+                    if (str_contains($e->getMessage(), 'email')) {
+                        $error_message = "This email address is already registered. Try logging in instead.";
+                    } elseif (str_contains($e->getMessage(), 'user_name')) {
+                        $error_message = "This username is already taken. Please choose another one.";
+                    } else {
+                        $error_message = "Username or Email already exists.";
+                    }
+                } else {
+                    $error_message = "Database error occurred: " . $e->getMessage();
+                }
             }
+            
+            mysqli_stmt_close($stmt);
         } else {
-            $error_message = "Error creating account. Please try again. " . mysqli_error($con);
+            $error_message = "Please enter valid information!";
         }
-        
-        mysqli_stmt_close($stmt);
-    } else {
-        $error_message = "Please enter all required information!";
     }
 }
 ?>
