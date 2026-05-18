@@ -67,7 +67,7 @@
 }
 
 .prices .current-price {
-  color: #5a2ea6;
+  color: #8A226F;
   font-size: 1.25rem;
   font-weight: 800;
 }
@@ -80,10 +80,10 @@
 .btn-add-to-cart {
   flex: 1;
   padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #5a2ea6;
+  border-radius: 20px;
+  border: 1px solid #9A5081;
   background: #fff;
-  color: #5a2ea6;
+  color: #9A5081;
   font-weight: 700;
   cursor: pointer;
 }
@@ -91,12 +91,13 @@
 .btn-buy-now {
   flex: 1;
   padding: 10px 14px;
-  border-radius: 8px;
-  border: none;
-  background: #5a2ea6;
+  border-radius: 20px;
+  border: 1px solid #9A5081;
+  background: #9A5081;
   color: #fff;
   font-weight: 700;
   cursor: pointer;
+  width: 150px;
 }
 
 .btn-share {
@@ -151,8 +152,8 @@
 }
 
 .prices .current-price {
-  color: #5a2ea6;
-  font-size: 1.25rem;
+  color: #8A226F;
+  font-size: 40px;
   font-weight: 800;
 }
 
@@ -175,3 +176,101 @@
     grid-template-rows: 150px 90px;
   }
 }
+
+#page-design {
+  z-index: 20;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+#homepage_whiteflower_1 {
+  position: inherit;
+  z-index: calc(+3);
+  top: 9%;
+  left: -15%;
+  transform: translateY(-130px);
+}
+
+#homepage_bluething {
+  position: inherit;
+  z-index: calc(+1);
+  top: 46%;
+  left: -4%;
+  transform: translateY(-130px);
+}
+
+#homepage_heartbutton {
+  position: inherit;
+  z-index: calc(+2);
+  top: 48%;
+  left: -1%;
+  transform: translateY(-130px);
+}
+
+#homepage_greenbutton {
+  position: inherit;
+  z-index: calc(+1);
+  top: 95%;
+  left: -5%;
+  transform: translateY(-130px);
+}
+
+#homepage_greenthread {
+  position: inherit;
+  z-index: calc(+1);
+  top: 80%;
+  left: -3%;
+  transform: translateY(-130px);
+}
+
+#homepage_whiteflower_2 {
+  position: inherit;
+  z-index: calc(+1);
+  top: 65%;
+  right: -11%;
+  transform: translateY(-130px);
+}
+
+#footer {
+  background-color: #d68ce5;
+  border: 4px dashed #8a226f;
+  width: 100%;
+  padding: 20px 0;
+  margin-top: auto;
+}
+
+#footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 60px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+#footer-logo img {
+  height: 80px;
+}
+
+#footer-information {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  font-size: 16px;
+}
+
+.footer-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
