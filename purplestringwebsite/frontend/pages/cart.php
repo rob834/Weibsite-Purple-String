@@ -57,6 +57,10 @@ if (!isset($_SESSION['user_id'])) {
       color: #fff;
     }
 
+    .checkout-btn {
+      margin-left: 50px;
+    }
+
     .remove-selected-btn:hover:not(:disabled) {
       background: #c53030;
     }
@@ -67,7 +71,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     .update-all-btn {
-      background: #6b46c1;
+      background: #C071D0;
       color: #fff;
     }
 
@@ -284,54 +288,8 @@ if (!isset($_SESSION['user_id'])) {
         </div>
       </section>
 
-      <footer id="footer">
-        <div id="footer-content">
-          <div id="footer-logo">
-            <img
-              src="./public/images/footer-logo.png"
-              alt="Purple String Logo"
-              width="100" />
-          </div>
 
-          <div id="footer-information">
-            <div class="info-item">
-              <img
-                src="./public/images/mail.png"
-                alt="Mail"
-                class="footer-icon" />
-              <span>purplestring@gmail.com</span>
-            </div>
 
-            <div class="info-item">
-              <img
-                src="./public/images/phonenum.png"
-                alt="Phone"
-                class="footer-icon" />
-              <span>+63 900 123 4567</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <div id="page-design">
-        <img
-          id="homepage_whiteflower_1"
-          src="../public/images/whiteflower.png" />
-        <img
-          id="homepage_bluething"
-          src="../public/images/bluething.png" />
-        <img
-          id="homepage_heartbutton"
-          src="../public/images/heartbutton.png" />
-        <img
-          id="homepage_greenbutton"
-          src="../public/images/greenbutton.png" />
-        <img
-          id="homepage_greenthread"
-          src="../public/images/greenthread.png" />
-        <img
-          id="homepage_whiteflower_2"
-          src="../public/images/whiteflower.png" />
-      </div>
     </div>
   <div id="profileModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
     <div style="background:#fff;border-radius:14px;padding:36px 32px;max-width:420px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
@@ -475,5 +433,37 @@ if (!isset($_SESSION['user_id'])) {
       document.getElementById('checkoutForm').submit();
     }
   </script>
+
+
+
+        <footer id="footer">
+        <div id="footer-content">
+          <div id="footer-logo">
+            <img
+              src="../public/images/footer-logo.png"
+              alt="Purple String Logo"
+              width="100" />
+          </div>
+
+          <div id="footer-information">
+            <div class="info-item">
+              <img
+                src="../public/images/mail.png"
+                alt="Mail"
+                class="footer-icon" />
+              <span>purplestring@gmail.com</span>
+            </div>
+
+            <div class="info-item">
+              <img
+                src="../public/images/phonenum.png"
+                alt="Phone"
+                class="footer-icon" />
+              <span>+63 900 123 4567</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+      
   </body>
 </html>

@@ -204,54 +204,8 @@ if (!isset($_SESSION['user_id'])) {
 
       </section>
 
-      <footer id="footer">
-        <div id="footer-content">
-          <div id="footer-logo">
-            <img
-              src="../public/images/footer-logo.png"
-              alt="Purple String Logo"
-              width="100" />
-          </div>
 
-          <div id="footer-information">
-            <div class="info-item">
-              <img
-                src="../public/images/mail.png"
-                alt="Mail"
-                class="footer-icon" />
-              <span>purplestring@gmail.com</span>
-            </div>
-
-            <div class="info-item">
-              <img
-                src="../public/images/phonenum.png"
-                alt="Phone"
-                class="footer-icon" />
-              <span>+63 900 123 4567</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <div id="page-design">
-        <img
-          id="homepage_whiteflower_1"
-          src="../public/images/whiteflower.png" />
-        <img
-          id="homepage_bluething"
-          src="../public/images/bluething.png" />
-        <img
-          id="homepage_heartbutton"
-          src="../public/images/heartbutton.png" />
-        <img
-          id="homepage_greenbutton"
-          src="../public/images/greenbutton.png" />
-        <img
-          id="homepage_greenthread"
-          src="../public/images/greenthread.png" />
-        <img
-          id="homepage_whiteflower_2"
-          src="../public/images/whiteflower.png" />
-      </div>
+    
   <script>
     // Handle cart form submissions
     (function(){
@@ -290,5 +244,7 @@ if (!isset($_SESSION['user_id'])) {
       });
     })();
   </script>
+
+  
   </body>
 </html>
