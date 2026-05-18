@@ -61,18 +61,16 @@ try {
         $subtotal += $prices[$pid] * intval($qty);
     }
 
-    $shipping = ($subtotal > 0) ? 50.00 : 0.00;
-    $tax      = $subtotal * 0.08;
-    $total    = $subtotal + $shipping + $tax;
+    $total = $subtotal;
 
     // ── 3. Insert order ───────────────────────────────────────────────────────────
     $mark_paid_token = bin2hex(random_bytes(32));
 
     $ostmt = mysqli_prepare($con,
-        "INSERT INTO orders (user_id, subtotal, shipping, tax, total, status, created_at, mark_paid_token, reference_number)
-         VALUES (?, ?, ?, ?, ?, 'pending', NOW(), ?, ?)"
+        "INSERT INTO orders (user_id, subtotal, total, status, created_at, mark_paid_token, reference_number)
+         VALUES (?, ?, ?, 'pending', NOW(), ?, ?)"
     );
-    mysqli_stmt_bind_param($ostmt, 'sddddss', $user_id, $subtotal, $shipping, $tax, $total, $mark_paid_token, $reference_number);
+    mysqli_stmt_bind_param($ostmt, 'sddss', $user_id, $subtotal, $total, $mark_paid_token, $reference_number);
     mysqli_stmt_execute($ostmt);
     $order_id = mysqli_insert_id($con);
     mysqli_stmt_close($ostmt);
@@ -162,7 +160,7 @@ $receipt_table =
     . '</table>'
     . '<table style="width:100%;font-size:15px;margin-top:10px;">'
     . '<tr style="font-weight:700;border-top:2px solid #e9d5ff;">'
-    . '<td style="padding-top:10px;">Products Total</td>'
+    . '<td style="padding-top:10px;">Total</td>'
     . '<td style="text-align:right;padding-top:10px;color:#6b21a8;">&#8369;' . number_format($subtotal, 2) . '</td>'
     . '</tr></table>';
 
