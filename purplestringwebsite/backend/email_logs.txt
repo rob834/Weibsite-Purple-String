@@ -42,3 +42,47 @@ Message:
 	
 ========================
 
+=== Email Log Entry ===
+Date: 2026-05-18 03:37:10
+To: louisemanio048@gmail.com
+Username: manio
+Subject: Email Verification - Purple String
+Verification Link: http://localhost/Weibsite-Purple-String/verify_email.php?token=13ca6dfaec395bda498eff77709a6196282f1f2a79ff26d9f1e20663fd6c451d
+Token: 13ca6dfaec395bda498eff77709a6196282f1f2a79ff26d9f1e20663fd6c451d
+Message:
+
+	<html>
+		<head>
+			<title>Email Verification</title>
+			<style>
+				body { font-family: Arial, sans-serif; }
+				.container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
+				.header { background-color: #8B4789; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+				.content { background-color: white; padding: 20px; }
+				.footer { background-color: #f5f5f5; padding: 10px; text-align: center; font-size: 12px; color: #666; }
+				.button { background-color: #8B4789; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+			</style>
+		</head>
+		<body>
+			<div class='container'>
+				<div class='header'>
+					<h1>Purple String</h1>
+				</div>
+				<div class='content'>
+					<h2>Welcome, manio!</h2>
+					<p>Thank you for signing up for Purple String. Please verify your email address to activate your account.</p>
+					<p>Click the button below to verify your email:</p>
+					<p><a href='http://localhost/Weibsite-Purple-String/verify_email.php?token=13ca6dfaec395bda498eff77709a6196282f1f2a79ff26d9f1e20663fd6c451d' class='button'>Verify Email</a></p>
+					<p>Or copy and paste this link in your browser:</p>
+					<p>http://localhost/Weibsite-Purple-String/verify_email.php?token=13ca6dfaec395bda498eff77709a6196282f1f2a79ff26d9f1e20663fd6c451d</p>
+					<p>If you did not sign up for this account, please ignore this email.</p>
+				</div>
+				<div class='footer'>
+					<p>&copy; 2026 Purple String. All rights reserved.</p>
+				</div>
+			</div>
+		</body>
+	</html>
+	
+========================
+

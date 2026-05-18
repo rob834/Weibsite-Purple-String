@@ -5,44 +5,43 @@ include("purplestringwebsite/backend/connection.php");
 include("purplestringwebsite/backend/functions.php");
 
 $message = "";
-$message_type = ""; // "success" or "error"
+$message_type = "";
 
 if(isset($_GET['token']) && !empty($_GET['token']))
 {
-	$token = $_GET['token'];
+    // FIXED: Escape the token before using it in a raw query to prevent SQL injection
+    $token = mysqli_real_escape_string($con, $_GET['token']);
 
-	// Find user with this verification token
-	$query = "select * from users where verification_token = '$token' limit 1";
-	$result = mysqli_query($con, $query);
+    $query = "SELECT * FROM users WHERE verification_token = '$token' LIMIT 1";
+    $result = mysqli_query($con, $query);
 
-	if($result && mysqli_num_rows($result) > 0)
-	{
-		$user_data = mysqli_fetch_assoc($result);
+    if($result && mysqli_num_rows($result) > 0)
+    {
+        $user_data = mysqli_fetch_assoc($result);
 
-		// Update user to mark email as verified
-		$update_query = "update users set email_verified = 1, verification_token = NULL where user_id = '{$user_data['user_id']}'";
+        $update_query = "UPDATE users SET email_verified = 1, verification_token = NULL WHERE user_id = '{$user_data['user_id']}'";
 
-		if(mysqli_query($con, $update_query))
-		{
-			$message = "Email verified successfully! You can now log in to your account.";
-			$message_type = "success";
-		}
-		else
-		{
-			$message = "An error occurred while verifying your email. Please try again later.";
-			$message_type = "error";
-		}
-	}
-	else
-	{
-		$message = "Invalid or expired verification link.";
-		$message_type = "error";
-	}
+        if(mysqli_query($con, $update_query))
+        {
+            $message = "Email verified successfully! You can now log in to your account.";
+            $message_type = "success";
+        }
+        else
+        {
+            $message = "An error occurred while verifying your email. Please try again later.";
+            $message_type = "error";
+        }
+    }
+    else
+    {
+        $message = "Invalid or expired verification link.";
+        $message_type = "error";
+    }
 }
 else
 {
-	$message = "No verification token provided.";
-	$message_type = "error";
+    $message = "No verification token provided.";
+    $message_type = "error";
 }
 ?>
 
@@ -50,16 +49,10 @@ else
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Email Verification - Purple String</title>
-    <link
-      rel="stylesheet"
-      href="purplestringwebsite/frontend/css/homepage.css" />
-    <link
-      rel="stylesheet"
-      href="purplestringwebsite/frontend/css/login.css" />
+    <link rel="stylesheet" href="purplestringwebsite/frontend/css/homepage.css" />
+    <link rel="stylesheet" href="purplestringwebsite/frontend/css/login.css" />
   </head>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
