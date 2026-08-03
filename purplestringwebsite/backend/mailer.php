@@ -6,17 +6,60 @@ require __DIR__ . '../../../vendor/phpmailer/phpmailer/src/Exception.php';
 require __DIR__ . '../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require __DIR__ . '../../../vendor/phpmailer/phpmailer/src/SMTP.php';
 
+function loadEnvFile(string $envFilePath): array {
+    if (!is_file($envFilePath)) {
+        return [];
+    }
+
+    $values = [];
+    $lines = file($envFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($lines === false) {
+        return [];
+    }
+
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+        if ($trimmed === '' || $trimmed[0] === '#') {
+            continue;
+        }
+
+        $parts = explode('=', $line, 2);
+        if (count($parts) !== 2) {
+            continue;
+        }
+
+        $key = trim($parts[0]);
+        $value = trim($parts[1]);
+        $value = trim($value, "\"' ");
+        $values[$key] = $value;
+    }
+
+    return $values;
+}
+
+function getEnvValue(string $key, $default = null) {
+    static $env = null;
+    if ($env === null) {
+        $env = loadEnvFile(__DIR__ . '/.env');
+    }
+
+    return array_key_exists($key, $env) ? $env[$key] : $default;
+}
+
 // ── Shared SMTP factory ───────────────────────────────────────────────────────
 function createMailer(): PHPMailer {
     $mail = new PHPMailer(true);
     $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';
+    $mail->Host       = getEnvValue('MAIL_HOST', 'smtp.gmail.com');
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'u.toob.poob.noob.poop@gmail.com';
-    $mail->Password   = 'tnzv ruoo fekw vajx';
-    $mail->SMTPSecure = 'tls';
-    $mail->Port       = 587;
-    $mail->setFrom('purplestring@gmail.com', 'Purple String');
+    $mail->Username   = getEnvValue('MAIL_USERNAME', '');
+    $mail->Password   = getEnvValue('MAIL_PASSWORD', '');
+    $mail->SMTPSecure = getEnvValue('MAIL_ENCRYPTION', 'tls');
+    $mail->Port       = (int) getEnvValue('MAIL_PORT', 587);
+    $mail->setFrom(
+        getEnvValue('MAIL_FROM_ADDRESS', 'purplestring@gmail.com'),
+        getEnvValue('MAIL_FROM_NAME', 'Purple String')
+    );
     $mail->CharSet    = 'UTF-8';
     return $mail;
 }
